@@ -1,0 +1,16 @@
+<div class="form w-100 fv-plugins-bootstrap5 fv-plugins-framework">
+  <!--begin::Heading-->
+  <div class="text-center mb-3">
+    <h1 class="text-dark mb-2">Activacion de cuenta</h1>
+    <div class="text-gray-400 fw-bold fs-4">Verificacion de Email</div>
+  </div>
+
+  <div class="text-center" *ngIf="Steep == 2">
+    <h3 class="mb-5">
+      Sus email ha sido verificado, lo invitamos a ingresar y seguir configurando su cuenta
+    </h3>
+    <button (click)="goToBack()" class="btn btn-lg btn-primary w-100 mb-5">
+      <span class="indicator-label">Ingresar ahora</span>
+    </button>
+  </div>
+</div>

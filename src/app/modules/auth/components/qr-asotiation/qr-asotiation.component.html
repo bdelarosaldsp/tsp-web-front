@@ -1,0 +1,32 @@
+<div class="row">
+  
+  <div class="col-6">
+    <form [formGroup]="form">
+      <div class="fv-row mb-10">
+        <label class="form-label fw-bolder text-gray-900 fs-6">Codigo</label>
+        <input
+          class="form-control form-control-lg form-control-solid"
+          type="email"
+          formControlName="code"
+          placeholder="Codigo"
+          name="codigo"
+          autocomplete="off"
+        />
+      </div>
+      <button
+        (click)="enable()"
+        id="kt_password_reset_submit"
+        class="btn btn-lg btn-primary fw-bolder me-4"
+        style="
+          margin: 0;
+          position: absolute;
+          top: 50%;
+          -ms-transform: translateY(-50%);
+          transform: translateY(-50%);
+        "
+      >
+        Codigo Escaneado
+      </button>
+    </form>
+  </div>
+</div>
