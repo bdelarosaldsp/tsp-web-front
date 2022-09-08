@@ -20,8 +20,8 @@ export class AppsnetComponent implements OnInit {
     
     this.UrlBase=environment.netSiteUrl;
     this.Usuario  = "?usuario="+ Constant.AUTH.getUser()?.email;
-    this.Sucursal= "&sucursal="+ Constant.AUTH.getAgency()?.vus_codinsS;
-    
+    this.Sucursal= "&sucursal="+ Constant.AUTH.getAgency()?.vus_codins;
+
   }
 
   getUrl()

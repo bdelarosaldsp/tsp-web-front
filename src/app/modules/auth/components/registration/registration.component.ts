@@ -62,10 +62,9 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     return this.registrationForm.controls;
   }
 getIdentificationTypes(){
-  console.log('Aqui 1');
+  
   this.identificationTypeService.getActives().subscribe(
     res => {
-      console.log('Aqui 2');
       this.identificationTypes = res.data;
     }
     

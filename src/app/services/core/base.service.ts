@@ -15,7 +15,6 @@ export class BaseService {
   }
 
   public get() {
-    console.log('aqui servicio');
     return this.globalService.get(this.urlBase).pipe(
       map(res => {
        return res;
@@ -23,7 +22,7 @@ export class BaseService {
     );
   }
   public getActives() {
-    console.log(this.urlBase);
+    
     return this.globalService.get(this.urlBase+'/actions/GetActives').pipe(
       map(res => {
         
@@ -33,6 +32,14 @@ export class BaseService {
   }
   public getById(id : number) {
     return this.globalService.get(`${this.urlBase}/${id}`).pipe(
+      map(res => {
+       return res;
+      })
+    );
+  }
+  public getByVal(modulo : string,email: string) {
+    return this.globalService.get(`${this.urlBase}/${modulo}/${email}`).pipe(
+     
       map(res => {
        return res;
       })

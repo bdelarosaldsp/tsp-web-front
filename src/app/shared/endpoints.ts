@@ -17,7 +17,12 @@ export const Endpoint = {
     GET_QR: `${environment.apiUrl}auth/getQr`,
     ENABLE_2_FA: `${environment.apiUrl}auth/enable2fa`,
     
+    
 
+  },
+  GET_MENUS:{
+    BASE: `${environment.apiUrl}menus`,
+    GET_ACTIVES: `${environment.apiUrl}menus/actions/GetActives`
   },
   IDENTIFICATION_TYPES : {
     BASE : `${environment.apiUrl}identificationTypes`,
