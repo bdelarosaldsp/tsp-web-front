@@ -83,7 +83,7 @@ export class AsideMenuComponent implements OnInit {
   }
 
   sendData(url:string){
-    this.passingdata.Data.emit(url);
+    localStorage.setItem('ReportUrl',url);
   }
 }
 export interface Menu {

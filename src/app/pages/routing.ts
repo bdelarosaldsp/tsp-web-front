@@ -13,6 +13,11 @@ const Routing: Routes = [
       import('../modules/appsnet/appsnet.module').then((m) => m.AppsnetModule),
   },
   {
+    path: 'report',
+    loadChildren: () =>
+      import('../modules/report/report.module').then((m) => m.ReportModule),
+  },
+  {
     path: 'images',
     loadChildren: () =>
       import('../modules/images/images.module').then((m) => m.ImagesModule),

@@ -4,6 +4,6 @@ import { EventEmitter, Injectable, Output } from '@angular/core';
   providedIn: 'root'
 })
 export class PassingdataService {
-  @Output() Data: EventEmitter<any> = new EventEmitter();
+  @Output() Data: EventEmitter<string> = new EventEmitter();
   constructor() { }
 }

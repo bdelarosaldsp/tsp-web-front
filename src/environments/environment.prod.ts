@@ -13,6 +13,7 @@ export const environment = {
   isMockEnabled: true,
   apiUrl: 'http://172.17.3.5:9070/api/',
   netSiteUrl:'http://172.17.3.5:8000/',
+  phpSiteUrl:'http://172.17.3.5:5000/',
   appThemeName: 'Metronic',
 };
 

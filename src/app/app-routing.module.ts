@@ -8,11 +8,7 @@ export const routes: Routes = [
     loadChildren: () =>
       import('./modules/auth/auth.module').then((m) => m.AuthModule),
   },
-  {
-    path: 'report',
-    loadChildren: () =>
-      import('./modules/report/report.module').then((m) => m.ReportModule),
-  },
+  
   {
     path: 'error',
     loadChildren: () =>
