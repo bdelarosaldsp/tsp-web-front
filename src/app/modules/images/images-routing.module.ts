@@ -4,6 +4,7 @@ import { ImgsearchComponent } from './imgsearch/imgsearch.component';
 import { ImguploadComponent } from './imgupload/imgupload.component';
 
 const routes: Routes = [
+  {path:'', component : ImguploadComponent},
   {path:'upload', component : ImguploadComponent},
   {path:'search', component : ImgsearchComponent}
 ];

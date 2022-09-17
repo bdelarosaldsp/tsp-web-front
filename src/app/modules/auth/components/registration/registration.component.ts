@@ -3,8 +3,6 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Subscription, Observable, of } from 'rxjs';
 import { Router } from '@angular/router';
 import { ConfirmPasswordValidator } from './confirm-password.validator';
-import { UserModel } from '../../models/user.model';
-import { first } from 'rxjs/operators';
 import { AuthService } from 'src/app/services/auth.service';
 import { SignupResponse } from 'src/app/models/response/signup-response';
 import { HelperService } from 'src/app/services/core/helper.service';
@@ -33,7 +31,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   };
   errorStates = ErrorStates;
   isLoading$: Observable<boolean>;
-  identificationTypes : Array<IdentificationType>
+  identificationTypes : Array<IdentificationType>;
   // private fields
   private unsubscribe: Subscription[] = []; // Read more: => https://brianflove.com/2016/12/11/anguar-2-unsubscribe-observables/
 
@@ -89,7 +87,9 @@ getIdentificationTypes(){
   }
 
   submit() {
-    this.hasError = false;
+
+
+    /*this.hasError = false;
     
     this.authService
       .singUp(this.registrationForm.value)
@@ -112,7 +112,7 @@ getIdentificationTypes(){
           message:  err.error?.data?.message ? err.error?.data?.message :"Hubo un error al intentar registrarse"
         }
         this.hasError = true;
-      });
+      });*/
   }
 
   ngOnDestroy() {

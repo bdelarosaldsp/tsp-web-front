@@ -11,7 +11,7 @@ export const environment = {
   AGENCY_KEY: 'agencyf258fc8c4j78',
 
   isMockEnabled: true,
-  apiUrl: 'http://172.17.3.5:9070/api/',
+  apiUrl: 'http://172.17.3.5:8090/api/',
   netSiteUrl:'http://172.17.3.5:8000/',
   phpSiteUrl:'http://172.17.3.5:5000/',
   appThemeName: 'Metronic',

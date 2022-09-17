@@ -70,20 +70,19 @@ export class AsideMenuComponent implements OnInit {
         //this.ngOnInit();
       });
       
-      this.reloadComponent();
+      //this.reloadComponent();
       return MenuTot;
   }
 
-  reloadComponent() {
-    let currentUrl = this.router.url;
-    this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
-        this.router.navigate([currentUrl]);
-    });
-
-  }
 
   sendData(url:string){
-    localStorage.setItem('ReportUrl',url);
+    this.passingdata.setUrl(url);
+    if(this.router.url=='/report' || this.router.url=='/report/report1'){
+      this.router.navigate(['/report/report2'])
+    }else{
+      this.router.navigate(['/report'])
+    }
+    
   }
 }
 export interface Menu {

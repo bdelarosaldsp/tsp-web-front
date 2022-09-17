@@ -24,8 +24,16 @@ export const Endpoint = {
     BASE: `${environment.apiUrl}menus`,
     GET_ACTIVES: `${environment.apiUrl}menus/actions/GetActives`
   },
+  CLIENTS:{
+    BASE: `${environment.apiUrl}clients`,
+    GET_ACTIVES: `${environment.apiUrl}clients/actions/GetActives`
+  },
   IDENTIFICATION_TYPES : {
     BASE : `${environment.apiUrl}identificationTypes`,
     GET_ACTIVES : `${environment.apiUrl}identificationTypes/GetActives`,
+  },
+  CUM_IMAGES:{
+    BASE: `${environment.apiUrl}images`,
+    GET_ACTIVES: `${environment.apiUrl}images/actions/upload`
   }
 }
