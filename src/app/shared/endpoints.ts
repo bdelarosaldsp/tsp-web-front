@@ -34,6 +34,10 @@ export const Endpoint = {
   },
   CUM_IMAGES:{
     BASE: `${environment.apiUrl}images`,
-    GET_ACTIVES: `${environment.apiUrl}images/actions/upload`
+    GET_ACTIVES: `${environment.apiUrl}images/actions/GetActives`,
+    UPLOAD: `${environment.apiUrl}images/actions/upload`,
+    GET_FACTURA: `${environment.apiUrl}images/actions/validate`
+    
+    
   }
 }

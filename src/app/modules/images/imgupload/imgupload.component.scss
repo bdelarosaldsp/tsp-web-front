@@ -17,3 +17,36 @@
     line-height: 14px;
     min-width: auto;
 }
+
+.ok.mat-button {
+    position: absolute;
+    background-color: rgba(123, 255, 0, 0.712);
+    top: 0;
+    right: 0;
+    padding: 5px;
+    line-height: 14px;
+    min-width: auto;
+  }
+
+figure{
+    position: relative;
+    padding: 5px;
+}
+
+figure:hover figcaption{
+    display: block;
+}
+
+figcaption{
+    position: absolute;
+    display: none;
+    top:5px;
+    bottom: 5px;
+    right: 5px;
+    left: 5px;
+    padding: 15px;
+    text-align: center;
+    font: 15px/25px verdana;
+    color: white;
+    background: rgba(0,0,0,.7);
+}

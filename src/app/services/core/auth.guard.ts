@@ -31,10 +31,7 @@ export class AuthGuard implements CanActivate, CanActivateChild {
   ): Observable<any> {
     if (this.authService.isLoggedIn()) {
       const user : Account = this.authService.getLocaUser();
-      console.log(user?.google2fa_enable);
-      
       if (user?.google2fa_enable == false ) {
-        console.log('aqui');
         this.router.navigate(['/auth/twofactoryactivate']);
         return of(false);
       }

@@ -15,14 +15,6 @@ export class AuthComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     document.body.classList.add('bg-white');
-    this.http.get('https://my-json-server.typicode.com/josueverbel/apifaker/clients/3').subscribe(
-      (res : any) => {
-        if (res.message) {
-          this.data =  this.sanitizer.bypassSecurityTrustHtml(res.message);
-          this.show = true;          
-        }
-        
-      });
   }
 
   ngOnDestroy() {

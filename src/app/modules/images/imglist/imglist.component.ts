@@ -25,7 +25,7 @@ export class ImglistComponent {
     this.file=image;    
 
 
-    let cumimage:CumImage=({ 
+    /*let cumimage:CumImage=({ 
       filename:image.name,
       client_id:+this.client,
       company:'LDSP',
@@ -34,7 +34,7 @@ export class ImglistComponent {
       document:''
     });
 
-    this.addImage.emit(cumimage);
+    this.addImage.emit(cumimage);*/
     const objectURL = URL.createObjectURL(image);
     
     return this.sanitizer.bypassSecurityTrustResourceUrl(objectURL);

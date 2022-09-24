@@ -21,7 +21,7 @@
             </div>
             <div class="row text-center">
                 <div *ngIf="control.valid && files.length>0"class="col">
-                    <button (click)="uploadImages()" mat-raised-button color="primary" style="height:50px ;">
+                    <button (click)="uploadImages()" mat-raised-button color="primary" style="height:50px ;" [disabled]="progressbar">
                         <span class="material-icons"> 
                             upload
                         </span>
@@ -29,7 +29,7 @@
                     </button>
                 </div>
                 <div *ngIf="control.valid && files.length>0"class="col">
-                    <button (click)="files.length=0" mat-raised-button color="warn" style="height:50px ;">
+                    <button (click)="onClear()" mat-raised-button color="warn" style="height:50px ;" [disabled]="progressbar">
                         <span class="material-icons"> 
                             cached
                         </span>
@@ -49,20 +49,42 @@
     <br>
     
     <div class="container" >
-       <!--<app-imglist [images]="files" [client]="selectedcli" (addImage)="addImage($event)"  (removeImage)="removeImage($event)"></app-imglist>--> 
-
         <div class="row">
+            <mat-progress-bar *ngIf="progressbar" mode="query"></mat-progress-bar>
             <div class="col-md-4 p-4" *ngFor="let f of files">
-                <div class="card card-photo" > 
+                <div class="card card-photo" #{{f.filename}} > 
                     <div class="mat-header">
                         <button class="close" mat-button (click)="onRemove(f)">X</button> 
                     </div> 
                     <div  class="card-body">
-                        <img [src]="previewImage(f)" class="img-card-top w-100"/>
-                        <mat-divider></mat-divider>
-                        <div class="col">
-                            <input matInput type="text" id="factura" placeholder="Factura">
-                        </div>
+                        <figure>
+                            <img [src]="previewImage(f)" class="img-card-top w-100" />
+                            <figcaption>
+                                <p>Nombre: {{f.name}}</p>
+                                <p>Tamaño: {{f.size}} Kb</p>
+                            </figcaption>
+                        </figure>
+                        <mat-form-field class="w-100" appearance="outline" >
+                            <mat-label>Factura:</mat-label>
+                            <input matInput placeholder="Factura" id={{f.name}} #fac required >
+                            <button id="{{'spn_'+ f.name}}" hidden="hidden"  class="ok" mat-button disabled>
+                                <span class="material-icons"  > 
+                                    check
+                                </span>
+                            </button>
+                            <button [disabled]="!fac.value" id="{{'btn_'+ f.name}}" (click)="validateDocument(f,fac.id,fac.value)" class="ok" mat-button >
+                               <span class="material-icons" id="{{'sp_'+f.name}}"> 
+                                    search
+                                </span>
+                                <!--<ng-container #{{f.name}} hidden="true">-->
+                                    <!--<span class="indicator-progress" [style.display]="'block'">-->
+                                      <span id="{{'sp2_'+ f.name}}" hidden="true"
+                                        class="spinner-border spinner-border-sm align-middle ms-2"
+                                      ></span>
+                                    <!--</span>-->
+                                  <!--</ng-container>-->
+                            </button>
+                        </mat-form-field>
                     </div>
                 </div>
             </div>

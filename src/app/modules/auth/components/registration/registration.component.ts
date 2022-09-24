@@ -59,15 +59,17 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   get f() {
     return this.registrationForm.controls;
   }
-getIdentificationTypes(){
-  
-  this.identificationTypeService.getActives().subscribe(
-    res => {
-      this.identificationTypes = res.data;
-    }
+
+  getIdentificationTypes(){
     
-  )
-}
+    this.identificationTypeService.getActives().subscribe(
+      res => {
+        this.identificationTypes = res.data;
+      }
+      
+    )
+  }
+  
   initForm() {
     this.registrationForm = this.fb.group(
       {
@@ -89,7 +91,7 @@ getIdentificationTypes(){
   submit() {
 
 
-    /*this.hasError = false;
+    this.hasError = false;
     
     this.authService
       .singUp(this.registrationForm.value)
@@ -112,7 +114,7 @@ getIdentificationTypes(){
           message:  err.error?.data?.message ? err.error?.data?.message :"Hubo un error al intentar registrarse"
         }
         this.hasError = true;
-      });*/
+      });
   }
 
   ngOnDestroy() {

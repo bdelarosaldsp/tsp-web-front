@@ -160,6 +160,7 @@ export class AuthService {
         })
       );
   }
+  
   change_password(data:any): Observable<any> {
     this.isLoadingSubject.next(true)
     return this.globalService

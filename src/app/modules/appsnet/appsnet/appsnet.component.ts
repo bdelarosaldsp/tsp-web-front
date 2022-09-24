@@ -30,7 +30,6 @@ export class AppsnetComponent implements OnInit {
       this.Sucursal= "&sucursal="+ Constant.AUTH.getAgency()?.vus_codage;
     }
     
-
   }
 
   getUrl()
