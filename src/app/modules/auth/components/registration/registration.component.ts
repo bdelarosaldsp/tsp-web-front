@@ -3,8 +3,6 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { Subscription, Observable, of } from 'rxjs';
 import { Router } from '@angular/router';
 import { ConfirmPasswordValidator } from './confirm-password.validator';
-import { UserModel } from '../../models/user.model';
-import { first } from 'rxjs/operators';
 import { AuthService } from 'src/app/services/auth.service';
 import { SignupResponse } from 'src/app/models/response/signup-response';
 import { HelperService } from 'src/app/services/core/helper.service';
@@ -33,7 +31,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   };
   errorStates = ErrorStates;
   isLoading$: Observable<boolean>;
-  identificationTypes : Array<IdentificationType>
+  identificationTypes : Array<IdentificationType>;
   // private fields
   private unsubscribe: Subscription[] = []; // Read more: => https://brianflove.com/2016/12/11/anguar-2-unsubscribe-observables/
 
@@ -61,21 +59,23 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   get f() {
     return this.registrationForm.controls;
   }
-getIdentificationTypes(){
-  
-  this.identificationTypeService.getActives().subscribe(
-    res => {
-      this.identificationTypes = res.data;
-    }
+
+  getIdentificationTypes(){
     
-  )
-}
+    this.identificationTypeService.getActives().subscribe(
+      res => {
+        this.identificationTypes = res.data;
+      }
+      
+    )
+  }
+  
   initForm() {
     this.registrationForm = this.fb.group(
       {
         firstname: ['', Validators.compose([Validators.required, Validators.minLength(3), Validators.maxLength(100) ]) ],
         lastname: ['', Validators.compose([Validators.required, Validators.minLength(3), Validators.maxLength(100) ]) ],
-        email: ['', Validators.compose([Validators.required, Validators.email, Validators.minLength(3),Validators.maxLength(320), ]) ],
+        email: [''.toUpperCase(), Validators.compose([Validators.required, Validators.email, Validators.minLength(3),Validators.maxLength(320), ]) ],
         password: ['', Validators.compose([Validators.required, Validators.minLength(3), Validators.maxLength(15),]) ],
         password_confirmation: ['',Validators.compose([ Validators.required, Validators.minLength(3),  Validators.maxLength(100)]) ],
         identification_number: ['', Validators.compose([Validators.required])],
@@ -89,12 +89,13 @@ getIdentificationTypes(){
   }
 
   submit() {
+    this.registrationForm.value.email=this.registrationForm.value.email.toUpperCase();
     this.hasError = false;
-    
     this.authService
       .singUp(this.registrationForm.value)
       .subscribe((res: SignupResponse) => {
         if (res.data.user) {
+          
           this.errorState = {
             state: ErrorStates.NoError,
             message: res.data.message

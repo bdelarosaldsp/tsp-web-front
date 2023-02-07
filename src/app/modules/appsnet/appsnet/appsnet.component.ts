@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 import { Constant } from 'src/app/shared/constant';
 import { environment } from 'src/environments/environment';
 
@@ -14,18 +16,28 @@ export class AppsnetComponent implements OnInit {
   Usuario:string;
   Sucursal:string;
 
-  constructor(private sanitizer: DomSanitizer ) { }
+  constructor(private sanitizer: DomSanitizer, private toastr:ToastrService, private router: Router) { }
 
   ngOnInit(): void {
     
     this.UrlBase=environment.netSiteUrl;
     this.Usuario  = "?usuario="+ Constant.AUTH.getUser()?.email;
-    this.Sucursal= "&sucursal="+ Constant.AUTH.getAgency()?.vus_codins;
+    var x=Constant.AUTH.getAgency();
+    console.log(x);
 
+    if (typeof(Constant.AUTH.getAgency()?.vus_codage)=='undefined'){
+      this.toastr.warning('Debe seleccionar una agencia');
+      this.router.navigate(['/']);
+    }else{
+      
+      this.Sucursal= "&sucursal="+ Constant.AUTH.getAgency()?.vus_codage;
+    }
+    
   }
 
   getUrl()
   {
+    console.log(this.Sucursal);
     return this.sanitizer.bypassSecurityTrustResourceUrl(this.UrlBase+this.Usuario+this.Sucursal);
   }
 

@@ -1,0 +1,15 @@
+{
+    "production": "true",
+    "version":"0.0.3",
+    "USERDATA_KEY":"authf333fc9a5f84",
+    "USERTOKEN_KEY": "authtokenf258fc8c4f96",
+    "AGENCY_KEY":"agencyf258fc8c4j78",
+    "EXPIRES_KEY":"datef649fc9a5f55",
+  
+    "isMockEnabled":"true",
+    "appThemeName":"Metronic",
+  
+    "apiUrl":"http://190.242.58.107:8090/api/",
+    "netSiteUrl":"http://190.242.58.107:8000/",
+    "phpSiteUrl":"http://190.242.58.107:5000/"
+}

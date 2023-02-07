@@ -20,7 +20,7 @@ export class AgencyModalComponent implements OnInit {
   }
   
   getAgency(){
-    return Constant.AUTH.getAgency();;
+    return Constant.AUTH.getAgency();
   }
   close() {
     this.dialogRef.close()

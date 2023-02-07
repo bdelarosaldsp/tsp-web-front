@@ -1,0 +1,18 @@
+.mat-expansion-panel {
+    background-color: rgba(127, 186, 253, 0.342);
+  }
+
+  .mat-expansion-panel{
+    //max-height: 50vh;
+    //overflow: auto;
+    overflow-x: auto;
+  }
+
+  .ok.mat-raised-button {
+    background-color: rgba(123, 255, 0, 0.712);
+    
+    min-width: auto;
+  }
+  .adv.mat-card {
+    background-color: rgba(244, 247, 117, 0.712);
+  }

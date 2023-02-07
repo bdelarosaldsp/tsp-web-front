@@ -1,0 +1,100 @@
+<mat-card>
+    <mat-card-header>
+      <div mat-card-avatar>
+        <span class="material-icons"> 
+           check
+        </span>
+      </div>
+      <mat-card-title>Validación de imagenes OTM</mat-card-title>
+    </mat-card-header>
+
+    <mat-divider></mat-divider>
+    <mat-card-content style="margin-top: 30px;">
+        <div class="container">
+            <div class="row">
+                <div class="col">
+                    <mat-form-field appearance="outline" >
+                        <mat-label >Planila</mat-label>
+                        <input style="text-transform:uppercase;" type="text" placeholder="Planilla" aria-label="Planilla" matInput 
+                        [formControl]="controlDoc">
+                    </mat-form-field>
+                </div>
+                <div class="col">
+                <button  (click)="GetPlanilla()" mat-raised-button color="primary" style="width: 150px; height:55px ;left: 30px;" [disabled]="controlDoc.value=='' || Remesas.length>0"  [hidden]="">
+                    <span class="material-icons"> 
+                        search
+                    </span>
+                    Consultar
+                </button>
+                </div>
+                <div class="col">
+                        
+                    <button  (click)="onClear()"  mat-raised-button color="warn" style="width: 150px; height:55px ;left: 50px;">
+                        <span class="material-icons"> 
+                            cached
+                        </span>
+                        Limpiar
+                    </button>
+                </div>
+                <div class="row">
+                    <mat-card class="adv">
+                        
+                            <div class="col text-center">
+                                <strong>Al validar las imagenes la planilla enviará el estado de LISTO_PARA_CUMPLIDO a OTM</strong>  
+                            </div>
+                            <br>
+                            <div class="col text-center">
+                                <button  (click)="Validate()" mat-raised-button class="ok" style="width: 150px; height:55px ;left: 30px;" [hidden]="!validar">
+                                    <span class="material-icons"> 
+                                        check
+                                    </span>
+                                    Validar
+                                </button>
+                            </div>
+                            <mat-card-footer *ngIf="Remesas.length>0" class="text-center">
+                                <div class="row">
+                                    <div class="col">
+                                        Total remesas planilla: {{Remesas.length}}
+                                    </div>
+                                    <div class="col">
+                                        Total remesas con imagen: {{Remimg}}
+                                    </div>
+                                    <div class="col">
+                                        Total remesas sin imagen: {{Remesas.length-Remimg}}
+                                    </div>
+                                </div>
+                                
+                                
+                            </mat-card-footer>
+                    </mat-card>
+                </div>
+            </div>
+            
+        </div>
+        <div class="text-center">
+            
+            <h2>{{label}}</h2>
+            <mat-progress-bar *ngIf="progressbar" mode="query"></mat-progress-bar>
+        </div>
+        <div  class="container">
+            <mat-expansion-panel class="text-center" *ngFor="let item of Remesas">
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    <strong> Remesa: {{item.remesa}} </strong>
+                  </mat-panel-title>
+                  <mat-panel-description>
+                    Contiene imagenes asociadas: {{item.imagenes ==='SI' || item.imagenes ==='NO' ? item.imagenes : 'SI'}} 
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                <button (click)="getImgRemesa(item.remesa)" mat-raised-button class="ok" style="width: 200px; height:55px; top: 10px;" [hidden]="item.imagenes!=='SI' ">
+                    <span class="material-icons"> 
+                        search
+                    </span>
+                    Ver imagenes
+                </button>
+                <app-imglist [images]="item.imagenes ==='SI' || item.imagenes ==='NO' ? []: item.imagenes "></app-imglist>
+              </mat-expansion-panel>
+        </div>
+       
+    </mat-card-content>
+</mat-card>

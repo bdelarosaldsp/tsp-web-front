@@ -1,0 +1,58 @@
+<mat-card>
+    <mat-card-header>
+      <div mat-card-avatar>
+        <span class="material-icons"> 
+           search
+        </span>
+      </div>
+      <mat-card-title>Trazabilidad de facturas</mat-card-title>
+    </mat-card-header>
+
+    <mat-divider></mat-divider>
+    <mat-card-content style="margin-top: 30px;">
+        <div class="container">
+            <div class="row">
+                <mat-form-field appearance="outline">
+                    <mat-label >Cliente</mat-label>
+                    <input style="text-transform:uppercase;" type="text" placeholder="Nombre del cliente" aria-label="Cliente" matInput
+                    [formControl]="control"
+                    [matAutocomplete]="auto">
+                    <mat-autocomplete   #auto="matAutocomplete" [displayWith]="displayFn">
+                        <mat-option [value]="client" *ngFor="let client of filteredOptions | async">{{client.cliente_cod}}</mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+           </div>
+           <div *ngIf="control.valid" class="col">
+                <mat-form-field appearance="outline" >
+                    <mat-label >Documento</mat-label>
+                    <input style="text-transform:uppercase;" type="text" placeholder="Documento" aria-label="Documento" matInput [disabled]="!control.valid"
+                    [formControl]="controlDoc">
+                </mat-form-field>
+           
+                <button  (click)="findDoc()" mat-raised-button color="primary" style="height:55px ;left: 20px;" [disabled]="control.value=='' || controlDoc.value==''"  [hidden]="Images.length>0 && FacturaCabeza.length>0">
+                    <span class="material-icons"> 
+                        search
+                    </span>
+                    Consultar factura
+                </button>
+                <button *ngIf="Images.length>0 && FacturaCabeza.length>0" (click)="onClear()"  mat-raised-button color="warn" style="height:55px ;left: 20px;">
+                    <span class="material-icons"> 
+                        cached
+                    </span>
+                    Limpiar
+                </button>
+            </div>
+        </div>
+        <div class="text-center">
+            
+            <h2>{{label}}</h2>
+            <mat-progress-bar *ngIf="progressbar" mode="query"></mat-progress-bar>
+        </div>
+        <div *ngIf="FacturaCabeza.length>0" class="container">
+            <app-details [Images]="Images" [Cumplidos]="Cumplidos" [NovedadesConf]="NovedadesConf" [Novedades]="Novedades" [OrdenesDes]="OrdenesDes" [PedidosFac]="PedidosFac" [MasivoFac]="MasivoFac" [FacturaCabeza]="FacturaCabeza"></app-details>
+        </div>
+    </mat-card-content>
+</mat-card>
+
+
+

@@ -1,8 +1,7 @@
 import { Injectable, Injector } from '@angular/core';
 import { Constant } from '../shared/constant';
 import { BaseService } from './core/base.service';
-import { map } from 'rxjs/operators';
-import { GlobalService } from './core/global.service';
+import { ConfigService } from './config.service';
 
 
 @Injectable({
@@ -10,8 +9,10 @@ import { GlobalService } from './core/global.service';
 })
 export class MenuService extends BaseService{
 
-  constructor(injector: Injector) {
-    super(Constant.Endpoints.GET_MENUS.GET_ACTIVES, injector);
+  constructor(injector: Injector,config:ConfigService) {
+    let apiBase:string;
+    apiBase=config.getConfig().apiUrl;
+    super(apiBase+Constant.Endpoints.GET_MENUS.GET_ACTIVES, injector);
    }
 
   

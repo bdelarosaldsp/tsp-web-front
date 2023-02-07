@@ -153,7 +153,7 @@ export class GlobalService {
       
 
     };
-    console.log('service get');
+    
     return this.http
       .get(url, headerOptions ? headerOptions : this.getHeader())
       .pipe(catchError(this.handleError));

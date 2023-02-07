@@ -37,13 +37,6 @@ interface AlertModel {
 
 const defaultAlerts: Array<AlertModel> = [
   {
-    title: 'Project Alice',
-    description: 'Phase 1 development',
-    time: '1 hr',
-    icon: 'icons/duotune/technology/teh008.svg',
-    state: 'primary',
-  },
-  {
     title: 'HR Confidential',
     description: 'Confidential staff documents',
     time: '2 hrs',
@@ -56,20 +49,6 @@ const defaultAlerts: Array<AlertModel> = [
     time: '5 hrs',
     icon: 'icons/duotune/finance/fin006.svg',
     state: 'warning',
-  },
-  {
-    title: 'Project Redux',
-    description: 'New frontend admin theme',
-    time: '2 days',
-    icon: 'icons/duotune/files/fil023.svg',
-    state: 'success',
-  },
-  {
-    title: 'Project Breafing',
-    description: 'Product launch status update',
-    time: '21 Jan',
-    icon: 'icons/duotune/maps/map001.svg',
-    state: 'primary',
   },
   {
     title: 'Banner Assets',

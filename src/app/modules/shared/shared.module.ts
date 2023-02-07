@@ -6,9 +6,10 @@ import { MatCardModule } from '@angular/material/card';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDividerModule } from '@angular/material/divider';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ImglistComponent } from '../images/imglist/imglist.component';
 
 @NgModule({
-  declarations: [AgencyModalComponent],
+  declarations: [AgencyModalComponent, ImglistComponent],
   imports: [
     CommonModule,
     MatButtonModule,
@@ -17,6 +18,6 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatDividerModule,
     ReactiveFormsModule,
   ],
-  exports: [AgencyModalComponent],
+  exports: [AgencyModalComponent,ImglistComponent],
 })
 export class SharedModule {}

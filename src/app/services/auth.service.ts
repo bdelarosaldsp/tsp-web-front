@@ -7,6 +7,7 @@ import { SignupResponse } from '../models/response/signup-response';
 import { Constant } from '../shared/constant';
 import { GlobalService } from './core/global.service';
 import { catchError } from 'rxjs/operators';
+import { ConfigService } from './config.service';
 export type AccountModel = Account | undefined;
 @Injectable({
   providedIn: 'root'
@@ -19,17 +20,19 @@ export class AuthService {
   agency$ : Observable<any>;
   currentUserSubject: BehaviorSubject<AccountModel>;
   isLoadingSubject: BehaviorSubject<boolean>;
-  constructor(private globalService: GlobalService, private http: GlobalService) { 
+  apiBase:string;
+  constructor(private globalService: GlobalService, private config:ConfigService, private http: GlobalService) { 
     this.isLoadingSubject = new BehaviorSubject<boolean>(false);
     this.currentUserSubject = new BehaviorSubject<AccountModel>(undefined);
     this.currentUser$ = this.currentUserSubject.asObservable();
     this.isLoading$ = this.isLoadingSubject.asObservable();
     this.agency$ = of(Constant.AUTH.getAgency());
+    this.apiBase=config.getConfig().apiUrl;
   }
   preLogin(data:any): Observable<any> {
     this.isLoadingSubject.next(true)
     return this.globalService
-      .post(Constant.Endpoints.AUTH.PRE_LOGIN, data)
+      .post(this.apiBase+Constant.Endpoints.AUTH.PRE_LOGIN, data)
       .pipe(
         map(res => {
           this.isLoadingSubject.next(false)  
@@ -42,10 +45,11 @@ export class AuthService {
   login(data:any): Observable<any> {
     this.isLoadingSubject.next(true)
     return this.globalService
-      .post(Constant.Endpoints.AUTH.LOGIN, data)
+      .post(this.apiBase+Constant.Endpoints.AUTH.LOGIN, data)
       .pipe(
         map(res => {
-          localStorage.setItem(Constant.AUTH.KEYS.token, res.data['token']);
+          localStorage.setItem(Constant.AUTH.KEYS.token, res.data['token']?.plainTextToken);
+          localStorage.setItem(Constant.AUTH.KEYS.token_expires, res.data['token']?.AccessToken?.expired_at);
           localStorage.setItem(Constant.AUTH.KEYS.userData, JSON.stringify(res.data['user']));  
           this.isLoadingSubject.next(false)  
           return res;
@@ -55,7 +59,7 @@ export class AuthService {
       );
   }
   enable2fa(data : any){
-    return this.globalService.post(Constant.Endpoints.AUTH.ENABLE_2_FA, data).pipe(
+    return this.globalService.post(this.apiBase+Constant.Endpoints.AUTH.ENABLE_2_FA, data).pipe(
       map(res => {
         localStorage.setItem(Constant.AUTH.KEYS.userData, JSON.stringify(res.data['user']));  
         return res;
@@ -63,15 +67,17 @@ export class AuthService {
     );
   }
   getQr() {
-    return this.globalService.get(Constant.Endpoints.AUTH.GET_QR).pipe(
+    return this.globalService.get(this.apiBase+Constant.Endpoints.AUTH.GET_QR).pipe(
      map(res => {
        return res;
      })
    );
  }
-  verifyToken() {
-    return this.globalService.get(Constant.Endpoints.AUTH.VERIFY_TOKEN).pipe(
+  verifyToken(id:number) {
+
+    return this.globalService.get(this.apiBase+Constant.Endpoints.AUTH.VERIFY_TOKEN +'/'+id).pipe(
      map(res => {
+
        return res;
      })
    );
@@ -79,7 +85,7 @@ export class AuthService {
   singUp(data : SignupRequest): Observable<any> {
     this.isLoadingSubject.next(true)
     return this.http
-    .post(Constant.Endpoints.AUTH.SING_UP, data)
+    .post(this.apiBase+Constant.Endpoints.AUTH.SING_UP, data)
     .pipe(
       map(res => {
         this.isLoadingSubject.next(false)
@@ -109,7 +115,7 @@ export class AuthService {
   }
   logout(): Observable<any> {
     
-     return this.globalService.get(Constant.Endpoints.AUTH.LOGOUT).pipe(
+     return this.globalService.get(this.apiBase+Constant.Endpoints.AUTH.LOGOUT).pipe(
        map(res => { 
         localStorage.removeItem(Constant.AUTH.KEYS.token);
         localStorage.removeItem(Constant.AUTH.KEYS.userData);
@@ -127,7 +133,7 @@ export class AuthService {
    password_reset_request(data:any): Observable<any> {
     this.isLoadingSubject.next(true)
     return this.globalService
-      .post(Constant.Endpoints.AUTH.RESET_PASSWORD_REQUEST,  {email:data})
+      .post(this.apiBase+Constant.Endpoints.AUTH.RESET_PASSWORD_REQUEST,  {email:data})
       .pipe(
         map(res => {
              this.isLoadingSubject.next(false)
@@ -139,7 +145,7 @@ export class AuthService {
   }
   RESET_PASSWORD_FIND(data:any): Observable<any> {
     return this.globalService
-      .get(`${Constant.Endpoints.AUTH.RESET_PASSWORD_FIND}/${data}`)
+      .get(`${this.apiBase+Constant.Endpoints.AUTH.RESET_PASSWORD_FIND}/${data}`)
       .pipe(
         map(res => {
              return res;
@@ -149,7 +155,7 @@ export class AuthService {
   reset_password(data:any): Observable<any> {
     this.isLoadingSubject.next(true)
     return this.globalService
-      .put(`${Constant.Endpoints.AUTH.RESET_PASSWORD}`, data)
+      .post(`${this.apiBase+Constant.Endpoints.AUTH.RESET_PASSWORD}`, data)
       .pipe(
         map(res => {
           this.isLoadingSubject.next(false)
@@ -160,10 +166,11 @@ export class AuthService {
         })
       );
   }
+  
   change_password(data:any): Observable<any> {
     this.isLoadingSubject.next(true)
     return this.globalService
-      .put(`${Constant.Endpoints.AUTH.CHANGE_PASSWORD}`, data)
+      .put(`${this.apiBase+Constant.Endpoints.AUTH.CHANGE_PASSWORD}`, data)
       .pipe(
         map(res => {
           this.isLoadingSubject.next(false)
@@ -177,7 +184,7 @@ export class AuthService {
 
   findAndActivate(token: string) {
     return this.globalService
-      .get(Constant.Endpoints.AUTH.SING_UP_ACTIVATE + '/' + token)
+      .get(this.apiBase+Constant.Endpoints.AUTH.SING_UP_ACTIVATE + '/' + token)
       .pipe(
         map(res => {
          
@@ -190,4 +197,14 @@ export class AuthService {
     this.agency$ = of(Constant.AUTH.getAgency());
 
   }
+
+  validateExternal(email:string,nitcli:string) {
+
+    return this.globalService.get(this.apiBase+Constant.Endpoints.AUTH.SING_UP_EXTERNAL +'/'+email+'/'+nitcli).pipe(
+     map(res => {
+
+       return res;
+     })
+   );
+ }
 }

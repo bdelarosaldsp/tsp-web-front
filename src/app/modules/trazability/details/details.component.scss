@@ -1,0 +1,29 @@
+.action-buttons {
+    padding-top: 20px;
+  }
+  .mat-expansion-panel {
+    background-color: rgba(127, 186, 253, 0.342);
+  }
+
+  .mat-table{
+    width: 100%;
+  }
+  
+  .mat-row {
+    height: auto;
+  }
+  
+  .mat-cell {
+    padding: 10px 10px 10px 0;
+    text-align:center ;
+  }
+
+  .mat-header-cell{
+    text-align: center;
+  }
+
+  .mat-expansion-panel{
+    //max-height: 50vh;
+    //overflow: auto;
+    overflow-x: auto;
+  }

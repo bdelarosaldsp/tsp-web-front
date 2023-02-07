@@ -1,0 +1,48 @@
+<mat-card>
+    <mat-card-header>
+      <div mat-card-avatar>
+        <span class="material-icons"> 
+           mail
+        </span>
+      </div>
+      <mat-card-title>Mensajes web</mat-card-title>
+    </mat-card-header>
+
+    <mat-divider></mat-divider>
+    <mat-card-content style="margin-top: 30px;">
+        <div class="row align-items-center">
+            <div class="col w-10">
+                <mat-form-field  style="padding-left: 50px;" appearance="outline" >
+                    <mat-label >Nombre del mensaje</mat-label>
+                    <input style="text-transform:uppercase;" type="text" placeholder="Nombre" aria-label="nombre" matInput
+                    [formControl]="controlTitle">
+                </mat-form-field>     
+            </div>
+            <div class="col w-80">
+                <label >Tipo de mensaje:</label>
+                <br>
+                <mat-radio-group color=primary [formControl]="controlType">
+                    <mat-radio-button value="O">Obligatorio &nbsp;</mat-radio-button>
+                    <mat-radio-button value="R">Requerido &nbsp;</mat-radio-button>
+                    <mat-radio-button value="I">Informativo &nbsp;</mat-radio-button>
+                </mat-radio-group>
+            </div>
+            <div class="col w-10 text-center">
+                <button (click)="addMessage()" style="padding-right: 50px;"  mat-raised-button class="ok" style="width: 150px; height:55px ;left: 30px;" [disabled]="controlTitle.invalid || controlType.invalid">
+                    <span class="material-icons"> 
+                        check
+                    </span>
+                    Crear mensaje
+                </button>
+            </div>
+        
+        </div>         
+        <div class="text-center">
+            <h2>{{label}}</h2>
+            <mat-progress-bar *ngIf="progressbar" mode="query"></mat-progress-bar>
+        </div>
+        <div class="container">
+            <angular-editor [(ngModel)]="controlMessage" [config]="editorConfig"></angular-editor>
+        </div>
+    </mat-card-content>
+</mat-card>

@@ -55,8 +55,8 @@
     <!--begin::Form group-->
     <div class="row fv-row mb-4">
       <label class="form-label fw-bolder text-dark fs-6">Nombres</label>
-      <input
-        class="form-control form-control-lg form-control-solid"
+      <input style="text-transform:uppercase;"
+        class="form-control form-control-lg form-control-solid "
         type="text"
         name="firstname"
         formControlName="firstname"
@@ -95,7 +95,7 @@
     <!--end::Form group-->
     <div class="row fv-row mb-4">
       <label class="form-label fw-bolder text-dark fs-6">Apellidos</label>
-      <input
+      <input style="text-transform:uppercase;"
         class="form-control form-control-lg form-control-solid"
         type="text"
         name="lastname"
@@ -132,11 +132,11 @@
         }"
       ></ng-container>
     </div>
-    <div class="row fv-row mb-4">
+    <div  *ngIf="registrationForm.controls['firstname'].valid  && registrationForm.controls['lastname'].valid" class="row fv-row mb-4">
       <label class="form-label fw-bolder text-dark fs-6"
         >Tipo de documento</label
       >
-      <select
+      <select 
         class="form-control form-control-lg form-control-solid"
         name="model.header.left"
         formControlName="identificationtype_id"
@@ -145,6 +145,7 @@
             registrationForm.controls['identificationtype_id'].invalid,
           'is-valid': registrationForm.controls['identificationtype_id'].valid
         }"
+        
       >
         <option [value]="type.id" *ngFor="let type of identificationTypes">
           {{ type.name }}
@@ -169,7 +170,7 @@
         type="text"
         name="identification_number"
         formControlName="identification_number"
-        placeholder="No Identificacion"
+        placeholder="NO IDENTIFICACION"
         autocomplete="off"
         [ngClass]="{
           'is-invalid':
@@ -190,7 +191,7 @@
     <!--begin::Form group-->
     <div class="fv-row mb-4">
       <label class="form-label fw-bolder text-dark fs-6">Email</label>
-      <input
+      <input style="text-transform:uppercase;"
         class="form-control form-control-lg form-control-solid"
         type="email"
         placeholder="Email"
@@ -243,7 +244,7 @@
       <input
         class="form-control form-control-lg form-control-solid"
         type="password"
-        placeholder="Contraseña"
+        placeholder="CONTRASEÑA"
         name="password"
         formControlName="password"
         autocomplete="off"
@@ -287,7 +288,7 @@
       <input
         class="form-control form-control-lg form-control-solid"
         type="password"
-        placeholder="Confirma tu contraseña"
+        placeholder="CONFIRMA TU CONTRASEÑA"
         name="password_confirmation"
         autocomplete="off"
         formControlName="password_confirmation"

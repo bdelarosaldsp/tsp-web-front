@@ -16,7 +16,7 @@ export class InterceptRequestsService {
 
   // intercept request and add headers
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-
+    
     request = request.clone();
    
     
@@ -27,10 +27,9 @@ export class InterceptRequestsService {
           setHeaders: { 
             'Authorization': `Bearer ${Constant.AUTH.getToken()}` ,
             'Agency' : Constant.AUTH.getAgency()?.vus_codins ?Constant.AUTH.getAgency()?.vus_codins : '' ,
-        }
-
+          }
         });
-      }
+    }
     return next.handle(request)
       .pipe(
         tap(event => {
@@ -64,16 +63,15 @@ export class InterceptRequestsService {
            
           }
           if (error.status === 401) {
-            console.log('aqui');
             const arrayruta = request.url.split('/');
             const actualruta = arrayruta[arrayruta.length - 1];
             localStorage.clear();
             
             localStorage.removeItem(Constant.AUTH.KEYS.token);
             localStorage.removeItem(Constant.AUTH.KEYS.userData);
+            
           
             if( actualruta != 'auth') {
-              console.log('aqui');
               this.router.navigateByUrl('/auth/login');
             }
            

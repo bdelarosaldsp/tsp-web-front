@@ -1,13 +1,14 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { HomeComponent } from './home/home.component';
+import { DocsfindComponent } from './docsfind/docsfind.component';
 
 const routes: Routes = [
-  {path:'', component : HomeComponent}
+  {path:'', component:DocsfindComponent},
+  {path:'Facturas', component:DocsfindComponent},
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class HomeRoutingModule { }
+export class TrazabilityRoutingModule { }

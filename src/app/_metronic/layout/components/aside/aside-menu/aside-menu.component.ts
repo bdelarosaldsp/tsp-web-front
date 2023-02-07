@@ -1,4 +1,4 @@
-import { Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { ChangeDetectorRef, Component, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Router } from '@angular/router';
 import { MenuService } from 'src/app/services/menu.service';
 import { PassingdataService } from 'src/app/services/passingdata.service';
@@ -15,34 +15,21 @@ export class AsideMenuComponent implements OnInit {
   appAngularVersion: string = environment.version;
   appPreviewChangelogUrl: string = '';
   categorie : string ='';
-  Pmenu:Menu={title:'Reportes',
-  svg: './assets/media/icons/duotune/communication/com012.svg',
-  hasChild:true, link:'/dashboard', subMenus:[]};
   menus : Array<Menu> =[]; 
-    //{title:'Imagenes',  svg: './assets/media/icons/duotune/communication/com012.svg', hasChild:true, link:'', 
-      //subMenus:[
-        //{title:'Cargue de imagenes', svg: '', hasChild:false, link:'/images/upload', subMenus:[]},
-        //{title:'Consulta de imagenes', svg: '', hasChild:false, link:'/images/search', subMenus:[]},
-      //] },
-    /*{
-      title:'Reportes', svg: './assets/media/icons/duotune/general/gen022.svg', hasChild:true, link:'', 
-        subMenus: [
-          {title:'Reporte 1', svg: '', hasChild:false, link:'/report/report1', subMenus:[]},
-          {title:'Reporte 2', svg: '', hasChild:false, link:'/report/report2', subMenus:[]},
-      ] },*/
-
-    //];
+    
 
     
-  constructor(private menuService :MenuService, private router :Router, private passingdata: PassingdataService) {
+  constructor(private menuService :MenuService, 
+    private router :Router,
+    private passingdata: PassingdataService,
+    private cdr:ChangeDetectorRef) {
     
   }
   
   ngOnInit(): void {
 
     if (this.menus.length==0){
-      
-     this.menus=this.GetMenus();
+      this.menus=this.GetMenus();
     }
 
   }
@@ -51,7 +38,9 @@ export class AsideMenuComponent implements OnInit {
     let MenuTot:Array<Menu>=[
       {title:'Inicio', svg: './assets/media/icons/duotune/communication/com012.svg', hasChild:false, link:'/', subMenus:[] },
       {title:'Apps Net', svg: './assets/media/icons/duotune/communication/com012.svg', hasChild:false, link:'/appsnet', subMenus:[] },
-      {title:'Reportes', svg: './assets/media/icons/duotune/communication/com012.svg',hasChild:false, link:'/', subMenus:[]}
+      {title:'Reportes', svg: './assets/media/icons/duotune/communication/com012.svg',hasChild:false, link:'/', subMenus:[]},
+      //{title:'Cumplidos',svg: './assets/media/icons/duotune/communication/com012.svg',hasChild:true, link:'/', 
+      //subMenus:[{title:'Cargue de imagenes', svg: './assets/media/icons/duotune/communication/com012.svg',hasChild:false, link:'/images', subMenus:[]}]}
     ];
     var email=Constant.AUTH.getUser()?.email;
     this.menuService.getByVal('PHP', email.toUpperCase()).subscribe(
@@ -64,26 +53,50 @@ export class AsideMenuComponent implements OnInit {
             this.categorie=x.categoria;
             this.menus[2].hasChild=true;
             this.menus[2].subMenus.push(Smenu);
+            this.cdr.detectChanges();
           }         
         }
-        //MenuTot.push(this.Pmenu);
-        //this.ngOnInit();
       });
-      
-      this.reloadComponent();
+    
+      this.menuService.getByVal('ANG', email.toUpperCase()).subscribe(
+        res => {
+          for (var x of res.data) {
+            
+            if (x.categoria != this.categorie){
+             
+              let Smenu:Menu={title:x.categoria,svg:'./assets/media/icons/duotune/communication/com012.svg',hasChild:true,link:'/',subMenus:[{
+                title:x.menu,svg:'',hasChild:false,link:x.url,subMenus:[]
+              }]};
+              this.categorie=x.categoria;
+              //this.menus[2].hasChild=true;
+              this.menus.push(Smenu);
+              //console.log(this.menus);
+              this.cdr.detectChanges();
+            }else{
+             
+              this.menus[this.menus.length-1].hasChild=true;
+              this.menus[this.menus.length-1].subMenus.push({
+                title:x.menu,svg:'',hasChild:false,link:x.url,subMenus:[]});
+              this.cdr.detectChanges();
+            }  
+          }
+        });
+    
       return MenuTot;
   }
 
-  reloadComponent() {
-    let currentUrl = this.router.url;
-    this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
-        this.router.navigate([currentUrl]);
-    });
-
-  }
 
   sendData(url:string){
-    localStorage.setItem('ReportUrl',url);
+    this.passingdata.setUrl(url);
+    if(url.includes('php') || url.includes('PHP')){
+      if(this.router.url=='/report' || this.router.url=='/report/report1'){
+        this.router.navigate(['/report/report2']);
+      }else{
+        this.router.navigate(['/report']);
+      }
+    }
+    
+    
   }
 }
 export interface Menu {
