@@ -1,5 +1,9 @@
+import { HttpClient } from '@angular/common/http';
 import { EventEmitter, Injectable, Output } from '@angular/core';
+import { Router } from '@angular/router';
 import { BehaviorSubject, Observable, ReplaySubject, Subject } from 'rxjs';
+import { environment } from 'src/environments/environment';
+import * as env from 'src/environments/environment.prod';
 
 @Injectable({
   providedIn: 'root'
@@ -10,7 +14,7 @@ export class PassingdataService {
 
   public urls:Observable<string>= this.Url.asObservable();
 
-  constructor() { }
+  constructor(private http:HttpClient,private router:Router) { }
 
   public setUrl(url:string) :void{
     this.Url.next(url);
@@ -24,5 +28,6 @@ export class PassingdataService {
     });
     return UrlRet;
   }
+
 
 }

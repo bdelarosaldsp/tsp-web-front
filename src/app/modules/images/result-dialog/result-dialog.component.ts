@@ -12,13 +12,19 @@ export class ResultDialogComponent {
   displayedColumns: string[];
   dataSource:any[];
 
+  displayedErrColumns: string[];
+  dataError:any[];
+
   constructor(
     public dialogRef: MatDialogRef<ResultDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: Array<any>
   ) { 
 
     this.displayedColumns = ['planilla','remesa','factura','cantimg'];
-    this.dataSource = data
+    this.dataSource = data;
+
+    //this.displayedErrColumns = ['nombre','factura','error'];
+    //this.dataError = data[1];
   }
 
 

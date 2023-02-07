@@ -61,15 +61,24 @@ export class AsideMenuComponent implements OnInit {
       this.menuService.getByVal('ANG', email.toUpperCase()).subscribe(
         res => {
           for (var x of res.data) {
+            
             if (x.categoria != this.categorie){
+             
               let Smenu:Menu={title:x.categoria,svg:'./assets/media/icons/duotune/communication/com012.svg',hasChild:true,link:'/',subMenus:[{
                 title:x.menu,svg:'',hasChild:false,link:x.url,subMenus:[]
               }]};
               this.categorie=x.categoria;
               //this.menus[2].hasChild=true;
               this.menus.push(Smenu);
+              //console.log(this.menus);
               this.cdr.detectChanges();
-            }         
+            }else{
+             
+              this.menus[this.menus.length-1].hasChild=true;
+              this.menus[this.menus.length-1].subMenus.push({
+                title:x.menu,svg:'',hasChild:false,link:x.url,subMenus:[]});
+              this.cdr.detectChanges();
+            }  
           }
         });
     

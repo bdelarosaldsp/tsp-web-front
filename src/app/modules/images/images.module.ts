@@ -17,14 +17,32 @@ import { MatDialogModule } from '@angular/material/dialog';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import {MatTableModule} from '@angular/material/table';
 import { ResultDialogComponent } from './result-dialog/result-dialog.component';
+import {MatTabsModule} from '@angular/material/tabs';
+import {MatRadioModule} from '@angular/material/radio';
+import {MatGridListModule} from '@angular/material/grid-list';
+import { ImageViewerModule } from '@nghacks/image-viewer';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ImgpreviewComponent } from './imgpreview/imgpreview.component';
+import { PdfviewerComponent } from './pdfviewer/pdfviewer.component';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
+import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer';
+import { PdfJsViewerModule } from 'ng2-pdfjs-viewer';
+import { SharedModule } from '../shared/shared.module';
+import { OtmvalimgComponent } from './otmvalimg/otmvalimg.component';
+import { MatExpansionModule } from '@angular/material/expansion';
+
 
 @NgModule({
   declarations: [
     ImguploadComponent,
     ImgsearchComponent,
-    ImglistComponent,
+    //ImglistComponent,
     ConfirmDialogComponent,
     ResultDialogComponent,
+    ImgpreviewComponent,
+    PdfviewerComponent,
+    OtmvalimgComponent
   ],
   imports: [
     CommonModule,
@@ -38,7 +56,18 @@ import { ResultDialogComponent } from './result-dialog/result-dialog.component';
     MatInputModule,
     MatDialogModule,
     MatProgressBarModule,
-    MatTableModule
+    MatTableModule,
+    MatTabsModule,
+    MatRadioModule,
+    MatGridListModule,
+    ImageViewerModule,
+    MatAutocompleteModule,
+    NgbModule,
+    PdfViewerModule,
+    NgxExtendedPdfViewerModule,
+    PdfJsViewerModule,
+    SharedModule,
+    MatExpansionModule
   ]
 })
 export class ImagesModule { }

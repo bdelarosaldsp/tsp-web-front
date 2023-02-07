@@ -8,11 +8,12 @@ import {MatDialog} from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { ToastrService } from 'ngx-toastr';
 import { CumImagesService } from 'src/app/services/cum-images.service';
-import { groupBy, map, Observable, of } from 'rxjs';
+import { groupBy, map, Observable, of, startWith } from 'rxjs';
 import { Constant } from 'src/app/shared/constant';
 import { Router } from '@angular/router';
-import { Factura } from 'src/app/models/facturas';
 import { ResultDialogComponent } from '../result-dialog/result-dialog.component';
+import { PdfviewerComponent } from '../pdfviewer/pdfviewer.component';
+import { ImgpreviewComponent } from '../imgpreview/imgpreview.component';
 
 
 @Component({
@@ -33,6 +34,12 @@ export class ImguploadComponent implements OnInit {
   count :number=0;
   dataImage:Array<any>=[];
   imgb64:  ArrayBuffer| string;
+  user:string=Constant.AUTH.getUser()?.email;
+  imgerror:Array<any>=[];
+  totaldata:Array<Array<any>>=[];
+
+  options: Client[];
+  filteredOptions: Observable<any[]>;
 
   constructor(
     private clientService:ClientsService,
@@ -43,6 +50,8 @@ export class ImguploadComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private router: Router
   ) {
+    this.getClients();
+    
   }
 
   ngOnInit(): void {
@@ -51,15 +60,23 @@ export class ImguploadComponent implements OnInit {
       this.toastr.warning('Debe seleccionar una agencia');
       this.router.navigate(['/']);
     }
-    this.getClients();
+    
+    this.filteredOptions = this.control.valueChanges.pipe(
+      map((value) => {
+        const client = typeof value === 'string' ? value.toLowerCase() : value?.cliente_cod.toLowerCase();
+        return this.options.filter((option)=>
+          option.cliente_cod.toLowerCase().includes(client)
+        );
+      })
+    );
 
   }
 
   getClients(){
   
-    this.clientService.getActives().subscribe(
+    this.clientService.getClients(Constant.AUTH.getUser()?.email).subscribe(
       res => {
-        this.clients = res.data;
+        this.options = res.data;
       }
       
     )
@@ -99,6 +116,9 @@ export class ImguploadComponent implements OnInit {
         
               this.progressbar= true;
               this.cdr.detectChanges();
+              let date=new Date();
+              const ficaso='IMG' + date.getDay()+date.getMonth()+date.getFullYear()+date.getHours()+date.getMinutes()+date.getSeconds();
+              console.log(ficaso);
               this.cumImages.forEach(x=>{
       
                 const file = x.file;
@@ -108,6 +128,7 @@ export class ImguploadComponent implements OnInit {
                   this.imgb64=reader.result!;
       
                   let data: any={
+                    'user':this.user,
                     'filename': x.filename,
                     'client_id':x.client_id.toString(),
                     'document':x.document,
@@ -116,37 +137,85 @@ export class ImguploadComponent implements OnInit {
                     'url': x.url,
                     'image':this.imgb64.toString()
                   };
-      
+                  
+
                   this.imgservice.uploadImage(data).subscribe(
                     {
                       next: (response) => {
+                        console.log(response);
                         if(response.data?.message=='Imagen guardada'){
-                          /*let Res=this.dataImage.find(plarem=>plarem.factura=response.data?.img?.document)!;
-                          if(!Res){*/
-                            this.dataImage.push(
-                              {
-                                planilla:response.data?.img?.planilla,
-                                remesa:response.data?.img?.remesa,
-                                factura:response.data?.img?.document,
-                                cantidad:1
-                              }
-                            );
-                            this.cdr.detectChanges();
-                          /*}else{
-                            Res.cantidad=+1;
-                            this.cdr.detectChanges();
-                          }*/
+                          let imgmail: any={
+                            'user':this.user,
+                            'filename': x.filename,
+                            'client_id':x.client_id.toString(),
+                            'document':x.document,
+                            'ficaso': ficaso,
+                            'sitimg':'ACEPTADA',
+                            'agency_id':x.agency_id,
+                          };
+                          /*this.imgservice.imgMail(imgmail).subscribe({
+                            next:(res)=>{
+                              console.log('img aceptada');
+                            }
+                          });*/
+
+                          this.dataImage.push(
+                            {
+                              planilla:response.data?.img?.planilla,
+                              remesa:response.data?.img?.remesa,
+                              factura:response.data?.img?.document,
+                              cantidad:1
+                            });
+                          this.cdr.detectChanges();
+                          this.count++;
+                          
+                        }else{
+                          let imgmail: any={
+                            'user':this.user,
+                            'filename': x.filename,
+                            'client_id':x.client_id.toString(),
+                            'document':x.document,
+                            'ficaso': ficaso,
+                            'sitimg':'RECHAZADA',
+                            'agency_id':x.agency_id,
+                          };
+                          /*this.imgservice.imgMail(imgmail).subscribe({
+                            next:(res)=>{
+                              console.log('img rechazada');
+                            }
+                          });*/
+
+                          this.imgerror.push({'imagen':x.filename,'factura':x.document,'error':response.data?.message})
                           this.count++;
                         }
                       },
                       error: (error) => {
-                       console.log(error);
-                      },
-                      complete: () => {
-                        if(this.count==this.cumImages.length)
-                        {
-                          this.progressbar=false;
+                        console.log(error);
+                        let imgmail: any={
+                          'user':this.user,
+                          'filename': x.filename,
+                          'client_id':x.client_id.toString(),
+                          'document':x.document,
+                          'ficaso': ficaso,
+                          'sitimg':'RECHAZADA',
+                          'agency_id':x.agency_id,
+                        };
+                        /*this.imgservice.imgMail(imgmail).subscribe({
+                          next:(res)=>{
+                            console.log('img rechazada');
+                          }
+                        });*/
 
+                        this.imgerror.push({'imagen':x.filename,'factura':x.document,'error':error.data?.message})
+                        this.count++;
+                      },
+                      complete:()=>{
+                        if(this.count==this.cumImages.length){
+                          this.progressbar=false;
+                          this.cdr.detectChanges();
+                          console.log(this.dataImage);
+
+                          
                           this.dataImage = Object.values(this.dataImage.reduce(function(groups, item) {
                             var val = item['factura'];
                             groups[val] = groups[val] || {planilla: item.planilla, remesa: item.remesa,factura:item.factura, cantidad: 0};
@@ -154,39 +223,53 @@ export class ImguploadComponent implements OnInit {
                             return groups;
                           }, {}));
 
+                          //this.totaldata.push(this.dataImage);
+                          //this.totaldata.push(this.imgerror);
                           console.log(this.dataImage);
+
+
                           const dialogRef = this.dialog.open(ResultDialogComponent, {
                             width: '500px',
-                            data:this.dataImage
+                            height: '500px',
+                            data:this.dataImage,
                           });
                     
-                          
                           this.progressbar=false;
                           this.cdr.detectChanges();
 
                           dialogRef.afterClosed().subscribe(
                             {
                               complete: () => {
+                                
+                                if(this.imgerror.length==0){
+                                  this.toastr.success('Imagenes cargadas satisfactoriamente','Cargue total exitoso');
+                                }else{
+                                  this.toastr.warning('Imagenes cargadas satisfactoriamente','Cargue parcial exitoso');
+                                }
                                 this.onClear();
-                                this.toastr.success('Imagenes cargadas satisfactoriamente','Cargue exitoso')
                               }
                             });
+                            
+                          /*this.imgservice.getSendMail(this.agency_id,this.selectedcli,this.user,ficaso).subscribe({
+                            next:(res)=>{
+                              if(res.data.message=='Correo enviado'){
+                                this.toastr.success('Se envió mail de validación','Correo enviado');
+                                
+                              }
+                            }
+                          });*/
 
                           
                         }
-      
                       }
                     });
                 };
-              });
+              });    
             }
           }
         }
         
-        /*result => {
-        
-        
-      }*/);
+      );
 
       
       
@@ -200,10 +283,52 @@ export class ImguploadComponent implements OnInit {
   
   previewImage(image:File){
 
-    const objectURL = URL.createObjectURL(image);
+
+    if(image.name.includes('pdf') || image.name.includes('pdf') ){
+      return "./assets/media/icons/pdficon.png";
+    }else{
+      const objectURL = URL.createObjectURL(image);
     
-    return this.sanitizer.bypassSecurityTrustResourceUrl(objectURL);
+      return this.sanitizer.bypassSecurityTrustResourceUrl(objectURL);
+    }
   }
+
+  carrousel(image:File){
+    if(image.name.includes('pdf') || image.name.includes('pdf') ){
+
+      
+      const dialogRef = this.dialog.open(PdfviewerComponent, {
+      
+        minHeight:'100vh',
+        minWidth:'100vw',
+        data: image //this.covertB64PDf(content)
+      });
+    }else{
+      let images: Array<any>=[];
+      this.files.forEach(element => {
+
+        const objectURL = URL.createObjectURL(element);
+       
+        let file={
+
+          'name': element.name,
+          'planilla': '',
+          'remesa':'',
+          'fecha_imagen':'',
+          'content':  this.sanitizer.bypassSecurityTrustResourceUrl(objectURL)
+        }
+        images.push(file);
+      });
+      const dialogRef = this.dialog.open(ImgpreviewComponent, {
+      
+        minHeight:'100vh',
+        minWidth:'100vw',
+        data:images
+      });
+    }
+    
+  }
+
 
   onRemove(image:File) {
    
@@ -227,12 +352,15 @@ export class ImguploadComponent implements OnInit {
 
   validateDocument(image:File, id:string, factura:string){
     if(factura !=='' || typeof(factura) !=='undefined'){
+
+      
       
       (document.getElementById('sp_'+image.name) as HTMLSpanElement).hidden=true;
       (document.getElementById('sp2_'+image.name) as HTMLSpanElement).hidden=false;
 
       let count: Number=0;
       let message:string='';
+      this.setClient();
       let data: any={
         'documento':factura,
         'cliente':this.selectedcli,
@@ -247,8 +375,9 @@ export class ImguploadComponent implements OnInit {
         if(count>0){
           (document.getElementById(id) as HTMLInputElement).disabled = true;
           (document.getElementById('btn_'+id) as HTMLButtonElement).hidden = true;
-          //(document.getElementById('sp2_'+image.name) as HTMLSpanElement).hidden=true;
           (document.getElementById('spn_'+id) as HTMLButtonElement).hidden=false;
+
+          this.setClient();
 
           let imgcum:CumImage={
             filename:image.name,
@@ -268,5 +397,9 @@ export class ImguploadComponent implements OnInit {
         }
       });
     }
+  }
+
+  displayFn(client: Client): string {
+    return client && client.cliente_cod ? client.cliente_cod : '';
   }
 }

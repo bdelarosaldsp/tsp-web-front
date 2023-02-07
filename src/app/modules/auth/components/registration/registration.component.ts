@@ -75,7 +75,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
       {
         firstname: ['', Validators.compose([Validators.required, Validators.minLength(3), Validators.maxLength(100) ]) ],
         lastname: ['', Validators.compose([Validators.required, Validators.minLength(3), Validators.maxLength(100) ]) ],
-        email: ['', Validators.compose([Validators.required, Validators.email, Validators.minLength(3),Validators.maxLength(320), ]) ],
+        email: [''.toUpperCase(), Validators.compose([Validators.required, Validators.email, Validators.minLength(3),Validators.maxLength(320), ]) ],
         password: ['', Validators.compose([Validators.required, Validators.minLength(3), Validators.maxLength(15),]) ],
         password_confirmation: ['',Validators.compose([ Validators.required, Validators.minLength(3),  Validators.maxLength(100)]) ],
         identification_number: ['', Validators.compose([Validators.required])],
@@ -89,14 +89,13 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   }
 
   submit() {
-
-
+    this.registrationForm.value.email=this.registrationForm.value.email.toUpperCase();
     this.hasError = false;
-    
     this.authService
       .singUp(this.registrationForm.value)
       .subscribe((res: SignupResponse) => {
         if (res.data.user) {
+          
           this.errorState = {
             state: ErrorStates.NoError,
             message: res.data.message

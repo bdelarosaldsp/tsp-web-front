@@ -22,6 +22,9 @@ export class AppsnetComponent implements OnInit {
     
     this.UrlBase=environment.netSiteUrl;
     this.Usuario  = "?usuario="+ Constant.AUTH.getUser()?.email;
+    var x=Constant.AUTH.getAgency();
+    console.log(x);
+
     if (typeof(Constant.AUTH.getAgency()?.vus_codage)=='undefined'){
       this.toastr.warning('Debe seleccionar una agencia');
       this.router.navigate(['/']);
@@ -34,6 +37,7 @@ export class AppsnetComponent implements OnInit {
 
   getUrl()
   {
+    console.log(this.Sucursal);
     return this.sanitizer.bypassSecurityTrustResourceUrl(this.UrlBase+this.Usuario+this.Sucursal);
   }
 

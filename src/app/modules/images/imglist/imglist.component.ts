@@ -1,7 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { DomSanitizer } from '@angular/platform-browser';
-import { CumImage } from 'src/app/models/cum-image';
-import { stringSnakeToCamel } from 'src/app/_metronic/kt/_utils';
+import { NgbCarouselConfig } from '@ng-bootstrap/ng-bootstrap';
+import { ImgpreviewComponent } from '../imgpreview/imgpreview.component';
+import { PdfviewerComponent } from '../pdfviewer/pdfviewer.component';
 
 @Component({
   selector: 'app-imglist',
@@ -10,48 +12,59 @@ import { stringSnakeToCamel } from 'src/app/_metronic/kt/_utils';
 })
 export class ImglistComponent {
 
-  @Input() images:Array<File>;
-  @Input() client :string;
+  @Input() images:Array<any>;
+ 
 
-  @Output() addImage: EventEmitter<CumImage> = new EventEmitter<CumImage>();
-  @Output() removeImage: EventEmitter<File> = new EventEmitter<File>();
+  constructor(
+    private sanitizer:DomSanitizer, 
+    private config:NgbCarouselConfig,
+    public dialog:MatDialog) {
+    config.interval = 10000;
+    config.wrap = false;
+    config.keyboard = true;
+    config.pauseOnHover = true;
+        
+  }
 
-  cumImages :Array<CumImage>=[];
-  file: File;
-
-  constructor(private sanitizer:DomSanitizer) { }
-
-  previewImage(image:File){
-    this.file=image;    
-
-
-    /*let cumimage:CumImage=({ 
-      filename:image.name,
-      client_id:+this.client,
-      company:'LDSP',
-      url:'',
-      file:image,
-      document:''
-    });
-
-    this.addImage.emit(cumimage);*/
-    const objectURL = URL.createObjectURL(image);
+  previewImage(name:string,content:string){
     
-    return this.sanitizer.bypassSecurityTrustResourceUrl(objectURL);
+    if(name.includes('pdf') || name.includes('pdf') ){
+      return "./assets/media/icons/pdficon.png";
+    }else{
+      return this.sanitizer.bypassSecurityTrustResourceUrl(content);
+    }
   }
 
-  onRemove(image:File) {
-   
-    this.removeImage.emit(image);
-    this.images.splice(this.images.indexOf(image), 1);
+  carrousel(name:string,content:string){
+    if(name.includes('pdf') || name.includes('pdf') ){
+
+      
+      const dialogRef = this.dialog.open(PdfviewerComponent, {
+      
+        minHeight:'100vh',
+        minWidth:'100vw',
+        data: this.covertB64PDf(content)
+      });
+    }else{
+      const dialogRef = this.dialog.open(ImgpreviewComponent, {
+      
+        minHeight:'100vh',
+        minWidth:'100vw',
+        data:this.images
+      });
+    }
+    
   }
 
-  validateDocument(){
-
+  covertB64PDf(content:string) {
+    const byteArray = new Uint8Array(
+      atob(content)
+        .split("")
+        .map(char => char.charCodeAt(0))
+    );
+    const file = new Blob([byteArray], { type: "application/pdf" });
+    const fileURL = URL.createObjectURL(file);
+    console.log(fileURL);
+    return file
   }
-
-  addCumimage(img:CumImage){
-    this.cumImages.push(img);
-  }
-
 }

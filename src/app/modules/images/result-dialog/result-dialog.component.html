@@ -1,7 +1,6 @@
 <h1 mat-dialog-title>Resumen de cargue</h1>
 <div mat-dialog-content>
-  <div class="row">
-        
+  <div class="row">  
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" >
 
       <ng-container matColumnDef="planilla">
@@ -28,6 +27,6 @@
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
     </table>
   </div>
-<div mat-dialog-actions>
+  <div mat-dialog-actions>
   <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Ok</button>
 </div>

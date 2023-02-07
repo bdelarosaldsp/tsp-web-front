@@ -1,0 +1,18 @@
+<body>
+    <div mat-dialog-header>
+        <button class="close" mat-button (click)="this.dialogRef.close()">Cerrar</button>
+    </div>
+    <ngb-carousel *ngIf="images">
+        <ng-template ngbSlide *ngFor="let slide of images; index as i">
+            <div class="wrapper" >
+                <img [src]="slide.content" height="500px" width="900px">
+            </div>
+            <div class="carousel-caption">
+                <h3><strong>{{slide.name}}</strong></h3>
+                <h3><strong>Fecha imagen: {{slide.fecha_imagen}}</strong></h3>
+                <h3><strong>Planilla: {{slide.planilla}}</strong></h3>
+                <h3><strong>Remesa: {{slide.remesa}}</strong></h3>
+            </div>
+        </ng-template>
+    </ngb-carousel>
+</body>

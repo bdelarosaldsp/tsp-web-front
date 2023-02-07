@@ -19,6 +19,7 @@ export class Report1Component implements OnInit {
   UrlChild:string
   Usuario:string;
   Sucursal:string;
+  Agencia :string;
 
   constructor(
     private sanitizer: DomSanitizer,
@@ -34,29 +35,19 @@ export class Report1Component implements OnInit {
     }
     this.UrlBase=environment.phpSiteUrl;
     this.UrlChild=this.passingdata.GetUrl();
-    console.log(this.UrlChild);
+    
     this.UrlChild= this.UrlChild.substring(2,this.UrlChild.length);
     this.Usuario  = "?usuario="+ Constant.AUTH.getUser()?.email;
     this.Sucursal= "&sucursal="+ Constant.AUTH.getAgency()?.vus_codins;
+    this.Agencia ="&agencia=" + Constant.AUTH.getAgency()?.vus_codage;
     
-    /*this.passingdata.Data.subscribe(data=>{
-      localStorage.setItem('ReportUrl',data);
-    });*/
-    
-    
-  }
-
-  reloadComponent() {
-    let currentUrl = this.router.url;
-    this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
-        this.router.navigate([currentUrl]);
-    });
-
   }
 
   getUrl()
   {
-    return this.sanitizer.bypassSecurityTrustResourceUrl(this.UrlBase+this.UrlChild+this.Usuario+this.Sucursal);
+    console.log(Constant.AUTH.getAgency());
+    console.log(this.UrlBase+this.UrlChild+this.Usuario+this.Sucursal);
+    return this.sanitizer.bypassSecurityTrustResourceUrl(this.UrlBase+this.UrlChild+this.Usuario+this.Sucursal+this.Agencia);
   }
 
 }

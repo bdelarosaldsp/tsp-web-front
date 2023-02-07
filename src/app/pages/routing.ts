@@ -23,9 +23,24 @@ const Routing: Routes = [
       import('../modules/images/images.module').then((m) => m.ImagesModule),
   },
   {
+    path: 'trazability',
+    loadChildren: () =>
+      import('../modules/trazability/trazability.module').then((m) => m.TrazabilityModule),
+  },
+  {
     path: 'account',
     loadChildren: () =>
       import('../modules/account/account.module').then((m) => m.AccountModule),
+  },
+  {
+    path: 'admin',
+    loadChildren: () =>
+      import('../modules/admin/admin.module').then((m) => m.AdminModule),
+  },
+  {
+    path: 'widgets',
+    loadChildren: () =>
+      import('../modules/widgets-examples/widgets-examples.module').then((m) => m.WidgetsExamplesModule),
   },
   {
     path: '',

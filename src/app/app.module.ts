@@ -1,7 +1,7 @@
 import { NgModule, APP_INITIALIZER, LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
 import { ClipboardModule } from 'ngx-clipboard';
 import { TranslateModule } from '@ngx-translate/core';
@@ -19,6 +19,19 @@ import { DecimalPipe,   registerLocaleData } from '@angular/common';
 import localesCo from "@angular/common/locales/es-CO";
 import { MatDialogModule, MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { MatToolbarModule} from '@angular/material/toolbar';
+import { JwtModule } from "@auth0/angular-jwt";
+import { Constant } from './shared/constant';
+import { BnNgIdleService } from 'bn-ng-idle'; 
+import { ConfigService } from './services/config.service';
+
+
+const appConfig=(config:ConfigService)=>{
+  return ()=>{
+    
+    return config.loadConfig();
+
+  }
+}
 
 // #fake-end#
 
@@ -38,22 +51,35 @@ registerLocaleData(localesCo);
     AppRoutingModule,
     InlineSVGModule.forRoot(),
     NgbModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter:  () => Constant.AUTH.getToken()
+      }
+    })
   ],
   providers: [
     RoleGuard,
     AuthGuard,
     InterceptRequestsService,
+    ConfigService,
     {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: false}},
     {
       provide: HTTP_INTERCEPTORS,
       useClass: InterceptRequestsService,
       multi: true
     },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: appConfig,
+      deps: [ConfigService],
+      multi: true,
+    },
     //{ provide: LocationStrategy, useClass: HashLocationStrategy },
     { provide: LOCALE_ID, useValue: "es-CO" },
     DecimalPipe,
-    
+    BnNgIdleService
   ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}
+

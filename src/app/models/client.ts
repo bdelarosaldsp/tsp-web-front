@@ -3,6 +3,7 @@ export interface Client {
     cliente_cod:string;
     nit: string;
     subcliente:string;
-    estado:string;
+    vus_demail:string;
+    vus_docume:string;
 
 }

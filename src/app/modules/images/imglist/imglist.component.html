@@ -1,16 +1,17 @@
 <div class="row">
-    <div class="col-md-4 p-4" *ngFor="let img of images">
-        <div class="card card-photo" > 
-            <div class="mat-header">
-                <button class="close" mat-button (click)="onRemove(img)">X</button> 
-            </div> 
+    <div class="col-md-4 p-4" *ngFor="let image of images">
+        <div class="card card-photo"> 
             <div  class="card-body">
-                <img [src]="previewImage(img)" class="img-card-top w-100"/>
-                <mat-divider></mat-divider>
-                <div class="col">
-                    <input matInput type="text" id="factura" placeholder="Factura">
-                </div>
+                <figure (click)="carrousel(image.name,image.content)">
+                    <img  [src]="previewImage(image.name,image.content)" class="img-card-top h-100 w-100" />
+                    <figcaption>
+                        <p>Nombre: {{image.name}}</p>
+                        <p>Fecha imagen: {{image.fecha_imagen}}</p>
+                    </figcaption>
+                </figure>
             </div>
         </div>
     </div>
 </div>
+
+
