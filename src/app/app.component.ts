@@ -156,7 +156,8 @@ export class AppComponent implements OnInit {
                   } else{
                     let data: any={
                       'user_email':Constant.AUTH.getUser()?.email.toUpperCase(),
-                      'message_id':message.id
+                      'message_id':message.id,
+                      'token':Constant.AUTH.getToken()
                     }
                     this.messagesService.ReadMessage(data).subscribe((res)=>{
                       console.log(res);

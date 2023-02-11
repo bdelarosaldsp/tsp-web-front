@@ -25,23 +25,23 @@
                         <!--</mat-select>-->
                     </mat-form-field>
                 </div>
-                <div class="row">
-                    <mat-grid-list *ngIf="control.valid" cols="4" rowHeight="100px">
-                        <mat-grid-tile>
+                <div class="row" *ngIf="control.valid">
+                        <div class="col">
                             <mat-form-field  appearance="outline" >
                                 <mat-label>Documento:</mat-label>
                                 <input matInput placeholder="Documento" [formControl]="controlDoc">
                             </mat-form-field>
-                        </mat-grid-tile>
-                        <mat-grid-tile [colspan]="2">
+                        </div>
+                        <div class="col">
                             <label style="padding-right: 5px;">Elija una opción:</label>
+                            <br>
                             <mat-radio-group [formControl]="controlType">
                                 <mat-radio-button value="1">Planilla</mat-radio-button>
                                 <mat-radio-button value="2">Remesa</mat-radio-button>
                                 <mat-radio-button value="3">Factura</mat-radio-button>
                             </mat-radio-group>
-                        </mat-grid-tile>
-                        <mat-grid-tile>
+                        </div>
+                        <div class="col">
                             <div *ngIf="control.valid && controlDoc.valid && controlType.valid && files.length==0" class="row">
                                 <button (click)="onSearch()" mat-raised-button color="primary" [disabled]="progressbar">
                                     <span class="material-icons"> 
@@ -60,10 +60,7 @@
                                 </button>
                             </div>
                             
-                        </mat-grid-tile>
-                        
-                    </mat-grid-list>
-                
+                        </div>
                 </div>
             </div>    
         </mat-card-content>
