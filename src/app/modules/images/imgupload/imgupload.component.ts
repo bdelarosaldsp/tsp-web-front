@@ -30,6 +30,7 @@ export class ImguploadComponent implements OnInit {
   files: Array<any> = [];
   cumImages:Array<CumImage>=[];
   agency_id:string=Constant.AUTH.getAgency()?.vus_codins;
+  otm:boolean=Constant.AUTH.getAgency()?.otm?.activo=='S'? true: false;
   progressbar:boolean=false;
   count :number=0;
   dataImage:Array<any>=[];
@@ -55,7 +56,7 @@ export class ImguploadComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    
+    console.log(Constant.AUTH.getAgency())
     if (typeof(Constant.AUTH.getAgency()?.vus_codage)=='undefined'){
       this.toastr.warning('Debe seleccionar una agencia');
       this.router.navigate(['/']);
@@ -127,16 +128,22 @@ export class ImguploadComponent implements OnInit {
                 reader.onload = () => {
                   this.imgb64=reader.result!;
       
-                  let data: any={
-                    'user':this.user,
-                    'filename': x.filename,
-                    'client_id':x.client_id.toString(),
-                    'document':x.document,
-                    'company': x.company,
-                    'agency_id':x.agency_id,
-                    'url': x.url,
-                    'image':this.imgb64.toString()
-                  };
+                  let data: any
+                  if(this.otm){
+                    var remfac= x.document.split("(", 2); 
+                   data={
+                      'user':this.user,
+                      'filename': x.filename,
+                      'client_id':x.client_id.toString(),
+                      'document':remfac[0],
+                      'remesa':remfac[0].replace(")",""),
+                      'company': x.company,
+                      'agency_id':x.agency_id,
+                      'url': x.url,
+                      'image':this.imgb64.toString()
+                    };
+                  }
+                  
                   
 
                   this.imgservice.uploadImage(data).subscribe(
