@@ -1,6 +1,7 @@
 import { Injectable, Injector } from '@angular/core';
 import { catchError, map, Observable, throwError } from 'rxjs';
 import { Constant } from '../shared/constant';
+import { Endpoint } from '../shared/endpoints';
 import { ConfigService } from './config.service';
 import { BaseService } from './core/base.service';
 
@@ -17,6 +18,32 @@ export class MessagesService extends BaseService{
 
   public getMessages(email :string) {
     return this.globalService.get(`${this.urlBase}/actions/GetActives/${email}`).pipe(
+      map(res => {
+        
+       return res;
+      })
+    );
+  }
+  public actDeactMessages(id :string) {
+    return this.globalService.get(`${this.urlBase}`+Endpoint.MESSAGES.CHANGE_STATE+`/${id}`).pipe(
+      map(res => {
+        
+       return res;
+      })
+    );
+  }
+
+  public deleteMessage(id :string) {
+    return this.globalService.get(`${this.urlBase}`+Endpoint.MESSAGES.DELETE_MESSAGE+`/${id}`).pipe(
+      map(res => {
+        
+       return res;
+      })
+    );
+  }
+  
+  public getList() {
+    return this.globalService.get(`${this.urlBase}`+Endpoint.MESSAGES.GET_LIST).pipe(
       map(res => {
         
        return res;

@@ -56,7 +56,7 @@ export class OtmvalimgComponent implements OnInit {
       {
         next:(res)=>{
           if(res.data.message==='OK'){
-            
+            this.progressbar=false;
             this.Remesas=res.data.remesas;
             this.validar=res.data.validar;
             this.Remimg=res.data.imgpla;
@@ -84,6 +84,7 @@ export class OtmvalimgComponent implements OnInit {
     this.imgservice.getImages('10',2,remesa).subscribe(
       {
         next:(res)=>{
+          console.log(res)
           let elementIndex = this.Remesas.findIndex((obj => obj.remesa === remesa));
           this.Remesas[elementIndex].imagenes = res.data.images;
          
@@ -97,7 +98,11 @@ export class OtmvalimgComponent implements OnInit {
     this.imgservice.ValidarImagenes(this.controlDoc.value).subscribe(
       {
         next:(res)=>{
-          Swal.fire(res.data.message);
+          console.log(res)
+          this.validar=false;
+          this.cdr.detectChanges();
+          Swal.fire({text:res.data.message,icon:'success'});
+
         }
       }
     )

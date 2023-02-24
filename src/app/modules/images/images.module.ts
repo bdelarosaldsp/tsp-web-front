@@ -31,6 +31,7 @@ import { PdfJsViewerModule } from 'ng2-pdfjs-viewer';
 import { SharedModule } from '../shared/shared.module';
 import { OtmvalimgComponent } from './otmvalimg/otmvalimg.component';
 import { MatExpansionModule } from '@angular/material/expansion';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 
 @NgModule({
@@ -67,6 +68,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
     NgxExtendedPdfViewerModule,
     PdfJsViewerModule,
     SharedModule,
+    MatTooltipModule,
     MatExpansionModule
   ]
 })

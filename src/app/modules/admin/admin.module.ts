@@ -21,6 +21,11 @@ import { AngularEditorModule } from '@kolkov/angular-editor';
 import { HttpClientModule } from '@angular/common/http';
 import { PoliticadatosComponent } from './politicadatos/politicadatos.component';
 import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import { MatSortModule } from '@angular/material/sort';
+import { MastermsgComponent } from './mastermsg/mastermsg.component';
+import { MatTab, MatTabsModule } from '@angular/material/tabs';
+import { ListmsgComponent } from './listmsg/listmsg.component';
+import { ViewmsgComponent } from './viewmsg/viewmsg.component';
 
 
 @NgModule({
@@ -28,6 +33,9 @@ import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
     UsersComponent,
     MessagesComponent,
     PoliticadatosComponent,
+    MastermsgComponent,
+    ListmsgComponent,
+    ViewmsgComponent,
   ],
   imports: [
     CommonModule,
@@ -50,7 +58,8 @@ import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
     AngularEditorModule,
     FormsModule,
     MatDialogModule,
-    
+    MatSortModule,
+    MatTabsModule
   ]
 })
 export class AdminModule { }

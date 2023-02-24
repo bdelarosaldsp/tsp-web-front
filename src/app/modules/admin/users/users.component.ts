@@ -66,6 +66,8 @@ export class UsersComponent  implements OnInit {
   }
 
   ngAfterViewInit() {
+    this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
+    this.sort.active;
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
     this.cdr.detectChanges();

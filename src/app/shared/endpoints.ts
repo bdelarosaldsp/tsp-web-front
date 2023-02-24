@@ -57,7 +57,10 @@ export const Endpoint = {
   MESSAGES:{
     BASE: `messages`,
     ADD_MESSAGE: `/actions/Add`,
+    GET_LIST: `/actions/GetList`,
+    CHANGE_STATE: `/actions/ChangeState`,
     READ_MESSAGE: `/actions/ReadMessage`,
+    DELETE_MESSAGE: `/actions/DeleteMessage`,
   },
   USERS:{
     BASE: `users`

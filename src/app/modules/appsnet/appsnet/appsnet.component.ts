@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
+import { ConfigService } from 'src/app/services/config.service';
 import { Constant } from 'src/app/shared/constant';
 import { environment } from 'src/environments/environment';
 
@@ -16,11 +17,14 @@ export class AppsnetComponent implements OnInit {
   Usuario:string;
   Sucursal:string;
 
-  constructor(private sanitizer: DomSanitizer, private toastr:ToastrService, private router: Router) { }
+  constructor(private sanitizer: DomSanitizer, private toastr:ToastrService, private router: Router,config:ConfigService) {
+    
+    this.UrlBase=config.getConfig().netSiteUrl;
+  }
 
   ngOnInit(): void {
     
-    this.UrlBase=environment.netSiteUrl;
+    //this.UrlBase=environment.netSiteUrl;
     this.Usuario  = "?usuario="+ Constant.AUTH.getUser()?.email;
     var x=Constant.AUTH.getAgency();
     console.log(x);
