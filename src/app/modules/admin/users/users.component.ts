@@ -1,10 +1,10 @@
 import { SelectionModel } from '@angular/cdk/collections';
 import { AfterViewInit, ChangeDetectorRef, Component,  OnInit,  ViewChild } from '@angular/core';
 import { User } from 'src/app/models/users';
-import {MatTableDataSource} from '@angular/material/table';
+import {MatTable, MatTableDataSource} from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { UsersService } from 'src/app/services/users.service';
-import {MatSort} from '@angular/material/sort';
+import {MatSort, Sort} from '@angular/material/sort';
 import { AuthService } from 'src/app/services/auth.service';
 import Swal from 'sweetalert2'
 import { RegistrationComponent } from 'src/app/modules/auth/components/registration/registration.component';
@@ -19,20 +19,35 @@ const ELEMENT_DATA: User[] = [];
   styleUrls: ['./users.component.scss']
 })
 
-export class UsersComponent  implements OnInit {
+export class UsersComponent {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
-  @ViewChild(MatSort) sort: MatSort;
-
+  sortedData: User[];
   constructor(private userService:UsersService,private authService:AuthService, private cdr:ChangeDetectorRef,private dialog : MatDialog){
-    
+    this.getUsuarios();
   }
 
   displayedColumns: string[] = ['name','identification', 'email', '2fa','estado','actions'];
   dataSource = new MatTableDataSource<User>(ELEMENT_DATA);
 
-  ngOnInit() {
-    this.getUsuarios();
+
+  sortData(sort: Sort) {
+    const data = this.dataSource.data.slice();
+    if (!sort.active || sort.direction === '') {
+      this.sortedData = data;
+      return;
+    }
+
+    this.sortedData = data.sort((a, b) => {
+      const isAsc = sort.direction === 'asc';
+      switch (sort.active) {
+        case 'state':
+          return compare(a.active, b.active, isAsc);
+        default:
+          return 0;
+      }
+    });
+    this.dataSource.data=this.sortedData;
   }
 
   getUsuarios(){
@@ -66,9 +81,6 @@ export class UsersComponent  implements OnInit {
   }
 
   ngAfterViewInit() {
-    this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
-    this.sort.active;
-    this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
     this.cdr.detectChanges();
   }
@@ -86,9 +98,8 @@ export class UsersComponent  implements OnInit {
     if (active==='Conectado'){
       this.userService.LogoutUser(user).subscribe((res)=>{
         if(res.status==='success'){
-          this.authService.verifyToken(id).subscribe((resp)=>{
-            console.log(resp);
-          });
+          /*this.authService.verifyToken(id).subscribe((resp)=>{
+          });*/
         }
       });
       this.getUsuarios();
@@ -116,6 +127,7 @@ export class UsersComponent  implements OnInit {
         Swal.fire({text:"No se cambio la contraseña", icon:"info"});
       }else {
         this.userService.ChangePass(user,result.value||'').subscribe((res)=>{
+          console.log(res.data)
           if(res.data!==typeof(undefined)){
             Swal.fire({text:"contraseña cambiada correctamente",icon:"success"});
           }
@@ -162,4 +174,7 @@ export class UsersComponent  implements OnInit {
     });
 
   }
+}
+function compare(a: number | string, b: number | string, isAsc: boolean) {
+  return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
 }
