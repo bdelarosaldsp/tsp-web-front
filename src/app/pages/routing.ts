@@ -18,6 +18,11 @@ const Routing: Routes = [
       import('../modules/report/report.module').then((m) => m.ReportModule),
   },
   {
+    path: 'option',
+    loadChildren: () =>
+      import('../modules/intops/intops.module').then((m) => m.IntopsModule),
+  },
+  {
     path: 'images',
     loadChildren: () =>
       import('../modules/images/images.module').then((m) => m.ImagesModule),

@@ -2,6 +2,8 @@ export interface CumImage {
     filename: string;
     client_id:number;
     document:string;
+    planilla:string;
+    remesa:string;
     company: string;
     agency_id:string;
     url: string;

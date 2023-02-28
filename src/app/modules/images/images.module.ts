@@ -32,6 +32,7 @@ import { SharedModule } from '../shared/shared.module';
 import { OtmvalimgComponent } from './otmvalimg/otmvalimg.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { ImguploadotmComponent } from './imguploadotm/imguploadotm.component';
 
 
 @NgModule({
@@ -43,7 +44,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     ResultDialogComponent,
     ImgpreviewComponent,
     PdfviewerComponent,
-    OtmvalimgComponent
+    OtmvalimgComponent,
+    ImguploadotmComponent
   ],
   imports: [
     CommonModule,

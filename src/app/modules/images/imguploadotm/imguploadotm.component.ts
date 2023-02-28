@@ -15,14 +15,15 @@ import { ResultDialogComponent } from '../result-dialog/result-dialog.component'
 import { PdfviewerComponent } from '../pdfviewer/pdfviewer.component';
 import { ImgpreviewComponent } from '../imgpreview/imgpreview.component';
 
-
 @Component({
-  selector: 'app-imgupload',
-  templateUrl: './imgupload.component.html',
-  styleUrls: ['./imgupload.component.scss']
+  selector: 'app-imguploadotm',
+  templateUrl: './imguploadotm.component.html',
+  styleUrls: ['./imguploadotm.component.scss']
 })
-export class ImguploadComponent implements OnInit {
 
+export class ImguploadotmComponent implements OnInit {
+
+  
   control : FormControl  = new FormControl('', [Validators.required])
   avanza:boolean;
   clients : Array<Client>;
@@ -60,9 +61,6 @@ export class ImguploadComponent implements OnInit {
     if (typeof(Constant.AUTH.getAgency()?.vus_codage)=='undefined'){
       this.toastr.warning('Debe seleccionar una agencia');
       this.router.navigate(['/']);
-    }
-    if (this.otm){
-      this.router.navigate(['/images/uploadotm']);
     }
     
     this.filteredOptions = this.control.valueChanges.pipe(
@@ -139,6 +137,8 @@ export class ImguploadComponent implements OnInit {
                       'filename': x.filename,
                       'client_id':x.client_id.toString(),
                       'document':x.document,
+                      'remesa':x.remesa,
+                      'planilla':x.planilla,
                       'company': x.company,
                       'agency_id':x.agency_id,
                       'url': x.url,
@@ -359,19 +359,22 @@ export class ImguploadComponent implements OnInit {
   });
   }
 
-  validateDocument(image:File, id:string, factura:string){
-    if(factura !=='' || typeof(factura) !=='undefined'){
+  validateDocument(image:File, id:string, factura:string,planilla:string,remesa:string){
+    if(remesa !=='' || typeof(remesa) !=='undefined'){
 
       
       
       (document.getElementById('sp_'+image.name) as HTMLSpanElement).hidden=true;
       (document.getElementById('sp2_'+image.name) as HTMLSpanElement).hidden=false;
 
+      
       let count: Number=0;
       let message:string='';
       this.setClient();
       let data: any={
         'documento':factura,
+        'planilla':planilla,
+        'remesa':remesa,
         'cliente':this.selectedcli,
         'company':'LDSP',
         'agency_id':this.agency_id,
@@ -382,6 +385,10 @@ export class ImguploadComponent implements OnInit {
         count= +res.data?.cant;
         message=res.data?.message;
         if(count>0){
+          planilla=res.data?.planilla;
+          remesa=res.data?.remesa;
+          (document.getElementById('pla_'+id) as HTMLInputElement).disabled = true;
+          (document.getElementById('rem_'+id) as HTMLInputElement).disabled = true;
           (document.getElementById(id) as HTMLInputElement).disabled = true;
           (document.getElementById('btn_'+id) as HTMLButtonElement).hidden = true;
           (document.getElementById('spn_'+id) as HTMLButtonElement).hidden=false;
@@ -389,8 +396,8 @@ export class ImguploadComponent implements OnInit {
           this.setClient();
 
           let imgcum:CumImage={
-            planilla:'',
-            remesa:'',
+            planilla:planilla,
+            remesa:remesa,
             filename:image.name,
             client_id:+this.selectedcli,
             url:'',
@@ -413,4 +420,6 @@ export class ImguploadComponent implements OnInit {
   displayFn(client: Client): string {
     return client && client.cliente_cod ? client.cliente_cod : '';
   }
+
+
 }
