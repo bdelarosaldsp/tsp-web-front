@@ -36,10 +36,10 @@ export class AsideMenuComponent implements OnInit {
 
   GetMenus() : Array<Menu>{
     let MenuTot:Array<Menu>=[
-      {title:'Inicio', svg: './assets/media/icons/duotune/communication/com012.svg', hasChild:false, link:'/', subMenus:[] },
-      {title:'Apps Net', svg: './assets/media/icons/duotune/communication/com012.svg', hasChild:false, link:'/appsnet', subMenus:[] },
-      {title:'Reportes', svg: './assets/media/icons/duotune/communication/com012.svg',hasChild:false, link:'/', subMenus:[]},
-      //{title:'Cumplidos',svg: './assets/media/icons/duotune/communication/com012.svg',hasChild:true, link:'/', 
+      {module:'',title:'Inicio', svg: './assets/media/icons/duotune/communication/com012.svg', hasChild:false, link:'/', subMenus:[] },
+      {module:'',title:'Apps Net', svg: './assets/media/icons/duotune/communication/com012.svg', hasChild:false, link:'/appsnet', subMenus:[] },
+      {module:'',title:'Reportes', svg: './assets/media/icons/duotune/communication/com012.svg',hasChild:false, link:'/', subMenus:[]},
+      //{title:'Novasoft',svg: './assets/media/icons/duotune/communication/com012.svg',hasChild:true, link:'/', subMenus:[]},
       //subMenus:[{title:'Cargue de imagenes', svg: './assets/media/icons/duotune/communication/com012.svg',hasChild:false, link:'/images', subMenus:[]}]}
     ];
     var email=Constant.AUTH.getUser()?.email;
@@ -47,8 +47,8 @@ export class AsideMenuComponent implements OnInit {
       res => {
         for (var x of res.data) {
           if (x.categoria != this.categorie){
-            let Smenu:Menu={title:x.categoria,svg:'',hasChild:true,link:'/',subMenus:[{
-              title:x.menu,svg:'',hasChild:false,link:x.url,subMenus:[]
+            let Smenu:Menu={module:'PHP',title:x.categoria,svg:'',hasChild:true,link:'/',subMenus:[{
+              module:'PHP',title:x.menu,svg:'',hasChild:false,link:x.url,subMenus:[]
             }]};
             this.categorie=x.categoria;
             this.menus[2].hasChild=true;
@@ -56,50 +56,85 @@ export class AsideMenuComponent implements OnInit {
             this.cdr.detectChanges();
           }         
         }
-      });
+    });
     
-      this.menuService.getByVal('ANG', email.toUpperCase()).subscribe(
-        res => {
-          for (var x of res.data) {
+    this.menuService.getByVal('ANG', email.toUpperCase()).subscribe(
+      res => {
+        for (var x of res.data) {
+          
+          if (x.categoria != this.categorie){
             
-            if (x.categoria != this.categorie){
-             
-              let Smenu:Menu={title:x.categoria,svg:'./assets/media/icons/duotune/communication/com012.svg',hasChild:true,link:'/',subMenus:[{
-                title:x.menu,svg:'',hasChild:false,link:x.url,subMenus:[]
-              }]};
-              this.categorie=x.categoria;
-              //this.menus[2].hasChild=true;
-              this.menus.push(Smenu);
-              //console.log(this.menus);
-              this.cdr.detectChanges();
-            }else{
-             
-              this.menus[this.menus.length-1].hasChild=true;
-              this.menus[this.menus.length-1].subMenus.push({
-                title:x.menu,svg:'',hasChild:false,link:x.url,subMenus:[]});
-              this.cdr.detectChanges();
-            }  
-          }
-        });
+            let Smenu:Menu={module:'ANG',title:x.categoria,svg:'./assets/media/icons/duotune/communication/com012.svg',hasChild:true,link:'/',subMenus:[{
+              module:'ANG',title:x.menu,svg:'',hasChild:false,link:x.url,subMenus:[]
+            }]};
+            this.categorie=x.categoria;
+            //this.menus[2].hasChild=true;
+            this.menus.push(Smenu);
+            //console.log(this.menus);
+            this.cdr.detectChanges();
+          }else{
+            
+            this.menus[this.menus.length-1].hasChild=true;
+            this.menus[this.menus.length-1].subMenus.push({
+              module:'ANG',title:x.menu,svg:'',hasChild:false,link:x.url,subMenus:[]});
+            this.cdr.detectChanges();
+          }  
+        }
+    });
+
+    this.menuService.getByVal('INT', email.toUpperCase()).subscribe(
+      res => {
+        for (var x of res.data) {
+          
+          if (x.categoria != this.categorie){
+            
+            let Smenu:Menu={module:'INT',title:x.categoria,svg:'./assets/media/icons/duotune/communication/com012.svg',hasChild:true,link:'/',subMenus:[{
+              module:'INT',title:x.menu,svg:'',hasChild:false,link:x.url,subMenus:[]
+            }]};
+            this.categorie=x.categoria;
+            //this.menus[2].hasChild=true;
+            this.menus.push(Smenu);
+            //console.log(this.menus);
+            this.cdr.detectChanges();
+          }else{
+            
+            this.menus[this.menus.length-1].hasChild=true;
+            this.menus[this.menus.length-1].subMenus.push({
+              module:'INT',title:x.menu,svg:'',hasChild:false,link:x.url,subMenus:[]});
+            this.cdr.detectChanges();
+          }  
+        }
+    });
     
-      return MenuTot;
+    
+    return MenuTot;
   }
 
 
-  sendData(url:string){
+  sendData(module:string,url:string){
+    console.log(module)
     this.passingdata.setUrl(url);
-    if(url.includes('php') || url.includes('PHP')){
+    if(module.includes('php') || module.includes('PHP')){
       if(this.router.url=='/report' || this.router.url=='/report/report1'){
         this.router.navigate(['/report/report2']);
       }else{
         this.router.navigate(['/report']);
       }
+    }else if(module.includes('int') || module.includes('INT')){
+      if(this.router.url=='/option' || this.router.url=='/option/option1'){
+        this.router.navigate(['/option/option2']);
+      }else{
+        this.router.navigate(['/option']);
+      }
+    }else{
+      this.router.navigate([url])
     }
     
     
   }
 }
 export interface Menu {
+  module:string,
   title: string,
   svg : string,
   hasChild : boolean,

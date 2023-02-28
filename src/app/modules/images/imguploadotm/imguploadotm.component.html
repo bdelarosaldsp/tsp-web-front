@@ -1,0 +1,102 @@
+
+<div class="container text-center">
+    <mat-card>
+        <mat-card-header>
+            <div mat-card-avatar>
+            <span class="material-icons"> 
+                image
+            </span>
+            </div>
+            <mat-card-title>Subida de imagenes OTM</mat-card-title>
+        </mat-card-header>
+
+        <mat-divider></mat-divider>
+        <mat-card-content style="margin-top: 30px;">
+            <div class="row text-center">
+            <mat-form-field appearance="legacy" >
+                <mat-label >Cliente</mat-label>
+                <input style="text-transform:uppercase;" type="text" placeholder="Nombre del cliente" aria-label="Cliente" matInput
+                [formControl]="control"
+                [matAutocomplete]="auto">
+                <!--<mat-select (selectionChange)="setClient()" [formControl]="control" >-->
+                <mat-autocomplete   #auto="matAutocomplete" [displayWith]="displayFn">
+                    <mat-option [value]="client" *ngFor="let client of filteredOptions | async">{{client.cliente_cod}}</mat-option>
+                </mat-autocomplete>
+                <!--</mat-select>-->
+            </mat-form-field>
+            </div>
+            <div class="row text-center">
+                <div *ngIf="control.valid && files.length>0"class="col">
+                    <button (click)="uploadImages()" mat-raised-button color="primary" style="height:50px ;" [disabled]="progressbar">
+                        <span class="material-icons"> 
+                            upload
+                        </span>
+                        Cargar imagenes
+                    </button>
+                </div>
+                <div *ngIf="control.valid && files.length>0"class="col">
+                    <button (click)="onClear()" mat-raised-button color="warn" style="height:50px ;" [disabled]="progressbar">
+                        <span class="material-icons"> 
+                            cached
+                        </span>
+                        Limpiar panel
+                    </button>
+                </div>
+                <div *ngIf="control.valid" class="col" >  
+                    <ngx-dropzone class="main-dropzone" (change)="onSelect($event)" accept="image/jpeg,image/jpg,image/png,image/gif,application/pdf">
+                        <ngx-dropzone-label>Seleccione o arrastre archivos(imagenes/pdf)</ngx-dropzone-label>
+                    </ngx-dropzone>
+                </div>
+            </div>
+            
+        </mat-card-content>
+    </mat-card>
+</div>
+<br>
+<div class="container" >
+    <div class="row">
+        <mat-progress-bar *ngIf="progressbar" mode="query"></mat-progress-bar>
+        <div class="col-md-4 p-4" *ngFor="let f of files">
+            <div class="card card-photo" #{{f.filename}} > 
+                <div class="mat-header">
+                    <button class="close" mat-button (click)="onRemove(f)">X</button> 
+                </div> 
+                <div  class="card-body">
+                    <figure (click)="carrousel(f)">
+                        <img [src]="previewImage(f)" class="img-card-top w-100" />
+                        <figcaption>
+                            <p>Nombre: {{f.name}}</p>
+                            <p>Tamaño: {{f.size}} Kb</p>
+                        </figcaption>
+                    </figure>
+                    <mat-form-field [matTooltip]="otm?'Debe diligenciar la planilla, Ej:1101714' : 'Debe diligenciar la factura'"  class="w-100" appearance="outline" >
+                        <mat-label >Planilla:</mat-label>
+                        <input matInput placeholder="Planilla" id="{{'pla_'+f.name}}" #pla>
+                    </mat-form-field>
+                    <mat-form-field [matTooltip]="otm?'Debe diligenciar la remesa, Ej:1101715' : 'Debe diligenciar la factura'"  class="w-100" appearance="outline" >
+                        <mat-label >Remesa:</mat-label>
+                        <input matInput placeholder="Remesa" id="{{'rem_'+f.name}}" #rem required>
+                    </mat-form-field>
+                    <mat-form-field [matTooltip]="otm?'Debe diligenciar la factura, Ej:BQ10' : 'Debe diligenciar la factura'"  class="w-100" appearance="outline" >
+                        <mat-label >Factura:</mat-label>
+                        <input matInput placeholder="Factura" id={{f.name}} #fac  >
+                        <button id="{{'spn_'+ f.name}}" hidden="hidden"  class="ok" mat-button disabled>
+                            <span class="material-icons"  > 
+                                check
+                            </span>
+                        </button>
+                        <button [disabled]="!rem.value" id="{{'btn_'+ f.name}}" (click)="validateDocument(f,fac.id,fac.value,pla.value,rem.value)" class="ok" mat-button >
+                            <span class="material-icons" id="{{'sp_'+f.name}}"> 
+                                search
+                            </span>
+                            
+                                <span id="{{'sp2_'+ f.name}}" hidden="true"
+                                class="spinner-border spinner-border-sm align-middle ms-2"
+                                ></span>
+                        </button>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>  
