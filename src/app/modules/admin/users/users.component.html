@@ -14,7 +14,7 @@
     </div>-->
 </mat-card>
 <br>
-<table mat-table [dataSource]="dataSource"  class="mat-elevation-z8" matSort matSortActive="estado" matSortDisableClear matSortDirection="asc" >
+<table mat-table [dataSource]="dataSource"  class="mat-elevation-z8" matSort (matSortChange)="sortData($event)" >
 
     <ng-container matColumnDef="position">
       <th mat-header-cell *matHeaderCellDef> No. </th>
@@ -43,7 +43,7 @@
     </ng-container>
 
     <ng-container matColumnDef="estado">
-        <th class="text-center" mat-header-cell *matHeaderCellDef> Estado </th>
+        <th class="text-center" mat-header-cell *matHeaderCellDef mat-sort-header="state"> Estado </th>
         <td class="text-center" mat-cell *matCellDef="let element">
             <span (click)="cierreSesion(element.active,element.email,element.id)" *ngIf="element.active==='Conectado'"  matTooltip="Cerrar sesión de usuario" class="badge badge-light-success">{{element.active}}</span>
             <span *ngIf="element.active==='Desconectado'" class="badge badge-light-warning">{{element.active}}</span>
