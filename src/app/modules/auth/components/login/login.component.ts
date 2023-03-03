@@ -8,7 +8,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { GeneralService } from 'src/app/services/general.service';
 import { MessagesService } from 'src/app/services/messages.service';
 import { Constant } from 'src/app/shared/constant';
-import Swal from 'sweetalert2'
+import Swal from 'sweetalert2' 
 
 @Component({
   selector: 'app-login',
@@ -151,15 +151,13 @@ export class LoginComponent implements OnInit, OnDestroy {
                   
             
                   this.router.navigate([this.returnUrl]);
-                } else {
-                  this.hasError = true;
                 }
               },
               error: (err)=>{
+                console.log(err);
                 this.message = err.error?.data?.message ? err.error?.data?.message : 'Error en inicio de session';
 
                 this.hasError = true
-                console.log(err)
               }
             });
             this.unsubscribe.push(loginSubscr);
@@ -171,15 +169,13 @@ export class LoginComponent implements OnInit, OnDestroy {
         const loginSubscr = this.authService.login(this.form.value)
         .subscribe({
           next: (res)=>{
-            
+            console.log(res)
             if (res) {
               //this.genService.getMantenimiento('0000','',res.data?.user?.email);
               
         
               this.router.navigate([this.returnUrl]);
-            } else {
-              this.hasError = true;
-            }
+            } 
           },
           error: (err)=>{
             this.message = err.error?.data?.message ? err.error?.data?.message : 'Error en inicio de session';
