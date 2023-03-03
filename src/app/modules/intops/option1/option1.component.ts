@@ -40,14 +40,15 @@ export class Option1Component implements OnInit {
     
     //this.UrlChild= this.UrlChild.substring(2,this.UrlChild.length);
     this.Usuario  = "?usuario="+ Constant.AUTH.getUser()?.email;
-    this.Sucursal= "&sucursal="+ Constant.AUTH.getAgency()?.vus_codins;
-    this.Agencia ="&agencia=" + Constant.AUTH.getAgency()?.vus_codage;
+    this.Sucursal= "&sucursal="+ Constant.AUTH.getAgency()?.vus_codage;
+    this.Agencia ="&agencia=" + Constant.AUTH.getAgency()?.vus_codins;
     this.Uid="&uid="+ Constant.AUTH.getUser()?.id;
     
   }
 
   getUrl()
   {
+    console.log(this.UrlBase+this.UrlChild+this.Usuario+this.Sucursal+this.Agencia+this.Uid)
     return this.sanitizer.bypassSecurityTrustResourceUrl(this.UrlBase+this.UrlChild+this.Usuario+this.Sucursal+this.Agencia+this.Uid);
   }
 
