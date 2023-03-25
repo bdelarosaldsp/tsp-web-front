@@ -55,8 +55,9 @@ export class ForgotPasswordComponent implements OnInit {
 
   submit() {
     this.errorState = ErrorStates.NotSubmitted;
+    let email:string=this.f.email.value;
     const forgotPasswordSubscr = this.authService
-      .password_reset_request(this.f.email.value.ToUpperCase())
+      .password_reset_request(email.toUpperCase())
       .pipe(first())
       .subscribe((result: any) => {
         console.log("CORREO ENVIADO", result)

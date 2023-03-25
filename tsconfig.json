@@ -29,5 +29,7 @@
     "strictInputAccessModifiers": true,
     "strictTemplates": true,
     "enableIvy": true
-  }
+  },
+  "typeRoots": ["./node_modules/@types"],
+  "types": ["pdfmake"]
 }

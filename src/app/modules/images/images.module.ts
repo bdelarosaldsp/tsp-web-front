@@ -33,6 +33,7 @@ import { OtmvalimgComponent } from './otmvalimg/otmvalimg.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ImguploadotmComponent } from './imguploadotm/imguploadotm.component';
+import { ImgtopdfComponent } from './imgtopdf/imgtopdf.component';
 
 
 @NgModule({
@@ -45,7 +46,8 @@ import { ImguploadotmComponent } from './imguploadotm/imguploadotm.component';
     ImgpreviewComponent,
     PdfviewerComponent,
     OtmvalimgComponent,
-    ImguploadotmComponent
+    ImguploadotmComponent,
+    ImgtopdfComponent
   ],
   imports: [
     CommonModule,
