@@ -142,7 +142,9 @@ export class ImguploadComponent implements OnInit {
                       'company': x.company,
                       'agency_id':x.agency_id,
                       'url': x.url,
-                      'image':this.imgb64.toString()
+                      'image':this.imgb64.toString(),
+                      'size':x.file.size,
+                      'type':x.file.type.split('/')[1]
                     };
                   //}
                   
@@ -377,6 +379,7 @@ export class ImguploadComponent implements OnInit {
         'agency_id':this.agency_id,
         'filename':image.name
       };
+      console.log('size:'+image.size+',extention:'+image.type)
 
       this.imgservice.valFac(data).subscribe(res=>{
         count= +res.data?.cant;

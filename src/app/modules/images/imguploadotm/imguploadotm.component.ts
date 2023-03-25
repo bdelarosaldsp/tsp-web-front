@@ -161,6 +161,8 @@ export class ImguploadotmComponent implements OnInit {
                             'ficaso': ficaso,
                             'sitimg':'ACEPTADA',
                             'agency_id':x.agency_id,
+                            'size':x.file.size,
+                            'type':x.file.type.split('/')[1]
                           };
                           /*this.imgservice.imgMail(imgmail).subscribe({
                             next:(res)=>{

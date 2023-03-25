@@ -42,6 +42,9 @@ export class Option2Component implements OnInit {
     this.Sucursal= "&sucursal="+ Constant.AUTH.getAgency()?.vus_codage;
     this.Agencia ="&agencia=" + Constant.AUTH.getAgency()?.vus_codins;
     this.Uid="&uid="+ Constant.AUTH.getUser()?.id;
+
+    localStorage.setItem('UsuarioInt',Constant.AUTH.getUser()?.email);
+    localStorage.setItem('AgenciaInt',Constant.AUTH.getAgency()?.vus_codage);
     
   }
 

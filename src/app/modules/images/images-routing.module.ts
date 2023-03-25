@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ImgsearchComponent } from './imgsearch/imgsearch.component';
+import { ImgtopdfComponent } from './imgtopdf/imgtopdf.component';
 import { ImguploadComponent } from './imgupload/imgupload.component';
 import { ImguploadotmComponent } from './imguploadotm/imguploadotm.component';
 import { OtmvalimgComponent } from './otmvalimg/otmvalimg.component';
@@ -10,7 +11,8 @@ const routes: Routes = [
   {path:'upload', component : ImguploadComponent},
   {path:'uploadotm', component : ImguploadotmComponent},
   {path:'search', component : ImgsearchComponent},
-  {path:'valimg', component: OtmvalimgComponent}
+  {path:'valimg', component: OtmvalimgComponent},
+  {path:'imgtopdf',component:ImgtopdfComponent}
 ];
 
 @NgModule({
