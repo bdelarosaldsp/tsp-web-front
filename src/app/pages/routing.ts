@@ -43,6 +43,11 @@ const Routing: Routes = [
       import('../modules/admin/admin.module').then((m) => m.AdminModule),
   },
   {
+    path: 'pedidos',
+    loadChildren: () =>
+      import('../modules/pedidos/pedidos.module').then((m) => m.PedidosModule),
+  },
+  {
     path: 'widgets',
     loadChildren: () =>
       import('../modules/widgets-examples/widgets-examples.module').then((m) => m.WidgetsExamplesModule),

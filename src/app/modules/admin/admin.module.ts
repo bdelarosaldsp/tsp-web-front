@@ -26,6 +26,7 @@ import { MastermsgComponent } from './mastermsg/mastermsg.component';
 import { MatTab, MatTabsModule } from '@angular/material/tabs';
 import { ListmsgComponent } from './listmsg/listmsg.component';
 import { ViewmsgComponent } from './viewmsg/viewmsg.component';
+import { MatSelectModule } from '@angular/material/select';
 
 
 @NgModule({
@@ -45,6 +46,7 @@ import { ViewmsgComponent } from './viewmsg/viewmsg.component';
     MatPaginatorModule,
     MatCardModule,
     MatButtonModule,
+    MatSelectModule,
     MatIconModule,
     MatFormFieldModule,
     MatInputModule,

@@ -1,0 +1,59 @@
+<div class="container text-center">
+    <mat-card>
+        <mat-card-header>
+            <div mat-card-avatar>
+            <span class="material-icons"> 
+                house
+            </span>
+            </div>
+            <mat-card-title>Pedidos de entrada</mat-card-title>
+        </mat-card-header>
+
+        <mat-divider></mat-divider>
+        <mat-card-content style="margin-top: 30px;">
+            <div class="row text-center">
+                <div class="row">
+                    <mat-form-field appearance="legacy" >
+                        <mat-label >Cliente</mat-label>
+                        <input type="text" placeholder="Nombre del cliente" aria-label="Cliente" matInput
+                        [formControl]="control"
+                        [matAutocomplete]="auto">
+                        <!--<mat-select (selectionChange)="setClient()" [formControl]="control" >-->
+                        <mat-autocomplete  #auto="matAutocomplete" [displayWith]="displayFn">
+                            <mat-option [value]="client" *ngFor="let client of filteredOptions | async">{{client.cliente_cod}}</mat-option>
+                        </mat-autocomplete>
+                        <!--</mat-select>-->
+                    </mat-form-field>
+                </div>
+                <div class="row" *ngIf="control.valid">
+                        <div class="col">
+                            <mat-form-field  appearance="outline" >
+                                <mat-label>Documento:</mat-label>
+                                <input matInput placeholder="Documento" ><!--[formControl]="controlDoc"-->
+                            </mat-form-field>
+                        </div>
+                        <div class="col">
+                            <div *ngIf="control.valid" class="row">
+                                <button (click)="onSearch()" mat-raised-button color="primary" [disabled]="progressbar">
+                                    <span class="material-icons"> 
+                                        right
+                                    </span>
+                                    Procesar
+                                </button>
+                            </div>
+
+                            <div *ngIf="control.valid" class="row">
+                                <button  (click)="onClear()" mat-raised-button color="warn" style="height:50px ;">
+                                    <span class="material-icons"> 
+                                        cached
+                                    </span>
+                                    Limpiar panel
+                                </button>
+                            </div>
+                            
+                        </div>
+                </div>
+            </div>    
+        </mat-card-content>
+    </mat-card>
+</div>

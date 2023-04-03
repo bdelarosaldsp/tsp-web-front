@@ -16,8 +16,8 @@ export class MessagesService extends BaseService{
     super(apiBase+Constant.Endpoints.MESSAGES.BASE, injector);
   }
 
-  public getMessages(email :string) {
-    return this.globalService.get(`${this.urlBase}/actions/GetActives/${email}`).pipe(
+  public getMessages(email :string,typeUsr: string) {
+    return this.globalService.get(`${this.urlBase}/actions/GetActives/${email}/${typeUsr}`).pipe(
       map(res => {
         
        return res;

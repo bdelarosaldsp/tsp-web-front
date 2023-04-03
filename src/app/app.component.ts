@@ -83,7 +83,9 @@ export class AppComponent implements OnInit {
       next:(res)=>{
         
         if(!res.toString().includes("/auth/")){
-          this.messagesService.getMessages(Constant.AUTH.getUser()?.email).subscribe((resp)=>{
+          let email:string=Constant.AUTH.getUser()?.email;
+          let typeusr: string=Constant.AUTH.getUser()?.roles[0]?.id;
+          this.messagesService.getMessages(email,typeusr).subscribe((resp)=>{
             this.Messages=resp.data;
             this.Messages.forEach(message => {
               console.log(message.type)
@@ -196,8 +198,9 @@ export class AppComponent implements OnInit {
       error:(err)=>{
 
         if(!err.url.includes("/auth/")){
-
-          this.messagesService.getMessages(Constant.AUTH.getUser()?.email).subscribe((resp)=>{
+          let email:string=Constant.AUTH.getUser()?.email;
+          let typeusr: string=Constant.AUTH.getUser()?.roles[0]?.id;
+          this.messagesService.getMessages(email,typeusr).subscribe((resp)=>{
             this.Messages=resp.data;
             this.Messages.forEach(message => {
               if(message.name==='POLITICA DE TRATAMIENTO DE DATOS PERSONALES'){
