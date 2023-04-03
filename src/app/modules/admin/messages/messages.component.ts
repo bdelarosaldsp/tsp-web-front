@@ -12,8 +12,10 @@ import Swal from 'sweetalert2';
 })
 export class MessagesComponent {
 
+  copymail: boolean= false;
   controlTitle : FormControl  = new FormControl('', [Validators.required])
   controlType : FormControl  = new FormControl('', [Validators.required])
+  controlRange : FormControl  = new FormControl('', [Validators.required])
   controlMessage : string ="";
   
   editorConfig: AngularEditorConfig = {
@@ -74,7 +76,8 @@ export class MessagesComponent {
             name:this.controlTitle.value,
             message: this.controlMessage,
             type:this.controlType.value,
-            range:'A'
+            range:this.controlRange.value,
+            mail_copy:this.copymail
           }
           this.messageService.addMessage(data).subscribe(
             {

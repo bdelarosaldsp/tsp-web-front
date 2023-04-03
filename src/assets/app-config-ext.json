@@ -11,5 +11,6 @@
   
     "apiUrl":"http://190.242.58.107:8090/api/",
     "netSiteUrl":"http://190.242.58.107:8000/",
-    "phpSiteUrl":"http://190.242.58.107:5000/"
+    "phpSiteUrl":"http://190.242.58.107:5000/",
+    "intSiteUrl":"http://190.242.58.107:5000/IntOptions/"
 }

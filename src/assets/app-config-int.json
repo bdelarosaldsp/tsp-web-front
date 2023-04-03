@@ -12,5 +12,5 @@
     "apiUrl":"http://172.17.3.5:9000/api/",
     "netSiteUrl":"http://172.17.3.5:8000/",
     "phpSiteUrl":"http://172.17.3.5:5000/",
-    "intSiteUrl":"http://172.17.3.5:7000"
+    "intSiteUrl":"http://172.17.3.5:5000/IntOptions/"
 }

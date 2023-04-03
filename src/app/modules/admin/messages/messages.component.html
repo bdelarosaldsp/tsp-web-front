@@ -20,21 +20,26 @@
             <div class="col w-80">
                 <label >Tipo de mensaje:</label>
                 <br>
-                <mat-radio-group color=primary [formControl]="controlType">
+                <mat-radio-group required color=primary [formControl]="controlType">
                     <mat-radio-button value="O">Obligatorio &nbsp;</mat-radio-button>
                     <mat-radio-button value="R">Requerido &nbsp;</mat-radio-button>
                     <mat-radio-button value="I">Informativo &nbsp;</mat-radio-button>
                 </mat-radio-group>
             </div>
-            <div class="col w-10 text-center">
-                <button (click)="addMessage()" style="padding-right: 50px;"  mat-raised-button class="ok" style="width: 150px; height:55px ;left: 30px;" [disabled]="controlTitle.invalid || controlType.invalid">
-                    <span class="material-icons"> 
-                        check
-                    </span>
-                    Crear mensaje
-                </button>
+            <div class="col w-80">
+                <mat-form-field  required appearance="fill">
+                    <mat-label>Alcance:</mat-label>
+                    <mat-select [formControl]="controlRange">
+                      <mat-option value="2">Interno</mat-option>
+                      <mat-option value="3">Externo</mat-option>
+                      <mat-option value="0">Todos</mat-option>
+                    </mat-select>
+                  </mat-form-field>
             </div>
-        
+            <div class="col w-80">
+                <mat-checkbox required [(ngModel)]="copymail" class="example-margin">Copia por correo</mat-checkbox>
+            </div>
+            
         </div>         
         <div class="text-center">
             <h2>{{label}}</h2>
@@ -42,6 +47,15 @@
         </div>
         <div class="container">
             <angular-editor [(ngModel)]="controlMessage" [config]="editorConfig"></angular-editor>
+        </div>
+        <br>
+        <div class="col w-10 text-center">
+            <button (click)="addMessage()" style="padding-right: 50px;"  mat-raised-button class="ok" style="width: 150px; height:55px ;left: 30px;" [disabled]="controlTitle.invalid || controlType.invalid">
+                <span class="material-icons"> 
+                    check
+                </span>
+                Crear mensaje
+            </button>
         </div>
     </mat-card-content>
 </mat-card>
