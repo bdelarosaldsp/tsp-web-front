@@ -106,6 +106,30 @@ export class UsersComponent {
     }
   }
 
+  logoutAll(){
+    Swal.fire(
+      {
+        icon:'warning',
+        title:"Cerrar sesión masiva...",
+        text:"¿Está seguro de desconectar todos los usuarios?",
+        showCancelButton:true,
+        cancelButtonColor:"red",
+        cancelButtonText:"Cancelar",
+        confirmButtonColor:"green",
+        confirmButtonText:"Sí, Desconectar"
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.userService.LogoutAll().subscribe((res)=>{
+            if(res.status==='success'){
+              Swal.fire({icon:'success',title:'Desconectados',text:'Se cerraron todas las sesiones activas'})
+            }
+          });         
+        }
+      });
+
+    
+  }
+
   ChangePass(user:string){
     Swal.fire({
       title: 'Cambio de Contraseña',

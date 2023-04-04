@@ -9,9 +9,9 @@
             <input matInput (keyup)="applyFilter($event)" placeholder="Email, nombre o Identificacion" #input>
         </mat-form-field>
     </div>
-   <!-- <div class="row">
-        <button (click)="CreateUser()" mat-raised-button color="primary">Nuevo usuario</button>
-    </div>-->
+   <div class="row">
+        <button (click)="logoutAll()" mat-raised-button color="warn">Desconectar todos</button>
+  </div>
 </mat-card>
 <br>
 <table mat-table [dataSource]="dataSource"  class="mat-elevation-z8" matSort (matSortChange)="sortData($event)" >

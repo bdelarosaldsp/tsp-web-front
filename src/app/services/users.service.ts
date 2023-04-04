@@ -32,6 +32,15 @@ export class UsersService extends BaseService{
     );
   }
 
+  public LogoutAll() {
+    return this.globalService.get(`${this.urlBase}/actions/LogoutAll`).pipe(
+      map(res => {
+        
+       return res;
+      })
+    );
+  }
+
   public DeleteUser(email :string) {
     return this.globalService.get(`${this.urlBase}/actions/DeleteUser/${email}`).pipe(
       map(res => {
