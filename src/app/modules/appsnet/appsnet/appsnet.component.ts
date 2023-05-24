@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
-import { Router } from '@angular/router';
+import { NavigationStart, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { ConfigService } from 'src/app/services/config.service';
 import { Constant } from 'src/app/shared/constant';
 import { environment } from 'src/environments/environment';
+import {Subscription} from 'rxjs'
 
+export let browserRefresh= false;
 @Component({
   selector: 'app-appsnet',
   templateUrl: './appsnet.component.html',
@@ -13,11 +15,19 @@ import { environment } from 'src/environments/environment';
 })
 export class AppsnetComponent implements OnInit {
 
+  subscription:Subscription;
   UrlBase:string;
   Usuario:string;
   Sucursal:string;
 
   constructor(private sanitizer: DomSanitizer, private toastr:ToastrService, private router: Router,config:ConfigService) {
+    
+      this.subscription = router.events.subscribe((event) => {
+        if (event instanceof NavigationStart) {
+          browserRefresh = !router.navigated;
+          console.log(browserRefresh)
+        }
+      });
     
     this.UrlBase=config.getConfig().netSiteUrl;
   }

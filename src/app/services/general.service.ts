@@ -30,7 +30,18 @@ export class GeneralService extends BaseService {
       })
     );
   }
-
+  public getAlmacenes( ){
+    return this.globalService.get(`${this.urlBase+Constant.Endpoints.GENERALES.GET_ALMACENES}`).pipe(
+      map(res => {
+  
+        return res;
+      },(err:any) => {
+        return  err;
+      }),catchError((err:any)=>{
+        return throwError (err);
+      })
+    );
+  }
   
 
 }

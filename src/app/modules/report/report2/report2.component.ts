@@ -19,6 +19,7 @@ export class Report2Component implements OnInit {
   Uid:string;
   Sucursal:string;
   Agencia :string;
+  Multiagencia:string;
 
   constructor(
     private sanitizer: DomSanitizer,
@@ -43,13 +44,13 @@ export class Report2Component implements OnInit {
     this.Sucursal= "&sucursal="+ Constant.AUTH.getAgency()?.vus_codins;
     this.Agencia ="&agencia=" + Constant.AUTH.getAgency()?.vus_codage;
     this.Uid="&uid=" + Constant.AUTH.getUser()?.id;
-    
+    this.Multiagencia="&ca="+ (Constant.AUTH.getUser()?.agencies.length>1?'S':'N');
   }
 
   getUrl()
   {
-    console.log(this.UrlBase+this.UrlChild+this.Usuario+this.Sucursal+this.Uid);
-    return this.sanitizer.bypassSecurityTrustResourceUrl(this.UrlBase+this.UrlChild+this.Usuario+this.Sucursal+this.Agencia+this.Uid);
+    console.log(this.UrlBase+this.UrlChild+this.Usuario+this.Sucursal+this.Uid+this.Multiagencia);
+    return this.sanitizer.bypassSecurityTrustResourceUrl(this.UrlBase+this.UrlChild+this.Usuario+this.Sucursal+this.Agencia+this.Uid+this.Multiagencia);
   }
 
 

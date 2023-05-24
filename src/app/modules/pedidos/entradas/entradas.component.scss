@@ -1,0 +1,48 @@
+.main-dropzone {
+  padding:0 50px 0 50px;
+  height: 50px;
+  background: rgb(223, 223, 223);
+  color: rgb(73, 99, 245);
+  border: 3px dashed rgb(73, 99, 245);
+  border-radius: 5px;
+  font-size: 20px;
+  
+}
+.ok.mat-raised-button {
+  background-color: rgba(123, 255, 0, 0.712);
+  
+  min-width: auto;
+}
+.adv.mat-card {
+  background-color: rgba(244, 247, 117, 0.712);
+}
+
+.mat-paginator-range-label {
+    display: none;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+table {
+  width: 100%;
+}
+
+.mat-form-field {
+  font-size: 14px;
+  width: 100%;
+}
+
+
+
+/* Border */
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline {
+  color: rgb(255, 255, 255);
+  /* background-color: white; */
+}
+/* Font color */
+input.mat-input-element {
+  color: rgb(0, 0, 0);
+}

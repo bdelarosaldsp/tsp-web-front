@@ -9,8 +9,8 @@
     "isMockEnabled":"true",
     "appThemeName":"Metronic",
   
-    "apiUrl":"http://190.242.58.107:8090/api/",
-    "netSiteUrl":"http://190.242.58.107:8000/",
-    "phpSiteUrl":"http://190.242.58.107:5000/",
-    "intSiteUrl":"http://190.242.58.107:5000/IntOptions/"
+    "apiUrl":"https://web.ldsp.com.co:8090/api/",
+    "netSiteUrl":"https://web.ldsp.com.co:8000/",
+    "phpSiteUrl":"https://web.ldsp.com.co:5000/",
+    "intSiteUrl":"https://web.ldsp.com.co:5000/IntOptions/"
 }

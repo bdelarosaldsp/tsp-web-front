@@ -27,6 +27,9 @@ import { MatTab, MatTabsModule } from '@angular/material/tabs';
 import { ListmsgComponent } from './listmsg/listmsg.component';
 import { ViewmsgComponent } from './viewmsg/viewmsg.component';
 import { MatSelectModule } from '@angular/material/select';
+import { ActdesComponent } from './actdes/actdes.component';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
 
 @NgModule({
@@ -37,6 +40,7 @@ import { MatSelectModule } from '@angular/material/select';
     MastermsgComponent,
     ListmsgComponent,
     ViewmsgComponent,
+    ActdesComponent,
   ],
   imports: [
     CommonModule,
@@ -61,6 +65,8 @@ import { MatSelectModule } from '@angular/material/select';
     FormsModule,
     MatDialogModule,
     MatSortModule,
+    MatExpansionModule,
+    MatAutocompleteModule,
     MatTabsModule
   ]
 })

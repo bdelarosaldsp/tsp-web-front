@@ -9,6 +9,8 @@ import { GeneralService } from 'src/app/services/general.service';
 import { MessagesService } from 'src/app/services/messages.service';
 import { Constant } from 'src/app/shared/constant';
 import Swal from 'sweetalert2' 
+import { RemoteDeskComponent } from 'src/app/modules/shared/modals/remote-desk/remote-desk.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-login',
@@ -36,8 +38,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     private router: Router,
     private cdr: ChangeDetectorRef,
     private sanitizer: DomSanitizer,
-    private messagesService: MessagesService,
-    private genService: GeneralService
+    private dialog:MatDialog,
   ) {
     this.isLoading$ = this.authService.isLoading$;
     if (this.authService.isLoggedIn()) {
@@ -202,5 +203,12 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy() {
     this.unsubscribe.forEach((sb) => sb.unsubscribe());
+  }
+
+  openSupportAppDownload(){
+    const dialogRef = this.dialog.open(RemoteDeskComponent, {
+      width: '70vw',
+      height: '70vh',      
+    });
   }
 }

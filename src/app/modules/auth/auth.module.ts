@@ -12,6 +12,8 @@ import { TranslationModule } from '../i18n/translation.module';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { QrAsotiationComponent } from './components/qr-asotiation/qr-asotiation.component';
 import { ActivateComponent } from './components/activate/activate.component';
+import { PreRegistrationComponent } from './components/pre-registration/pre-registration.component';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -22,8 +24,8 @@ import { ActivateComponent } from './components/activate/activate.component';
     AuthComponent,
     ResetPasswordComponent,
     QrAsotiationComponent,
-    ActivateComponent
-    
+    ActivateComponent,
+    PreRegistrationComponent,
   ],
   imports: [
     CommonModule,
@@ -32,6 +34,7 @@ import { ActivateComponent } from './components/activate/activate.component';
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
+    MatTooltipModule
   ],
 })
 export class AuthModule {}

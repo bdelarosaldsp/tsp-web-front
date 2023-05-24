@@ -7,9 +7,11 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatDividerModule } from '@angular/material/divider';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ImglistComponent } from '../images/imglist/imglist.component';
+import { RemoteDeskComponent } from './modals/remote-desk/remote-desk.component';
+import { SharedRoutingModule } from './shared-routing.module';
 
 @NgModule({
-  declarations: [AgencyModalComponent, ImglistComponent],
+  declarations: [AgencyModalComponent, ImglistComponent, RemoteDeskComponent],
   imports: [
     CommonModule,
     MatButtonModule,
@@ -17,6 +19,7 @@ import { ImglistComponent } from '../images/imglist/imglist.component';
     MatSelectModule,
     MatDividerModule,
     ReactiveFormsModule,
+    SharedRoutingModule
   ],
   exports: [AgencyModalComponent,ImglistComponent],
 })
