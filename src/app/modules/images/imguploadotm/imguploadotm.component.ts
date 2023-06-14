@@ -357,7 +357,7 @@ export class ImguploadotmComponent implements OnInit {
     this.dataImage.length=0;
     this.cdr.detectChanges();
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-      this.router.navigate(['/images']);
+      this.router.navigate(['/images/uploadotm']);
   });
   }
 

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { stringify } from '@angular/compiler/src/util';
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, NgZone, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -10,6 +10,13 @@ import { PassingdataService } from 'src/app/services/passingdata.service';
 import { Constant } from 'src/app/shared/constant';
 import { environment } from 'src/environments/environment';
 
+declare global {
+  interface Window {
+    RTCPeerConnection: RTCPeerConnection;
+    mozRTCPeerConnection: RTCPeerConnection;
+    webkitRTCPeerConnection: RTCPeerConnection;
+  }
+}
 @Component({
   selector: 'app-report1',
   templateUrl: './report1.component.html',
@@ -27,7 +34,13 @@ export class Report1Component implements OnInit {
   Multiagencia:string;
   ipAddress:string;
 
-  constructor(
+  localIp = sessionStorage.getItem('LOCAL_IP');
+
+  ipRegex = new RegExp(
+    /([0-9]{1,3}(\.[0-9]{1,3}){3}|[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7})/
+  );
+
+  constructor(private zone: NgZone,
     private cdr: ChangeDetectorRef,
     private sanitizer: DomSanitizer,
     private passingdata: PassingdataService ,
@@ -47,6 +60,9 @@ export class Report1Component implements OnInit {
       this.toastr.warning('Debe seleccionar una agencia');
       this.router.navigate(['/']);
     }
+
+    this.determineLocalIp();
+    //this.getip()
     //this.UrlBase=environment.phpSiteUrl;
     this.UrlChild=this.passingdata.GetUrl();
     this.UrlChild= this.UrlChild.substring(2,this.UrlChild.length);
@@ -56,7 +72,9 @@ export class Report1Component implements OnInit {
     this.Uid="&uid="+ Constant.AUTH.getUser()?.id;
     this.Multiagencia="&ca="+ (Constant.AUTH.getUser()?.agencies.length>1?'S':'N');
     this.ipAddress=this.getIPAddress();
-    this.ipAddress="&vars={ip:"+this.ipAddress+",usuario:"+this.Usuario.replace("?","")+",sucursal:"+this.Sucursal.replace("&","")+"}"
+    this.ipAddress="&vars={ip:"+this.ipAddress+",usuario:"+Constant.AUTH.getUser()?.email+
+    ",sucursal:"+Constant.AUTH.getAgency()?.vus_codins+",agencia:"+ Constant.AUTH.getAgency()?.vus_codage+
+    ",uid:"+Constant.AUTH.getUser()?.id+",ca:"+(Constant.AUTH.getUser()?.agencies.length>1?'S':'N')+"}"
   }
 
   getUrl()
@@ -75,7 +93,41 @@ export class Report1Component implements OnInit {
     );
     ip=localStorage.getItem("IpClient")||"";
     console.log(ip)
+    let currentUrl =  document.location.hostname;
+  console.log(currentUrl);
     return ip;
+  }
+
+  private determineLocalIp() {
+    window.RTCPeerConnection = this.getRTCPeerConnection();
+
+    const pc = new RTCPeerConnection({ iceServers: [] });
+    pc.createDataChannel('');
+    pc.createOffer().then(pc.setLocalDescription.bind(pc));
+
+    pc.onicecandidate = (ice) => {
+      this.zone.run(() => {
+        if (!ice || !ice.candidate || !ice.candidate.candidate) {
+          return;
+        }
+        
+        var res=this.ipRegex.exec(ice.candidate.candidate)||'';
+        //.log(this.ipRegex.exec(ice.candidate.candidate))
+        console.log(this.localIp = res[1]);
+        //sessionStorage.setItem('LOCAL_IP', this.localIp);
+
+        pc.onicecandidate = () => {};
+        pc.close();
+      });
+    };
+  }
+
+  private getRTCPeerConnection() {
+    return (
+      window.RTCPeerConnection ||
+      window.mozRTCPeerConnection ||
+      window.webkitRTCPeerConnection
+    );
   }
 
 }
