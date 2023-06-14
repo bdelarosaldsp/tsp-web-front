@@ -62,7 +62,6 @@
     "s": "^1.0.0",
     "socicon": "3.0.5",
     "sweetalert2": "^11.4.8",
-    "tslib": "2.3.0",
     "zone.js": "0.11.4"
   },
   "devDependencies": {
@@ -88,6 +87,7 @@
     "karma-coverage": "2.1.0",
     "karma-jasmine": "4.0.0",
     "karma-jasmine-html-reporter": "1.7.0",
+    "tslib": "^2.5.2",
     "typescript": "4.5.2"
   }
 }

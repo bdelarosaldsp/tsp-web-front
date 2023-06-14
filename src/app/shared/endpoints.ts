@@ -63,6 +63,11 @@ export const Endpoint = {
     READ_MESSAGE: `/actions/ReadMessage`,
     DELETE_MESSAGE: `/actions/DeleteMessage`,
   },
+  RNDC:{
+    BASE:`rndc`,
+    FIND_DOCUMENT:`/actions/FindDocument`,
+    GET_ERRORES:'/actions/GetErrores'
+  },
   USERS:{
     BASE: `users`
   },
