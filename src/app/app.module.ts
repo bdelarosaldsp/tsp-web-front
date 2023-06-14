@@ -25,6 +25,7 @@ import { BnNgIdleService } from 'bn-ng-idle';
 import { ConfigService } from './services/config.service';
 
 
+
 const appConfig=(config:ConfigService)=>{
   return ()=>{
     
@@ -38,7 +39,7 @@ const appConfig=(config:ConfigService)=>{
 
 registerLocaleData(localesCo);
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

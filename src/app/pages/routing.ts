@@ -53,6 +53,11 @@ const Routing: Routes = [
       import('../modules/widgets-examples/widgets-examples.module').then((m) => m.WidgetsExamplesModule),
   },
   {
+    path: 'rndc',
+    loadChildren: () =>
+      import('../modules/rndc/rndc.module').then((m) => m.RndcModule),
+  },
+  {
     path: '',
     redirectTo: '/dashboard',
     pathMatch: 'full',
