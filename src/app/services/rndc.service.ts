@@ -4,6 +4,8 @@ import { Constant } from '../shared/constant';
 import { BaseService } from './core/base.service';
 import { map } from 'rxjs';
 
+
+
 @Injectable({
   providedIn: 'root'
 })
@@ -15,8 +17,8 @@ export class RndcService extends BaseService {
     super(apiBase+Constant.Endpoints.RNDC.BASE, injector);
   }
 
-  public getErrores(){
-    return this.globalService.get(`${this.urlBase}/${Constant.Endpoints.RNDC.GET_ERRORES}`).pipe(
+  public getErrores(manifiesto:string,remesa:string,estado:string,fecha:string){
+    return this.globalService.get(`${this.urlBase}${Constant.Endpoints.RNDC.GET_ERRORES}/${manifiesto}/${remesa}/${estado}/${fecha}`).pipe(
       map(res => {
         
        return res;
