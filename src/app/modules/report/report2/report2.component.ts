@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
@@ -19,12 +20,19 @@ export class Report2Component implements OnInit {
   Uid:string;
   Sucursal:string;
   Agencia :string;
-  Multiagencia:string;
+  Multiagencia:string;  
+  ipAddress:string;
+  localIp = sessionStorage.getItem('LOCAL_IP');
 
-  constructor(
+  ipRegex = new RegExp(
+    /([0-9]{1,3}(\.[0-9]{1,3}){3}|[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7})/
+  );
+
+  constructor(private zone: NgZone,
     private sanitizer: DomSanitizer,
     private passingdata: PassingdataService ,
     private router:Router,
+    private http:HttpClient,
     private toastr:ToastrService,config:ConfigService) {
     
       this.UrlBase=config.getConfig().phpSiteUrl; 
@@ -45,13 +53,59 @@ export class Report2Component implements OnInit {
     this.Agencia ="&agencia=" + Constant.AUTH.getAgency()?.vus_codage;
     this.Uid="&uid=" + Constant.AUTH.getUser()?.id;
     this.Multiagencia="&ca="+ (Constant.AUTH.getUser()?.agencies.length>1?'S':'N');
+    this.ipAddress=this.getIPAddress();
+    this.ipAddress="&vars={ip:"+this.ipAddress+",usuario:"+Constant.AUTH.getUser()?.email+
+    ",sucursal:"+Constant.AUTH.getAgency()?.vus_codins+",agencia:"+ Constant.AUTH.getAgency()?.vus_codage+
+    ",uid:"+Constant.AUTH.getUser()?.id+",ca:"+(Constant.AUTH.getUser()?.agencies.length>1?'S':'N')+"}";
   }
 
   getUrl()
   {
     console.log(this.UrlBase+this.UrlChild+this.Usuario+this.Sucursal+this.Uid+this.Multiagencia);
-    return this.sanitizer.bypassSecurityTrustResourceUrl(this.UrlBase+this.UrlChild+this.Usuario+this.Sucursal+this.Agencia+this.Uid+this.Multiagencia);
+    return this.sanitizer.bypassSecurityTrustResourceUrl(this.UrlBase+this.UrlChild+this.Usuario+this.Sucursal+this.Agencia+this.Uid+this.Multiagencia+this.ipAddress);
+  }
+  getIPAddress():string
+  {
+    let ip:string="";
+    this.http.get("https://api-bdc.net/data/client-ip").subscribe((res:any)=>
+      {
+        ip=res.ipString
+                localStorage.setItem("IpClient",ip);
+      }
+    );
+    ip=localStorage.getItem("IpClient")||"";
+    console.log(ip)
+    return ip;
+  }
+  private determineLocalIp() {
+    window.RTCPeerConnection = this.getRTCPeerConnection();
+
+    const pc = new RTCPeerConnection({ iceServers: [] });
+    pc.createDataChannel('');
+    pc.createOffer().then(pc.setLocalDescription.bind(pc));
+
+    pc.onicecandidate = (ice) => {
+      this.zone.run(() => {
+        if (!ice || !ice.candidate || !ice.candidate.candidate) {
+          return;
+        }
+        
+        var res=this.ipRegex.exec(ice.candidate.candidate)||'';
+        //.log(this.ipRegex.exec(ice.candidate.candidate))
+        console.log(this.localIp = res[1]);
+        //sessionStorage.setItem('LOCAL_IP', this.localIp);
+
+        pc.onicecandidate = () => {};
+        pc.close();
+      });
+    };
   }
 
-
+  private getRTCPeerConnection() {
+    return (
+      window.RTCPeerConnection ||
+      window.mozRTCPeerConnection ||
+      window.webkitRTCPeerConnection
+    );
+  }
 }
