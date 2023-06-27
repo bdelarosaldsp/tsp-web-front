@@ -1,0 +1,294 @@
+<div class="container text-center">
+    <mat-card>
+        <mat-card-header>
+            <div mat-card-avatar>
+                <span class="material-icons">
+                    error
+                </span>
+            </div>
+            <mat-card-title>Errores rndc</mat-card-title>
+        </mat-card-header>
+
+        <mat-divider></mat-divider>
+        <mat-card-content style="margin-top: 30px;">
+            <div class="row">
+                <div class="col text-center">
+                    <div class="row">
+                        <mat-form-field appearance="outline">
+                            <mat-label> Manifiesto:</mat-label>
+                            <input matInput placeholder="Numero manifiesto" [formControl]="controlMan">
+                        </mat-form-field>
+                    </div>
+
+                    <div class="row" >
+                        <mat-form-field appearance="outline" >
+                            <mat-label>Estado:</mat-label>
+                            <mat-select style="height: 50px;" disableRipple [formControl]="controlEst">
+                                <mat-option value="1">Enviado con error</mat-option>
+                                <mat-option value="2">Enviado con radicado</mat-option>
+                                <mat-option value="3">Procesando</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+    
+               
+                <div class="col text-center">
+                    <div class="row">
+                        <mat-form-field appearance="outline">
+                            <mat-label> Remesa:</mat-label>
+                            <input matInput placeholder="Remesa" [formControl]="controlRem">
+                        </mat-form-field>
+                    </div>
+
+                    <div class="row">
+                        <mat-form-field appearance="outline">
+                            <mat-datepicker-toggle matIconSuffix [for]="picker">
+                                <mat-icon>event</mat-icon>
+                            </mat-datepicker-toggle>
+                            <mat-label>Desde:</mat-label>
+                            <input [formControl]="controlFec" class="date" readonly matInput [matDatepickerFilter]="myFilter" [matDatepicker]="picker"> 
+                        </mat-form-field>
+                            
+                        <div class="col">
+                            
+                            <mat-datepicker #picker></mat-datepicker>
+                        </div>
+                    </div>
+                </div>
+                
+
+                
+                <div class="row">
+                    <div class="col" style="padding-left: 35px;">
+                        <div class="row">
+                            <div  class="col">
+                                <button (click)="onSearch()" style="height: 50px; width: 200px;"  mat-raised-button color="primary" >
+                                    <span class="material-icons">
+                                        search
+                                    </span>
+                                    Consultar
+                                </button>
+                            </div>
+                            <div *ngIf="controlMan.value || controlRem.value || controlEst.value || controlFec.value>0" class="col" style="padding-left: 50px;">
+                                <button (click)="onClear()" style="height: 50px; width: 200px;" mat-raised-button color="warn" >
+                                    <span class="material-icons">
+                                        cached
+                                    </span>
+                                    Limpiar panel
+                                </button>
+                            </div> 
+                            <div class="col">
+                                <button mat-raised-button (click)="exporter.exportTable('xlsx')"  >
+                                    <img width="50" height="50" src="https://img.icons8.com/color/48/export-excel.png" alt="export-excel"/>
+                                    Exportar
+                                </button>
+                                </div>
+                        </div>
+
+                        
+
+                    </div>
+                </div>
+            </div>
+            <br>
+            <br>
+
+        </mat-card-content>
+    </mat-card>
+    <div class="text-center">
+            
+        <h2>{{label}}</h2>
+        <mat-progress-bar *ngIf="progressbar" mode="query"></mat-progress-bar>
+    </div>
+    <div class="container1">
+        <table  mat-table matTableExporter [dataSource]="datasource" #table="matTable" #exporter="matTableExporter">
+
+            <ng-container  matColumnDef="clasificacion">
+                <th mat-header-cell *matHeaderCellDef>CLASIFICACION</th>
+                <td mat-cell *matCellDef="let element"> {{element.clasificacion}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="tipo">
+              <th mat-header-cell *matHeaderCellDef>TIPO</th>
+              <td mat-cell *matCellDef="let element"> {{element.tipo}} </td>
+            </ng-container>
+          
+            <ng-container matColumnDef="planilla">
+            <th mat-header-cell *matHeaderCellDef> PLANILLA</th>
+              <td mat-cell *matCellDef="let element"> {{element.cod_manifi}} </td>
+            </ng-container>
+          
+            <ng-container matColumnDef="remesa">
+                <th mat-header-cell *matHeaderCellDef>REMESA</th>
+                <td mat-cell *matCellDef="let element"> {{element.remesa}} </td>
+              </ng-container>
+            
+              <ng-container matColumnDef="cod_cli">
+                <th mat-header-cell *matHeaderCellDef> COD_CLI </th>
+                <td mat-cell *matCellDef="let element"> {{element.cod_cli}} </td>
+              </ng-container>
+
+            <ng-container matColumnDef="nom_cli">
+              <th mat-header-cell *matHeaderCellDef> NOM_CLI </th>
+              <td mat-cell *matCellDef="let element"> {{element.nom_cli}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="cod_analogia">
+                <th mat-header-cell *matHeaderCellDef> COD_ANALOGIA </th>
+                <td mat-cell *matCellDef="let element"> {{element.cod_analogia}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="cod_pto">
+                <th mat-header-cell *matHeaderCellDef> COD_PTO </th>
+                <td mat-cell *matCellDef="let element"> {{element.cod_pto}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="nom_pto">
+                <th mat-header-cell *matHeaderCellDef> NOM_PTO </th>
+                <td mat-cell *matCellDef="let element"> {{element.nom_pto}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="cod_suc">
+                <th mat-header-cell *matHeaderCellDef> COD_SUC </th>
+                <td mat-cell *matCellDef="let element"> {{element.cod_suc}} </td>
+            </ng-container>
+
+            
+            <ng-container matColumnDef="nom_suc">
+                <th mat-header-cell *matHeaderCellDef> NOM_SUC </th>
+                <td mat-cell *matCellDef="let element"> {{element.nom_suc}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="enviado">
+                <th mat-header-cell *matHeaderCellDef> ENVIADO </th>
+                <td mat-cell *matCellDef="let element"> {{element.enviado}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="cod_error">
+                <th mat-header-cell *matHeaderCellDef> COD_ERROR </th>
+                <td mat-cell *matCellDef="let element"> {{element.cod_error}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="descripcion_del_error">
+                <th mat-header-cell *matHeaderCellDef> DESCRIPCION_DEL_ERROR </th>
+                <td mat-cell *matCellDef="let element"> {{element.mensaje_error}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="fec_manifiesto">
+                <th mat-header-cell *matHeaderCellDef> FEC_MANIFIESTO </th>
+                <td mat-cell *matCellDef="let element"> {{element.fecha_manifiesto}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="fec_reg_radicado">
+                <th mat-header-cell *matHeaderCellDef> FEC_REG_RADICADO </th>
+                <td mat-cell *matCellDef="let element"> {{element.fecha_registro_radicado}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="fec_reporte">
+                <th mat-header-cell *matHeaderCellDef> FEC_REPORTE </th>
+                <td mat-cell *matCellDef="let element"> {{element.fecha_reporte}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="loc_ori_pla">
+                <th mat-header-cell *matHeaderCellDef> LOC_ORI_PLA </th>
+                <td mat-cell *matCellDef="let element"> {{element.loc_ori_pla}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="loc_dest_pla">
+                <th mat-header-cell *matHeaderCellDef> lOC_DEST_PLA </th>
+                <td mat-cell *matCellDef="let element"> {{element.loc_dest_pla}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="loc_ori_rem">
+                <th mat-header-cell *matHeaderCellDef> LOC_ORI_REM </th>
+                <td mat-cell *matCellDef="let element"> {{element.loc_ori_rem}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="loc_dest_rem">
+                <th mat-header-cell *matHeaderCellDef> LOC_DEST_REM </th>
+                <td mat-cell *matCellDef="let element"> {{element.loc_dest_rem}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="nit_analogia">
+                <th mat-header-cell *matHeaderCellDef> NIT_ANALOGIA </th>
+                <td mat-cell *matCellDef="let element"> {{element.nit_analogia}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="nit_conductor">
+                <th mat-header-cell *matHeaderCellDef> NIT_CONDUCTOR </th>
+                <td mat-cell *matCellDef="let element"> {{element.nit_conductor}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="nombre_conductor">
+                <th mat-header-cell *matHeaderCellDef> NOMBRE_CONDUCTOR </th>
+                <td mat-cell *matCellDef="let element"> {{element.nombre_conductor}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="nit_propietario">
+                <th mat-header-cell *matHeaderCellDef> NIT_PROPIETARIO </th>
+                <td mat-cell *matCellDef="let element"> {{element.nit_propietario}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="propietario">
+                <th mat-header-cell *matHeaderCellDef> PROPIETARIO </th>
+                <td mat-cell *matCellDef="let element"> {{element.propietario}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="num_doc">
+                <th mat-header-cell *matHeaderCellDef> NUM_DOC </th>
+                <td mat-cell *matCellDef="let element"> {{element.num_doc}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="peso_remesa">
+                <th mat-header-cell *matHeaderCellDef> PESO_REMESA </th>
+                <td mat-cell *matCellDef="let element"> {{element.peso_remesa}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="peso_manifiesto">
+                <th mat-header-cell *matHeaderCellDef> PESO_MANIFIESTO </th>
+                <td mat-cell *matCellDef="let element"> {{element.peso_manifiesto}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="placa">
+                <th mat-header-cell *matHeaderCellDef> PLACA </th>
+                <td mat-cell *matCellDef="let element"> {{element.placa}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="placa_trailer">
+                <th mat-header-cell *matHeaderCellDef> PLACA_TRAILER </th>
+                <td mat-cell *matCellDef="let element"> {{element.placa_trailer}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="num_radicado">
+                <th mat-header-cell *matHeaderCellDef> NUM_RADICADO </th>
+                <td mat-cell *matCellDef="let element"> {{element.radicado}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="source_location_gid">
+                <th mat-header-cell *matHeaderCellDef> SOURCE_LOCATION_GID </th>
+                <td mat-cell *matCellDef="let element"> {{element.source_location_gid}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="tipo_viaje">
+                <th mat-header-cell *matHeaderCellDef> TIPO_VIAJE </th>
+                <td mat-cell *matCellDef="let element"> {{element.tipo_viaje}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="editar">
+                <th mat-header-cell *matHeaderCellDef> EDITAR </th>
+                <td mat-cell *matCellDef="let element"> 
+                    <button  mat-icon-button color="warn"   >
+                        <mat-icon>edit</mat-icon>
+                    </button>    
+                </td>
+
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsErr"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsErr;"></tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="[5, 10, 25]" aria-label="Select page of users"></mat-paginator>
+    </div>
+   
+</div>

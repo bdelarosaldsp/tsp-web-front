@@ -1,0 +1,121 @@
+<div class="container text-center">
+    <mat-card>
+        <mat-card-header>
+            <div mat-card-avatar>
+                <span class="material-icons">
+                    search
+                </span>
+            </div>
+            <mat-card-title>Consulta de planilla y remesa rndc</mat-card-title>
+        </mat-card-header>
+
+        <mat-divider></mat-divider>
+        <mat-card-content style="margin-top: 30px;">
+            <div class="row text-center">
+                <div class="row">
+                    <mat-form-field appearance="legacy">
+                        <mat-label>Cliente</mat-label>
+                        <input type="text" placeholder="Nombre del cliente" aria-label="Cliente" matInput
+                            [formControl]="control" [matAutocomplete]="auto">
+                        <!--<mat-select (selectionChange)="setClient()" [formControl]="control" >-->
+                        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                            <mat-option [value]="client"
+                                *ngFor="let client of filteredOptions | async">{{client.cliente_cod}}</mat-option>
+                        </mat-autocomplete>
+                        <!--</mat-select>-->
+                    </mat-form-field>
+                </div>
+                <div class="row" *ngIf="control.valid">
+                    <div class="col">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Documento:</mat-label>
+                            <input matInput placeholder="Documento" [formControl]="controlDoc">
+                        </mat-form-field>
+                    </div>
+                    <div class="col">
+                        <label style="padding-right: 5px;">Elija una opción:</label>
+                        <br>
+                        <mat-radio-group [formControl]="controlType" [disabled]="datosrndc.length>0">
+                            <mat-radio-button value="1">Planilla</mat-radio-button>
+                            <mat-radio-button value="2">Remesa</mat-radio-button>
+
+                        </mat-radio-group>
+                    </div>
+                    <div class="col">
+                        <div *ngIf="control.valid && controlDoc.valid && controlType.valid && datosrndc.length==0"
+                            style="height:50px ;" class="row">
+                            <button (click)="onSearch()" mat-raised-button color="primary" [disabled]="progressbar">
+                                <span class="material-icons">
+                                    search
+                                </span>
+                                Consultar
+                            </button>
+                        </div>
+
+                        <div *ngIf="control.valid && controlDoc.valid && controlType.valid && datosrndc.length>0"
+                            class="row">
+                            <button (click)="onClear()" mat-raised-button color="warn" style="height:50px ;">
+                                <span class="material-icons">
+                                    cached
+                                </span>
+                                Limpiar panel
+                            </button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>
+<br>
+<div class="container" *ngIf="datosrndc.length > 0 ">
+    <mat-accordion class="headers-align" multi>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title *ngIf="controlType.value === '1'">
+                    Detalles de planilla
+                </mat-panel-title>
+                <mat-panel-title *ngIf="controlType.value === '2'">
+                    Detalles de remesa
+                </mat-panel-title>
+                <mat-panel-description *ngIf="controlType.value === '1'">
+                    Información acerca de la planilla
+                </mat-panel-description>
+                <mat-panel-description *ngIf="controlType.value === '2'">
+                    Información acerca de la remesa
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+            <div *ngIf="datosrndc.length > 0" class="row">
+                <table *ngFor="let Doc of datosrndc" text_align='Center' width='100%'>
+
+                    <tr>
+                        <td text_align='left' width="35%"><strong>Factura</strong>: </td>
+                        <td text_align='left'><strong>Estado</strong>: </td>
+                        <td text_align='left'><strong>Custodia</strong>: </td>
+                    </tr>
+                    <tr>
+                        <td text_align='left'><strong>Aliado</strong>: </td>
+                        <td text_align='left'><strong>Ingresada en agencia</strong>: &nbsp;</td>
+                        <td text_align='left'><strong>Destinatario</strong>: </td>
+                    </tr>
+                    <tr>
+                        <td text_align='left'><strong>Doc. referencia</strong>: </td>
+                        <td text_align='left'><strong>Fecha Doctura</strong>: </td>
+                        <td text_align='left'><strong>Fecha Recibo en Bodega</strong>: </td>
+                    </tr>
+                    <tr>
+                        <td text_align='left'><strong>Manifiesto [&uacute;ltimo generado]</strong>: </td>
+                        <td text_align='left'><strong>Estado actual del manifiesto</strong>: </td>
+                        <td text_align='left'><strong>Fecha de entrega[]</strong>:</td>
+                    </tr>
+                </table>
+            </div>
+
+        </mat-expansion-panel>
+    </mat-accordion>
+
+    <!-- <div *ngIf="FacturaCabeza.length>0" class="container">
+        <app-details [TipDoc]="controlType.value" [Images]="Images" [Cumplidos]="Cumplidos" [NovedadesConf]="NovedadesConf" [Novedades]="Novedades" [OrdenesDes]="OrdenesDes" [PedidosFac]="PedidosFac" [MasivoFac]="MasivoFac" [FacturaCabeza]="FacturaCabeza"></app-details>
+    </div> -->
+</div>

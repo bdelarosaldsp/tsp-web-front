@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
+import { RemoteDeskComponent } from 'src/app/modules/shared/modals/remote-desk/remote-desk.component';
 
 @Component({
   selector: 'app-header-menu',
@@ -7,12 +9,19 @@ import { Router } from '@angular/router';
   styleUrls: ['./header-menu.component.scss'],
 })
 export class HeaderMenuComponent implements OnInit {
-  constructor(private router: Router) {}
+  constructor(private router: Router,private dialog:MatDialog) {}
 
   ngOnInit(): void {}
 
   calculateMenuItemCssClass(url: string): string {
     return checkIsActive(this.router.url, url) ? 'active' : '';
+  }
+
+  goRemoteSupport(){
+    const dialogRef = this.dialog.open(RemoteDeskComponent, {
+      width: '70vw',
+      height: '70vh',      
+    });
   }
 }
 

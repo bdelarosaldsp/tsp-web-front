@@ -1,0 +1,16 @@
+.close.mat-button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 5px;
+    line-height: 14px;
+    min-width: auto;
+  }
+  .padre {
+    display: table;
+    
+ }
+ .hijo {
+    display: table-cell;
+    vertical-align: middle;
+ }

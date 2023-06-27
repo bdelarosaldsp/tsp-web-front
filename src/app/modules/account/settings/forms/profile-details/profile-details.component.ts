@@ -1,4 +1,5 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { BehaviorSubject, Subscription } from 'rxjs';
 import { Account } from 'src/app/models/account';
 import { Constant } from 'src/app/shared/constant';
@@ -14,7 +15,7 @@ export class ProfileDetailsComponent implements OnInit {
   agency : any = Constant.AUTH.getAgency();
   private unsubscribe: Subscription[] = [];
 
-  constructor(private cdr: ChangeDetectorRef) {
+  constructor(private cdr: ChangeDetectorRef, private sanitizer:DomSanitizer) {
     const loadingSubscr = this.isLoading$
       .asObservable()
       .subscribe((res) => (this.isLoading = res));
@@ -23,6 +24,13 @@ export class ProfileDetailsComponent implements OnInit {
 
   ngOnInit(): void {}
 
+  imageSync(file :any ){
+    console.log(...file)
+  }
+
+  getUrl(file:any){
+    return this.sanitizer.bypassSecurityTrustResourceUrl(file);
+  }
   saveSettings() {
     this.isLoading$.next(true);
     setTimeout(() => {

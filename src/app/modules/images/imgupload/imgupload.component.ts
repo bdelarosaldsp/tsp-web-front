@@ -61,9 +61,9 @@ export class ImguploadComponent implements OnInit {
       this.toastr.warning('Debe seleccionar una agencia');
       this.router.navigate(['/']);
     }
-    if (this.otm){
-      this.router.navigate(['/images/uploadotm']);
-    }
+    // if (this.otm){
+    //   this.router.navigate(['/images/uploadotm']);
+    // }
     
     this.filteredOptions = this.control.valueChanges.pipe(
       map((value) => {
@@ -357,7 +357,7 @@ export class ImguploadComponent implements OnInit {
     this.dataImage.length=0;
     this.cdr.detectChanges();
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-      this.router.navigate(['/images']);
+      this.router.navigate(['/images/uploadotm']);
   });
   }
 

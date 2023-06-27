@@ -8,7 +8,11 @@ export const routes: Routes = [
     loadChildren: () =>
       import('./modules/auth/auth.module').then((m) => m.AuthModule),
   },
-  
+  {
+    path: 'shared',
+    loadChildren: () =>
+      import('./modules/shared/shared.module').then((m) => m.SharedModule),
+  },
   {
     path: 'error',
     loadChildren: () =>

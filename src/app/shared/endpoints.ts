@@ -42,17 +42,18 @@ export const Endpoint = {
   },
   TRAZABILITY:{
     BASE: `trazability`,
-    GET_FACAB:`trazability/actions/GetFacab`,
-    GET_MASIVO:`trazability/actions/GetMasivo`,
-    GET_PEDFAC:`trazability/actions/GetPedfac`,
-    GET_OD:`trazability/actions/GetOd`,
-    GET_NOVEDADES:`trazability/actions/GetNovedades`,
-    GET_CUMPLIDOS:`trazability/actions/GetCumplidos`,
+    GET_FACAB:`/actions/GetFacab`,
+    GET_MASIVO:`/actions/GetMasivo`,
+    GET_PEDFAC:`/actions/GetPedfac`,
+    GET_OD:`/actions/GetOd`,
+    GET_NOVEDADES:`/actions/GetNovedades`,
+    GET_CUMPLIDOS:`/actions/GetCumplidos`,
 
   },
   GENERALES:{
     BASE: `general`,
-    GET_MANTENIMIENTO: `general/actions/GetMantenimiento`,
+    GET_MANTENIMIENTO: `/actions/GetMantenimiento`,
+    GET_ALMACENES: `/actions/GetAlmacenes`,
   },
   MESSAGES:{
     BASE: `messages`,
@@ -62,8 +63,19 @@ export const Endpoint = {
     READ_MESSAGE: `/actions/ReadMessage`,
     DELETE_MESSAGE: `/actions/DeleteMessage`,
   },
+  RNDC:{
+    BASE:`rndc`,
+    FIND_DOCUMENT:`/actions/FindDocument`,
+    GET_ERRORES:'/actions/GetErrores'
+  },
   USERS:{
     BASE: `users`
   },
+  PEDIDOS:{
+    BASE: `pedidos`,
+    VAL_ARTICLES:`/actions/valArticles`,
+    IMPORT_ENTRADA: `/actions/createFileEnt`,
+    IMPORT_SALIDA: `/actions/createFileSal`,
+  }
 
 }

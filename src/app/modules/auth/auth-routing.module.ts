@@ -8,6 +8,7 @@ import { LogoutComponent } from './components/logout/logout.component';
 import { ResetPasswordComponent } from './components/reset-password/reset-password.component';
 import { ActivateComponent } from './components/activate/activate.component';
 import { QrAsotiationComponent } from './components/qr-asotiation/qr-asotiation.component';
+import { PreRegistrationComponent } from './components/pre-registration/pre-registration.component';
 
 const routes: Routes = [
   {
@@ -27,6 +28,10 @@ const routes: Routes = [
       {
         path: 'registration',
         component: RegistrationComponent,
+      },
+      {
+        path: 'pre-registration',
+        component: PreRegistrationComponent,
       },
       {
         path: 'forgot-password',

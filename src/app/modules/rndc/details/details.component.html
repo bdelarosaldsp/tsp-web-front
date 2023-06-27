@@ -1,0 +1,547 @@
+<div class="action-buttons">
+    <button mat-button (click)="accordion.openAll()">Expandir todo</button>
+    <button mat-button (click)="accordion.closeAll()">Retraer todo</button>
+</div>
+  <mat-accordion *ngIf="TipDoc=='1'" class="headers-align" multi>
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Detalles de planilla
+          </mat-panel-title>
+          <mat-panel-description>
+            Información acerca de la Planilla
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <div *ngIf="PlanillaCabeza" class="row">
+            <table *ngFor="let Pla of PlanillaCabeza" text_align='Center'  width='100%'>
+                
+                <tr>
+                    <td text_align='left' width="35%"><strong>Fecha</strong>: {{Pla.fecha}} </td>
+                    <td text_align='left'><strong>Poliza:</strong>: {{Pla.poliza}} </td>
+                    
+                </tr>
+                <tr>
+                    <td text_align='left'><strong>Placa:</strong>: {{Pla.placa}}</td>
+                    <td text_align='left'><strong>Aseguradora:</strong>: {{Pla.aseguradora}} &nbsp;</td>
+                    
+                </tr>
+                <tr>
+                    <td text_align='left'><strong>Semiremolque:</strong>: {{Pla.semiremolque}}</td>
+                    <td text_align='left'><strong>Vigencia:</strong>: {{Pla.vigencia}}</td>
+                    
+                </tr>
+                <tr>
+                    <td text_align='left'><strong>Ruta:</strong>: {{Pla.ruta}} </td>
+                    <td text_align='left'><strong>Estado:</strong>: {{Pla.estado}}</td>
+                    
+                </tr>
+                <tr>
+                  <td text_align='left'><strong>Ciudad de pago:</strong>: {{Pla.ciudad_de_pago}} </td>
+                  <td text_align='left'><strong>Observaciones:</strong>: {{Pla.observaciones}}</td>
+                  
+                </tr>
+                <tr>
+                  <td text_align='left'><strong>Configuracion:</strong>: {{Pla.configuracion}} </td>
+                  
+                  
+                </tr>
+                <tr>
+                  <td text_align='left'><strong>C.C Conductor:</strong>: {{Pla.cc_conductor}} </td>
+                  <td text_align='left'><strong>Nombre:</strong>: {{Pla.nombre}} </td>
+                  
+                </tr>
+                <tr> 
+                  <td text_align='left'><strong>Fecha de pago:</strong>: {{Pla.fecha_de_pago}} </td>
+                  <td text_align='left'><strong>Radicado RNDC:</strong>: {{Pla.radicado_rndc}} </td>
+                </tr>
+            </table>
+        </div>
+        
+    </mat-expansion-panel>
+
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Remesas de la planilla
+          </mat-panel-title>
+          <mat-panel-description>
+            Información de remesas de la planilla
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+    
+        <table mat-table [dataSource]="PlaRem" class="mat-elevation-z8">
+
+            <ng-container matColumnDef="remesa">
+              <th mat-header-cell *matHeaderCellDef>Remesa</th>
+              <td mat-cell *matCellDef="let element"> {{element.remesa}} </td>
+            </ng-container>
+          
+            <ng-container matColumnDef="valor">
+              <th mat-header-cell *matHeaderCellDef> Valor </th>
+              <td mat-cell *matCellDef="let element"> {{element.valor}} </td>
+            </ng-container>
+          
+            <ng-container matColumnDef="costo">
+              <th mat-header-cell *matHeaderCellDef> Costo </th>
+              <td mat-cell *matCellDef="let element"> {{element.costo}} </td>
+            </ng-container>
+          
+            <ng-container matColumnDef="cliente">
+              <th mat-header-cell *matHeaderCellDef> Cliente </th>
+              <td mat-cell *matCellDef="let element"> {{element.cliente}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="servicio">
+                <th mat-header-cell *matHeaderCellDef> Servicio </th>
+                <td mat-cell *matCellDef="let element"> {{element.servicio}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="estado">
+                <th mat-header-cell *matHeaderCellDef> Estado </th>
+                <td mat-cell *matCellDef="let element"> {{element.estado_remesa}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="contrato">
+               <th mat-header-cell *matHeaderCellDef> Contrato </th>
+               <td mat-cell *matCellDef="let element"> {{element.contrato}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="subcontrato">
+               <th mat-header-cell *matHeaderCellDef> Subcontrato </th>
+               <td mat-cell *matCellDef="let element"> {{element.subcontrato}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="sucursal">
+               <th mat-header-cell *matHeaderCellDef> Sucursal </th>
+               <td mat-cell *matCellDef="let element"> {{element.sucursal}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="planilla">
+               <th mat-header-cell *matHeaderCellDef> Planilla </th>
+               <td mat-cell *matCellDef="let element"> {{element.planilla}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="ruta">
+              <th mat-header-cell *matHeaderCellDef> Ruta </th>
+              <td mat-cell *matCellDef="let element"> {{element.ruta}} </td>
+           </ng-container>
+
+            <ng-container matColumnDef="tipo_facturacion">
+               <th mat-header-cell *matHeaderCellDef> Tipo de facturacion </th>
+               <td mat-cell *matCellDef="let element"> {{element.tipo_de_facturacion}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="ciu_origen">
+               <th mat-header-cell *matHeaderCellDef> Ciu_origen </th>
+               <td mat-cell *matCellDef="let element"> {{element.ciu_de_origen}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="fecha_despacho">
+               <th mat-header-cell *matHeaderCellDef> Fecha_despacho </th>
+               <td mat-cell *matCellDef="let element"> {{element.fecha_de_despacho}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="cajas">
+               <th mat-header-cell *matHeaderCellDef> Cajas </th>
+               <td mat-cell *matCellDef="let element"> {{element.cajas}} </td>
+            </ng-container>
+
+
+          
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsPlaRem"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsPlaRem;"></tr>
+          </table>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Pedidos generados
+          </mat-panel-title>
+          <mat-panel-description>
+            Información de pedidos asociados 
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+    
+        <table mat-table [dataSource]="PedidosFac" class="mat-elevation-z8">
+
+            <ng-container matColumnDef="oc">
+              <th mat-header-cell *matHeaderCellDef>O.C</th>
+              <td mat-cell *matCellDef="let element"> {{element.orden_carga}} </td>
+            </ng-container>
+          
+            <ng-container matColumnDef="pedido">
+              <th mat-header-cell *matHeaderCellDef> Pedido </th>
+              <td mat-cell *matCellDef="let element"> {{element.pedido}} </td>
+            </ng-container>
+          
+            <ng-container matColumnDef="cartaporte">
+              <th mat-header-cell *matHeaderCellDef> Cartaporte </th>
+              <td mat-cell *matCellDef="let element"> {{element.documento_ref}} </td>
+            </ng-container>
+          
+            <ng-container matColumnDef="fecha">
+              <th mat-header-cell *matHeaderCellDef> Fecha </th>
+              <td mat-cell *matCellDef="let element"> {{element.fecha_pedido}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="cajas">
+                <th mat-header-cell *matHeaderCellDef> Cajas </th>
+                <td mat-cell *matCellDef="let element"> {{element.cajas}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="peso">
+                <th mat-header-cell *matHeaderCellDef> Peso </th>
+                <td mat-cell *matCellDef="let element"> {{element.peso}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="vol">
+                <th mat-header-cell *matHeaderCellDef> Vol. </th>
+                <td mat-cell *matCellDef="let element"> {{element.vol}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="bodega">
+                <th mat-header-cell *matHeaderCellDef> Bodega </th>
+                <td mat-cell *matCellDef="let element"> {{element.cod_bodega}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="fecha_cita">
+                <th mat-header-cell *matHeaderCellDef> Fecha cita </th>
+                <td mat-cell *matCellDef="let element"> {{element.fecha_ent_cliente}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="program">
+                <th mat-header-cell *matHeaderCellDef> Programado </th>
+                <td mat-cell *matCellDef="let element"> {{element.programado}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="usuario">
+                <th mat-header-cell *matHeaderCellDef> Usuario prog. </th>
+                <td mat-cell *matCellDef="let element"> {{element.usuario_prog}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="anulo">
+                <th mat-header-cell *matHeaderCellDef> Anulado </th>
+                <td mat-cell *matCellDef="let element"> {{element.conductor}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="odanula">
+                <th mat-header-cell *matHeaderCellDef> OD anulada </th>
+                <td mat-cell *matCellDef="let element"> {{element.OD_anulado}} </td>
+            </ng-container>
+          
+            <ng-container matColumnDef="usuanod">
+                <th mat-header-cell *matHeaderCellDef> Usu anula OD  </th>
+                <td mat-cell *matCellDef="let element"> {{element.usuario_anula}} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsPed"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsPed;"></tr>
+          </table>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Ordenes de despacho
+          </mat-panel-title>
+          <mat-panel-description>
+            Información de ordenes de despacho
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+    
+        <table  mat-table [dataSource]="OrdenesDes"  >
+
+            <ng-container matColumnDef="manifiesto">
+                <th mat-header-cell *matHeaderCellDef>Manifiesto</th>
+                <td mat-cell *matCellDef="let element"> {{element.cod_manifi}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="oc">
+              <th mat-header-cell *matHeaderCellDef>O.C</th>
+              <td mat-cell *matCellDef="let element"> {{element.OC}} </td>
+            </ng-container>
+          
+            <ng-container matColumnDef="fecha_oc">
+              <th mat-header-cell *matHeaderCellDef> Fecha O.C </th>
+              <td mat-cell *matCellDef="let element"> {{element.fechaOC}} </td>
+            </ng-container>
+          
+            <ng-container matColumnDef="od">
+                <th mat-header-cell *matHeaderCellDef>O.D</th>
+                <td mat-cell *matCellDef="let element"> {{element.OD}} </td>
+              </ng-container>
+            
+              <ng-container matColumnDef="fecha_od">
+                <th mat-header-cell *matHeaderCellDef> Fecha O.D </th>
+                <td mat-cell *matCellDef="let element"> {{element.fechaOD}} </td>
+              </ng-container>
+
+            <ng-container matColumnDef="remesa">
+              <th mat-header-cell *matHeaderCellDef> Remesa </th>
+              <td mat-cell *matCellDef="let element"> {{element.remesa}} </td>
+            </ng-container>
+          
+            <ng-container matColumnDef="placa">
+              <th mat-header-cell *matHeaderCellDef> Placa </th>
+              <td mat-cell *matCellDef="let element"> {{element.placa}} </td>
+            </ng-container>
+            
+            <ng-container matColumnDef="destino">
+                <th mat-header-cell *matHeaderCellDef> Destino </th>
+                <td mat-cell *matCellDef="let element"> {{element.destino}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="cajas">
+                <th mat-header-cell *matHeaderCellDef> Cajas </th>
+                <td mat-cell *matCellDef="let element"> {{element.cajas}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="planillador">
+                <th mat-header-cell *matHeaderCellDef> Planillador </th>
+                <td mat-cell *matCellDef="let element"> {{element.usuario}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="despachador">
+                <th mat-header-cell *matHeaderCellDef> Despachador </th>
+                <td mat-cell *matCellDef="let element"> {{element.despachador}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="anulo">
+                <th mat-header-cell *matHeaderCellDef> Anulado </th>
+                <td mat-cell *matCellDef="let element"> {{element.anula}} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsOd"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsOd;"></tr>
+          </table>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Novedades
+          </mat-panel-title>
+          <mat-panel-description>
+            Información novedades de factura
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+    
+        <table  mat-table [dataSource]="Novedades"  >
+
+            <ng-container matColumnDef="manifiesto">
+                <th mat-header-cell *matHeaderCellDef>Manifiesto</th>
+                <td mat-cell *matCellDef="let element"> {{element.cod_manifi}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="oc">
+              <th mat-header-cell *matHeaderCellDef>O.C</th>
+              <td mat-cell *matCellDef="let element"> {{element.OC}} </td>
+            </ng-container>
+          
+            <ng-container matColumnDef="novedad">
+            <th mat-header-cell *matHeaderCellDef> Novedad</th>
+              <td mat-cell *matCellDef="let element"> {{element.codnov}} - {{element.novedad}} </td>
+            </ng-container>
+          
+            <ng-container matColumnDef="inicio">
+                <th mat-header-cell *matHeaderCellDef>Inicio</th>
+                <td mat-cell *matCellDef="let element"> {{element.fecnov}} </td>
+              </ng-container>
+            
+              <ng-container matColumnDef="fin">
+                <th mat-header-cell *matHeaderCellDef> Fin </th>
+                <td mat-cell *matCellDef="let element"> {{element.fecha_cierre}} </td>
+              </ng-container>
+
+            <ng-container matColumnDef="tipo">
+              <th mat-header-cell *matHeaderCellDef> Tipo </th>
+              <td mat-cell *matCellDef="let element"> {{element.tipo_novedad}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="cajas">
+                <th mat-header-cell *matHeaderCellDef> Cajas </th>
+                <td mat-cell *matCellDef="let element"> {{element.cajas_ajus}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="estado">
+                <th mat-header-cell *matHeaderCellDef> estado </th>
+                <td mat-cell *matCellDef="let element"> {{element.cierre_solucion}} </td>
+            </ng-container>
+
+         
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsNov"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsNov;"></tr>
+        </table>
+
+        <table  mat-table [dataSource]="NovedadesConf"  >
+
+            <ng-container matColumnDef="manifiesto">
+                <th mat-header-cell *matHeaderCellDef>Manifiesto</th>
+                <td mat-cell *matCellDef="let element"> {{element.cod_manifi}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="oc">
+              <th mat-header-cell *matHeaderCellDef>O.C</th>
+              <td mat-cell *matCellDef="let element"> {{element.OC}} </td>
+            </ng-container>
+          
+            <ng-container matColumnDef="confnovedad">
+            <th mat-header-cell *matHeaderCellDef> Confirmacion novedades</th>
+              <td mat-cell *matCellDef="let element"> {{element.codnov}} - {{element.novedad}} </td>
+            </ng-container>
+          
+            <ng-container matColumnDef="inicio">
+                <th mat-header-cell *matHeaderCellDef>Inicio</th>
+                <td mat-cell *matCellDef="let element"> {{element.fecnov}} </td>
+              </ng-container>
+            
+              <ng-container matColumnDef="fin">
+                <th mat-header-cell *matHeaderCellDef> Fin </th>
+                <td mat-cell *matCellDef="let element"> {{element.fecha_cierre}} </td>
+              </ng-container>
+
+            <ng-container matColumnDef="tipo">
+              <th mat-header-cell *matHeaderCellDef> Tipo </th>
+              <td mat-cell *matCellDef="let element"> AJN</td>
+            </ng-container>
+
+            <ng-container matColumnDef="cajas">
+                <th mat-header-cell *matHeaderCellDef> Cajas </th>
+                <td mat-cell *matCellDef="let element"> {{element.cajas_ajus}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="unidades">
+                <th mat-header-cell *matHeaderCellDef> Unidades </th>
+                <td mat-cell *matCellDef="let element"> {{element.cajas_ajus}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="estado">
+                <th mat-header-cell *matHeaderCellDef> estado </th>
+                <td mat-cell *matCellDef="let element"> {{element.cierre_solucion}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="solucion">
+                <th mat-header-cell *matHeaderCellDef> Solucion Nov. </th>
+                <td mat-cell *matCellDef="let element"> {{element.cajas_ajus}} </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsNovConf"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsNovConf;"></tr>
+        </table>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Cumplidos
+          </mat-panel-title>
+          <mat-panel-description>
+            Información de cumplidos
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+    
+        <table  mat-table [dataSource]="Cumplidos"  >
+
+            <ng-container matColumnDef="manifiesto">
+                <th mat-header-cell *matHeaderCellDef>Manifiesto</th>
+                <td mat-cell *matCellDef="let element"> {{element.cod_manifi}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="remesa">
+              <th mat-header-cell *matHeaderCellDef> Remesa </th>
+              <td mat-cell *matCellDef="let element"> {{element.remesa}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="fecha">
+              <th mat-header-cell *matHeaderCellDef> Fecha cumpl.</th>
+              <td mat-cell *matCellDef="let element"> {{element.feccumldsp}} </td>
+            </ng-container>
+          
+            <ng-container matColumnDef="usuario">
+                <th mat-header-cell *matHeaderCellDef>Usuario</th>
+                <td mat-cell *matCellDef="let element"> {{element.usuario}} </td>
+            </ng-container>
+            
+            <ng-container matColumnDef="fecha_sist">
+                <th mat-header-cell *matHeaderCellDef> Fecha sist.</th>
+                <td mat-cell *matCellDef="let element"> {{element.fecsistema}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="fecha_envio">
+              <th mat-header-cell *matHeaderCellDef> Fecha envio </th>
+              <td mat-cell *matCellDef="let element"> {{element.fecha}} </td>
+            </ng-container>
+            
+            <ng-container matColumnDef="factura">
+                <th mat-header-cell *matHeaderCellDef> Factura LDSP </th>
+                <td mat-cell *matCellDef="let element"> {{element.factura}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="comentario">
+                <th mat-header-cell *matHeaderCellDef> Comentario </th>
+                <td mat-cell *matCellDef="let element"> {{element.comentario}} </td>
+            </ng-container>
+
+            
+            <tr mat-header-row *matHeaderRowDef="displayedColumnsCum"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumnsCum;"></tr>
+          </table>
+    </mat-expansion-panel>
+
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Imagenes escaneadas
+        </mat-panel-title>
+        <mat-panel-description>
+          Consulte las imagenes asociadas ({{Images.length}})
+        </mat-panel-description>
+      </mat-expansion-panel-header>
+      <!-- <app-imglist [images]="Images" ></app-imglist> -->
+    </mat-expansion-panel>
+
+    
+
+  </mat-accordion>
+
+  <mat-accordion *ngIf="TipDoc=='2'" class="headers-align" multi>
+    <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>
+            Detalles del documento
+          </mat-panel-title>
+          <mat-panel-description>
+            Información acerca de la factura
+          </mat-panel-description>
+        </mat-expansion-panel-header>
+        <div  class="row">
+            <!-- <table  text_align='Center'  width='100%'>
+                
+                <tr>
+                    <td text_align='left' width="35%"><strong>Factura</strong>: {{factura}} </td>
+                    <td text_align='left'><strong>Estado</strong>: {{estado}} </td>
+                    <td text_align='left'><strong>Custodia</strong>: {{custodia}}</td>
+                </tr>
+                <tr>
+                    <td text_align='left'><strong>Aliado</strong>: {{nom_cli}}</td>
+                    <td text_align='left'><strong>Ingresada en agencia</strong>: {{nom_suc}} &nbsp;</td>
+                    <td text_align='left'><strong>Destinatario</strong>: {{destinatario_cli}}</td>
+                </tr>
+                <tr>
+                    <td text_align='left'><strong>Doc. referencia</strong>: {{cartaporte}}</td>
+                    <td text_align='left'><strong>Fecha factura</strong>: {{fecha_fac}}</td>
+                    <td text_align='left'><strong>Fecha Recibo en Bodega</strong>: {{fecha_rec}}</td>
+                </tr>
+                <tr>
+                    <td text_align='left'><strong>Manifiesto [&uacute;ltimo generado]</strong>: {{manifiesto}} </td>
+                    <td text_align='left'><strong>Estado actual del manifiesto</strong>: {{Estado_Manifiesto}}</td>
+                    <td text_align='left'><strong>Fecha de entrega[{{manifiesto}}]</strong>:{{fecha_de_entrega}}</td>
+                </tr>
+            </table> -->
+        </div>
+        
+    </mat-expansion-panel>
+
+  </mat-accordion>
