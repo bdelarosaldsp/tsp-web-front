@@ -20,6 +20,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
+import { EditregComponent } from './editreg/editreg.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 
 
@@ -27,7 +29,8 @@ import { MatIconModule } from '@angular/material/icon';
   declarations: [
     SearchComponent,
     DetailsComponent,
-    ErrorlistComponent   
+    ErrorlistComponent,
+    EditregComponent   
   ],
   imports: [
     CommonModule,
@@ -46,7 +49,8 @@ import { MatIconModule } from '@angular/material/icon';
     MatFormFieldModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatIconModule
+    MatIconModule,
+    MatDialogModule
     
 
   ]

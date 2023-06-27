@@ -142,7 +142,8 @@ export class ImguploadotmComponent implements OnInit {
                       'company': x.company,
                       'agency_id':x.agency_id,
                       'url': x.url,
-                      'image':this.imgb64.toString()
+                      'image':this.imgb64.toString(),
+                      'option':2
                     };
                   //}
                   
@@ -380,7 +381,8 @@ export class ImguploadotmComponent implements OnInit {
         'cliente':this.selectedcli,
         'company':'LDSP',
         'agency_id':this.agency_id,
-        'filename':image.name
+        'filename':image.name,
+        'option':2
       };
 
       this.imgservice.valFac(data).subscribe(res=>{

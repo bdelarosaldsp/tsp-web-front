@@ -144,7 +144,8 @@ export class ImguploadComponent implements OnInit {
                       'url': x.url,
                       'image':this.imgb64.toString(),
                       'size':x.file.size,
-                      'type':x.file.type.split('/')[1]
+                      'type':x.file.type.split('/')[1],
+                      'option':1
                     };
                   //}
                   
@@ -357,7 +358,7 @@ export class ImguploadComponent implements OnInit {
     this.dataImage.length=0;
     this.cdr.detectChanges();
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-      this.router.navigate(['/images/uploadotm']);
+      this.router.navigate(['/images/upload']);
   });
   }
 
@@ -377,7 +378,8 @@ export class ImguploadComponent implements OnInit {
         'cliente':this.selectedcli,
         'company':'LDSP',
         'agency_id':this.agency_id,
-        'filename':image.name
+        'filename':image.name,
+        'option':1
       };
       console.log('size:'+image.size+',extention:'+image.type)
 
