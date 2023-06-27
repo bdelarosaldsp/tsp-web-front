@@ -24,7 +24,6 @@ import { EditregComponent } from './editreg/editreg.component';
 import { MatDialogModule } from '@angular/material/dialog';
 
 
-
 @NgModule({
   declarations: [
     SearchComponent,
