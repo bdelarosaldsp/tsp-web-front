@@ -49,7 +49,7 @@ import { MatDialogModule } from '@angular/material/dialog';
     MatDatepickerModule,
     MatNativeDateModule,
     MatIconModule,
-    MatDialogModule
+    MatDialogModule,
     
 
   ]
