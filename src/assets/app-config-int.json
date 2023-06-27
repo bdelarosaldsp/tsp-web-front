@@ -8,19 +8,11 @@
   
     "isMockEnabled":true,
     "appThemeName":"Metronic",
-<<<<<<< Updated upstream
 
-    "apiUrl":"http://172.17.3.5:9000/api/",
-    "netSiteUrl":"https://172.17.3.5:8000/",
-    "phpSiteUrl":"https://172.17.3.5:5000/",
-    "intSiteUrl":"https://172.17.3.5:5000/IntOptions/"
-
-   
-=======
   
     "apiUrl":"http://172.17.3.5:9000/api/",
     "netSiteUrl":"http://172.17.3.5:8000/",
     "phpSiteUrl":"http://172.17.3.5:5000/",
     "intSiteUrl":"http://172.17.3.5:5000/IntOptions/"
->>>>>>> Stashed changes
+
 }
