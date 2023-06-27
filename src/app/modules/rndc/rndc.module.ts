@@ -20,7 +20,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import {MatNativeDateModule} from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
-
+import { MatTableExporterModule } from 'mat-table-exporter';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 
 
 @NgModule({
@@ -46,7 +47,9 @@ import { MatIconModule } from '@angular/material/icon';
     MatFormFieldModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatIconModule
+    MatIconModule,
+    MatTableExporterModule,
+    MatPaginatorModule
     
 
   ]

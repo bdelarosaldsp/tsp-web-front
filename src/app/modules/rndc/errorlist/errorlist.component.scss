@@ -8,18 +8,31 @@ mat-select{
     align-items: center;
     vertical-align: middle;
 }
-.mat-table{
+table{
     width: 100%;
+    margin: 1rem auto;
+
   }
+.container1{
+  
+  max-width: 1200px;
+  overflow-x:scroll;
+
+}
   
   .mat-row {
-    height: auto;
-  }
+     height: auto;
+   }
   
   .mat-cell {
     text-align:center ;
   }
 
   .mat-header-cell{
+    //padding-left: 5px;
+    background-color:steelblue;
+    color: whitesmoke;
     text-align: center;
-  }
+    min-width:120px;
+    min-height: 45px;
+   }
