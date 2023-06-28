@@ -66,7 +66,11 @@ export const Endpoint = {
   RNDC:{
     BASE:`rndc`,
     FIND_DOCUMENT:`/actions/FindDocument`,
-    GET_ERRORES:'/actions/GetErrores'
+    GET_ERRORES:'/actions/GetErrores',
+    GET_DETALLE:'/actions/GetDetalleReg',
+    GET_CABEZA:'/actions/GetCabeza',
+    SAVE_REGISTER:'/actions/SaveRegister',
+    RESEND:'/actions/ReSend'
   },
   USERS:{
     BASE: `users`

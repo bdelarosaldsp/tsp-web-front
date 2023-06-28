@@ -55,7 +55,6 @@ export class ErrorlistComponent implements OnInit {
    this.rndcService.getErrores(this.controlMan.value===''?null:this.controlMan.value,this.controlRem.value===''?null:this.controlRem.value,this.controlEst.value===''?'S':this.controlEst.value,this.controlFec.value===''?null:this.controlFec.value)
    .subscribe({
     next:(res)=>{
-      console.log(res.data)
       this.Errores = res.data.inferr;
       this.datasource.data=this.Errores;
     },complete:()=> {
@@ -76,25 +75,57 @@ export class ErrorlistComponent implements OnInit {
 
 
 }
-editReg(){
+
+editReg(reg:any){
+  let id:number=reg.id_otm;
+  let proceso_id:number=reg.proceso_id;
+
+  let cabeza:Array<any>=[]
+  let detalle:Array<any>=[];
+
+  this.rndcService.getCabeza(proceso_id).subscribe(
+    {
+      next: (res) => {
+        cabeza=res.data.cabeza;
+      },
+      error: (err) => {
+        // treat error
+      },
+      
+  });
+
+  this.rndcService.getDetalle(id).subscribe(
+    {
+      next: (res) => {
+        detalle=res.data.detalle;
+      },
+      error: (err) => {
+        // treat error
+      },
+      complete: () => {
+        const dialogRef = this.dialog.open(EditregComponent, {
+          width: '400px',
+          data:{cabecera:cabeza,detalle:detalle,proceso_id:id.toString()}
+        });
+      
+        dialogRef.afterClosed().subscribe(
+          {
+            next: (response) => {
+              
+            },
+            error: (error) => {
+              // treat error
+            },
+            complete: () => {
+      
+            }
+          });
+      }
+  });
+
   
-    const dialogRef = this.dialog.open(EditregComponent, {
-      width: '400px',
-      data:{}
-    });
 
-    dialogRef.afterClosed().subscribe(
-      {
-        next: (response) => {
-         
-        },
-        error: (error) => {
-          // treat error
-        },
-        complete: () => {
-
-        }
-      });
+  
 }
 
 
@@ -136,4 +167,58 @@ export interface Error{
   tipo_viaje:string;
   editar:string;
 
+}
+
+export interface remesa{
+  NUMNITEMPRESATRANSPORTE:string,
+CONSECUTIVOREMESA:string,
+CODOPERACIONTRANSPORTE:string,
+CODTIPOEMPAQUE:string,
+CODNATURALEZACARGA:string,
+DESCRIPCIONCORTAPRODUCTO:string,
+MERCANCIAREMESA:string,
+CANTIDADCARGADA:string,
+UNIDADMEDIDACAPACIDAD:string,
+PESOCONTENEDORVACIO:string,
+NUMIDREMITENTE:string,
+CODTIPOIDREMITENTE:string,
+CODSEDEREMITENTE:string,
+NUMIDDESTINATARIO:string,
+CODTIPOIDDESTINATARIO:string,
+CODSEDEDESTINATARIO:string,
+CODTIPOIDPROPIETARIO:string,
+NUMIDPROPIETARIO:string,
+CODSEDEPROPIETARIO:string,
+DUENOPOLIZA:string,
+NUMPOLIZATRANSPORTE:string,
+FECHAVENCIMIENTOPOLIZACARGA:string,
+COMPANIASEGURO:string,
+HORASPACTODESCARGUE:string,
+MINUTOSPACTODESCARGUE:string,
+FECHACITAPACTADACARGUE:string,
+HORACITAPACTADACARGUE:string,
+FECHACITAPACTADADESCARGUE:string,
+HORACITAPACTADADESCARGUEREMESA:string,
+HORASPACTOCARGA:string
+}
+
+export interface planilla{
+CODIDCONDUCTOR:string,
+CODIDTITULARMANIFIESTO:string,
+CODMUNICIPIODESTINOMANIFIESTO:string,
+CODMUNICIPIOORIGENMANIFIESTO:string,
+CODMUNICIPIOPAGOSALDO:string,
+CODOPERACIONTRANSPORTE:string,
+CODRESPONSABLEPAGOCARGUE:string,
+CODRESPONSABLEPAGODESCARGUE:string,
+FECHAEXPEDICIONMANIFIESTO:string,
+FECHAPAGOSALDOMANIFIESTO:string,
+NUMIDCONDUCTOR:string,
+NUMIDTITULARMANIFIESTO:string,
+NUMMANIFIESTOCARGA:string,
+NUMNITEMPRESATRANSPORTE:string,
+NUMPLACA:string,
+RETENCIONICAMANIFIESTOCARGA:string,
+VALORANTICIPOMANIFIESTO:string,
+VALORFLETEPACTADOVIAJE:string,
 }
