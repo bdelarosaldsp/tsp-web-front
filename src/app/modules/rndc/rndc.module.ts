@@ -23,7 +23,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { EditregComponent } from './editreg/editreg.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTableExporterModule } from 'mat-table-exporter';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatPaginatorModule } from '@angular/material/paginator';
 
 
 @NgModule({

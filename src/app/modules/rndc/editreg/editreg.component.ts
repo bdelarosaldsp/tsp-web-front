@@ -4,15 +4,18 @@ import { ConfirmDialogComponent } from '../../images/confirm-dialog/confirm-dial
 import Swal from 'sweetalert2';
 import { RndcService } from 'src/app/services/rndc.service';
 import { ToastrService } from 'ngx-toastr';
+import { Console } from 'console';
 
 @Component({
   selector: 'app-editreg',
   templateUrl: './editreg.component.html',
   styleUrls: ['./editreg.component.scss']
 })
-export class EditregComponent implements OnInit {
-  detsave:Array<any>=this.data.detalle;
 
+
+export class EditregComponent implements OnInit {
+  detsave:Array<any>=[];
+  proceso:string="";
 
   constructor(
     public dialogRef: MatDialogRef<ConfirmDialogComponent>,
@@ -21,31 +24,89 @@ export class EditregComponent implements OnInit {
     private toastr:ToastrService,
     @Inject(MAT_DIALOG_DATA) public data: {cabecera:Array<any>,detalle:Array<any>,proceso_id:string}
   ) { 
-
+    this.proceso=data.cabecera[0].proceso;
   }
 
   ngOnInit(): void {
+    
   }
 
-  setValue(campo:string): string{
+  ngAfterViewInit() {
+    setTimeout(() => {
+      this.data.detalle.forEach((det)=>{
+        if (!det.campo.includes('CODTIPOID')){
+          (document.getElementById(det.campo) as HTMLInputElement).value=det.valor;
+        }else{
+          /*var select=(document.getElementById(det.campo) as HTMLSelectElement);
+          let index:number;
+          switch(det.valor) { 
+            case "C": { 
+              index=0;
+              break; 
+            } 
+            case "N": { 
+              index=1;
+              break; 
+            } 
+            case "P": { 
+              index=2;
+              break; 
+            } 
+            case "E": { 
+              index=3;
+              break; 
+            } 
+            case "T": { 
+              index=4;
+              break; 
+            } 
+            case "U": { 
+              index=5;
+              break; 
+            } 
+            default: { 
+               index=0; 
+               break; 
+            }
+         } */
+
+          
+        }
+        
+      })
+    }, 0);
+  }
+
+
+  setValue(event:any){
+   
+    console.log(event.srcElement.id)
     var res = this.data.detalle.find(det=>
-       det.campo==campo
+       det.campo==event.srcElement.id
     );
-    return res.valor;
+    if(typeof(res)=='undefined')
+    {
+      
+      (document.getElementById(event.srcElement.id) as HTMLInputElement).value= "Sin Valor";
+    }else{
+      (document.getElementById(event.srcElement.id) as HTMLInputElement).value= res.valor;
+    }
+    
 
   }
 
   editValue(event:any){
-    var res =this.detsave.find(det=>
+    var res =this.data.detalle.find(det=>
       det.campo===event.srcElement.id
     );
     res.valor=event.srcElement.value;
-    console.log(this.data.detalle);
+    this.detsave.push(res);
 
   }
 
   onSave(){
-    if(this.data.detalle === this.detsave){
+    
+    if(this.detsave.length==0){
       Swal.fire(
         {
           icon:'warning',
@@ -55,7 +116,6 @@ export class EditregComponent implements OnInit {
           confirmButtonText:"Aceptar"
         });
     }else{
-
       let datareg={
         registro:this.detsave,
         id:this.data.proceso_id
@@ -63,8 +123,10 @@ export class EditregComponent implements OnInit {
 
      this.rndcService.saveRegister(datareg).subscribe({
       next:(res)=> {
+        console.log(res)
         if(res.data.save==='S'){
-          this.toastr.success();
+          
+          this.toastr.success(res.data.mensaje);
           Swal.fire({
             title: 'Registro actualizado!',
             text:'¿Desea reprocesar?',
@@ -75,6 +137,7 @@ export class EditregComponent implements OnInit {
           }).then((result)=>{
             if (!result.isConfirmed) {
               Swal.fire({text:"No se reprocesó", icon:"info"});
+              this.onClear();
             }else {
               this.rndcService.reSend(this.data.proceso_id).subscribe({
                 next:()=> {
@@ -99,5 +162,13 @@ export class EditregComponent implements OnInit {
     }
 
 
+  }
+
+  onClear(){
+    this.data.cabecera=[];
+    this.data.detalle=[];
+    this.data.proceso_id="";
+    this.detsave=[];
+    
   }
 }
