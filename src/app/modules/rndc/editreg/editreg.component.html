@@ -5,12 +5,22 @@
     <div class="row">
       <mat-form-field appearance="outline">
           <mat-label> {{campo.nom_pantalla}}</mat-label>
-          <input id={{campo.nom_rndc}} matInput [placeholder]="campo.alt" [disabled]="campo.editable==='1'? false : true" [value]="setValue(campo.nom_rndc)" (change)="editValue($event)">
-      </mat-form-field>
-  </div>
+
+          <input *ngIf="!campo.nom_rndc.includes('CODTIPOID')" id={{campo.nom_rndc}} matInput [placeholder]="campo.alt" [disabled]="campo.editable==='1'? false : true" (change)="editValue($event)">
+          <mat-select  *ngIf="campo.nom_rndc.includes('CODTIPOID')"  disableRipple id={{campo.nom_rndc}}>
+            <mat-option  value="C">Cedula</mat-option>
+            <mat-option value="N">Nit</mat-option>
+            <mat-option value="P">Pasaporte</mat-option>
+            <mat-option value="E">Cedula extranjería</mat-option>
+            <mat-option value="T">Tarjeta de identidad</mat-option>
+            <mat-option value="U">NUIP</mat-option>
+          </mat-select>
+        </mat-form-field>
+    </div>
 
   </div>
 <div mat-dialog-actions>
   <button mat-button [mat-dialog-close]="false" >Cancelar</button>
   <button mat-button [mat-dialog-close]="true" cdkFocusInitial (click)="onSave()">Guardar</button>
+  <button *ngIf="proceso==='3'" mat-button [mat-dialog-close]="false" >Anular</button>
 </div>

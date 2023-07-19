@@ -1,101 +1,113 @@
 <div class="container text-center">
-    <mat-card>
-        <mat-card-header>
-            <div mat-card-avatar>
-                <span class="material-icons">
-                    error
-                </span>
-            </div>
-            <mat-card-title>Errores rndc</mat-card-title>
-        </mat-card-header>
-
-        <mat-divider></mat-divider>
-        <mat-card-content style="margin-top: 30px;">
-            <div class="row">
-                <div class="col text-center">
-                    <div class="row">
-                        <mat-form-field appearance="outline">
-                            <mat-label> Manifiesto:</mat-label>
-                            <input matInput placeholder="Numero manifiesto" [formControl]="controlMan">
-                        </mat-form-field>
-                    </div>
-
-                    <div class="row" >
-                        <mat-form-field appearance="outline" >
-                            <mat-label>Estado:</mat-label>
-                            <mat-select style="height: 50px;" disableRipple [formControl]="controlEst">
-                                <mat-option value="1">Enviado con error</mat-option>
-                                <mat-option value="2">Enviado con radicado</mat-option>
-                                <mat-option value="3">Procesando</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
-                </div>
     
-               
-                <div class="col text-center">
-                    <div class="row">
-                        <mat-form-field appearance="outline">
-                            <mat-label> Remesa:</mat-label>
-                            <input matInput placeholder="Remesa" [formControl]="controlRem">
-                        </mat-form-field>
-                    </div>
-
-                    <div class="row">
-                        <mat-form-field appearance="outline">
-                            <mat-datepicker-toggle matIconSuffix [for]="picker">
-                                <mat-icon>event</mat-icon>
-                            </mat-datepicker-toggle>
-                            <mat-label>Desde:</mat-label>
-                            <input [formControl]="controlFec" class="date" readonly matInput [matDatepickerFilter]="myFilter" [matDatepicker]="picker"> 
-                        </mat-form-field>
-                            
-                        <div class="col">
-                            
-                            <mat-datepicker #picker></mat-datepicker>
-                        </div>
-                    </div>
+    
+<mat-expansion-panel>
+    <mat-expansion-panel-header>
+        <mat-panel-title>
+          Filtros
+            </mat-panel-title>
+            <mat-panel-description>
+            Filtros de consulta
+            </mat-panel-description>
+        </mat-expansion-panel-header>
+        <mat-card>
+            <mat-card-header>
+                <div mat-card-avatar>
+                    <span class="material-icons">
+                        error
+                    </span>
                 </div>
-                
-
-                
+                <mat-card-title>Errores rndc</mat-card-title>
+            </mat-card-header>
+    
+            <mat-divider></mat-divider>
+            <mat-card-content style="margin-top: 30px;">
                 <div class="row">
-                    <div class="col" style="padding-left: 35px;">
+                    <div class="col text-center">
                         <div class="row">
-                            <div  class="col">
-                                <button (click)="onSearch()" style="height: 50px; width: 200px;"  mat-raised-button color="primary" >
-                                    <span class="material-icons">
-                                        search
-                                    </span>
-                                    Consultar
-                                </button>
-                            </div>
-                            <div *ngIf="controlMan.value || controlRem.value || controlEst.value || controlFec.value>0" class="col" style="padding-left: 50px;">
-                                <button (click)="onClear()" style="height: 50px; width: 200px;" mat-raised-button color="warn" >
-                                    <span class="material-icons">
-                                        cached
-                                    </span>
-                                    Limpiar panel
-                                </button>
-                            </div> 
-                            <div class="col">
-                                <button mat-raised-button (click)="exporter.exportTable('xlsx')"  >
-                                    <img width="50" height="50" src="https://img.icons8.com/color/48/export-excel.png" alt="export-excel"/>
-                                    Exportar
-                                </button>
-                                </div>
+                            <mat-form-field appearance="outline">
+                                <mat-label> Manifiesto:</mat-label>
+                                <input matInput placeholder="Numero manifiesto" [formControl]="controlMan">
+                            </mat-form-field>
                         </div>
-
-                        
-
+    
+                        <div class="row" >
+                            <mat-form-field appearance="outline" >
+                                <mat-label>Estado:</mat-label>
+                                <mat-select style="height: 50px;" disableRipple [formControl]="controlEst">
+                                    <mat-option value="E">Enviado con error</mat-option>
+                                    <mat-option value="S">Enviado con radicado</mat-option>
+                                    <mat-option value="N">Procesando</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+        
+                   
+                    <div class="col text-center">
+                        <div class="row">
+                            <mat-form-field appearance="outline">
+                                <mat-label> Remesa:</mat-label>
+                                <input matInput placeholder="Remesa" [formControl]="controlRem">
+                            </mat-form-field>
+                        </div>
+    
+                        <div class="row">
+                            <mat-form-field appearance="outline">
+                                <mat-datepicker-toggle matIconSuffix [for]="picker">
+                                    <mat-icon>event</mat-icon>
+                                </mat-datepicker-toggle>
+                                <mat-label>Desde:</mat-label>
+                                <input [formControl]="controlFec" class="date" readonly matInput [matDatepickerFilter]="myFilter" [matDatepicker]="picker"> 
+                            </mat-form-field>
+                                
+                            <div class="col">
+                                
+                                <mat-datepicker #picker></mat-datepicker>
+                            </div>
+                        </div>
+                    </div>
+                    
+    
+                    
+                    <div class="row">
+                        <div class="col" style="padding-left: 35px;">
+                            <div class="row">
+                                <div  class="col">
+                                    <button (click)="onSearch()" style="height: 50px; width: 200px;"  mat-raised-button color="primary" >
+                                        <span class="material-icons">
+                                            search
+                                        </span>
+                                        Consultar
+                                    </button>
+                                </div>
+                                <div *ngIf="controlMan.value || controlRem.value || controlEst.value || controlFec.value>0" class="col" style="padding-left: 50px;">
+                                    <button (click)="onClear()" style="height: 50px; width: 200px;" mat-raised-button color="warn" >
+                                        <span class="material-icons">
+                                            cached
+                                        </span>
+                                        Limpiar panel
+                                    </button>
+                                </div> 
+                                <div class="col">
+                                    <button mat-raised-button (click)="exporter.exportTable('xlsx')"  >
+                                        <img width="50" height="50" src="https://img.icons8.com/color/48/export-excel.png" alt="export-excel"/>
+                                        Exportar
+                                    </button>
+                                    </div>
+                            </div>
+    
+                        </div>
                     </div>
                 </div>
-            </div>
-            <br>
-            <br>
-
-        </mat-card-content>
-    </mat-card>
+                <br>
+                <br>
+    
+            </mat-card-content>
+        </mat-card>
+    
+    </mat-expansion-panel>
+    
     <div class="text-center">
             
         <h2>{{label}}</h2>
@@ -167,12 +179,15 @@
 
             <ng-container matColumnDef="cod_error">
                 <th mat-header-cell *matHeaderCellDef> COD_ERROR </th>
-                <td mat-cell *matCellDef="let element"> {{element.cod_error}} </td>
+                <td mat-cell *matCellDef="let element"> {{element.codigo_error}} </td>
             </ng-container>
 
             <ng-container matColumnDef="descripcion_del_error">
                 <th mat-header-cell *matHeaderCellDef> DESCRIPCION_DEL_ERROR </th>
-                <td mat-cell *matCellDef="let element"> {{element.mensaje_error}} </td>
+                <td mat-cell *matCellDef="let element">
+                    <button mat-button *ngIf="element.codigo_error==='S'" >Ver detalle de errores </button>
+                </td>
+
             </ng-container>
 
             <ng-container matColumnDef="fec_manifiesto">

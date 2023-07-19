@@ -86,6 +86,7 @@ editReg(reg:any){
   this.rndcService.getCabeza(proceso_id).subscribe(
     {
       next: (res) => {
+        console.log(res)
         cabeza=res.data.cabeza;
       },
       error: (err) => {
@@ -97,6 +98,7 @@ editReg(reg:any){
   this.rndcService.getDetalle(id).subscribe(
     {
       next: (res) => {
+        console.log(res)
         detalle=res.data.detalle;
       },
       error: (err) => {
@@ -111,13 +113,16 @@ editReg(reg:any){
         dialogRef.afterClosed().subscribe(
           {
             next: (response) => {
-              
+              cabeza=[];
+              detalle=[];   
             },
             error: (error) => {
-              // treat error
+              cabeza=[];
+              detalle=[]; 
             },
             complete: () => {
-      
+              cabeza=[];
+              detalle=[]; 
             }
           });
       }
