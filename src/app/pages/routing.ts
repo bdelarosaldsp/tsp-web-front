@@ -58,6 +58,11 @@ const Routing: Routes = [
       import('../modules/rndc/rndc.module').then((m) => m.RndcModule),
   },
   {
+    path: 'support',
+    loadChildren: () =>
+      import('../modules/support/support.module').then((m) => m.SupportModule),
+  },
+  {
     path: '',
     redirectTo: '/dashboard',
     pathMatch: 'full',
