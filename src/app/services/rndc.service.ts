@@ -17,8 +17,8 @@ export class RndcService extends BaseService {
     super(apiBase+Constant.Endpoints.RNDC.BASE, injector);
   }
 
-  public getErrores(manifiesto:string,remesa:string,estado:string,fecha:string){
-    return this.globalService.get(`${this.urlBase}${Constant.Endpoints.RNDC.GET_ERRORES}/${manifiesto}/${remesa}/${estado}/${fecha}`).pipe(
+  public getErrores(manifiesto:string,remesa:string,estado:string,fecha:string,sucursal:string){
+    return this.globalService.get(`${this.urlBase}${Constant.Endpoints.RNDC.GET_ERRORES}/${manifiesto}/${remesa}/${estado}/${fecha}/${sucursal}`).pipe(
       map(res => {
         
        return res;
@@ -35,6 +35,14 @@ export class RndcService extends BaseService {
     );
   }
 
+  public getDetalleError(id:number){
+    return this.globalService.get(`${this.urlBase}${Constant.Endpoints.RNDC.GET_DETALLE_ERR}/${id}`).pipe(
+      map(res => {
+        
+       return res;
+      })
+    );
+  }
   public getCabeza(id:number){
     return this.globalService.get(`${this.urlBase}${Constant.Endpoints.RNDC.GET_CABEZA}/${id}`).pipe(
       map(res => {
