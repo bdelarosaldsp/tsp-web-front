@@ -6,6 +6,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { RndcService } from 'src/app/services/rndc.service';
 import { EditregComponent } from '../editreg/editreg.component';
+import { Constant } from 'src/app/shared/constant';
+import { DeterrComponent } from '../deterr/deterr.component';
 
 const ELEMENT_DATA: Error[] = [];
 
@@ -23,9 +25,11 @@ export class ErrorlistComponent implements OnInit {
   controlRem : FormControl  = new FormControl('');
   controlEst : FormControl  = new FormControl('');
   controlFec : FormControl  = new FormControl('');
+  controlSuc : FormControl  = new FormControl('');
   label: string='';
   progressbar: boolean=false;
   datasource= new MatTableDataSource<Error>(ELEMENT_DATA);
+  agencies : Array<any> =  Constant.AUTH.getUser()?.agencies;
 
   datos:Array<any>=[];
   Errores : Array<Error>=[];
@@ -49,10 +53,11 @@ export class ErrorlistComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onSearch(){
+  onSearch(){console.log(this.controlSuc)
     this.label='Obteniendo resultados de la consulta';
     this.progressbar=true;
-   this.rndcService.getErrores(this.controlMan.value===''?null:this.controlMan.value,this.controlRem.value===''?null:this.controlRem.value,this.controlEst.value===''?'S':this.controlEst.value,this.controlFec.value===''?null:this.controlFec.value)
+    //this.controlSuc.=typeof(this.controlSuc.value.vus_codage)==='undefined'?'':this.controlSuc.value.vus_codage;
+   this.rndcService.getErrores(this.controlMan.value===''?null:this.controlMan.value,this.controlRem.value===''?null:this.controlRem.value,this.controlEst.value===''?'S':this.controlEst.value,this.controlFec.value===''?null:this.controlFec.value,this.controlSuc.value===''?null:this.controlSuc.value.vus_codage)
    .subscribe({
     next:(res)=>{
       this.Errores = res.data.inferr;
@@ -64,6 +69,7 @@ export class ErrorlistComponent implements OnInit {
     },
   })
   }
+
   onClear(){
     this.Errores.values;
     
@@ -128,7 +134,37 @@ editReg(reg:any){
   
 }
 
+detalleError(id:number){
+  let detalle:Array<any>;
+  this.rndcService.getDetalleError(id).subscribe(
+    {
+      next: (res) => {
+        detalle=res.data.detalle;
+      },
+      error: (err) => {
+        // treat error
+      },
+      complete: () => {
+        const dialogRef = this.dialog.open(DeterrComponent, {
+          data:detalle
+        });
+      
+        dialogRef.afterClosed().subscribe(
+          {
+            next: (response) => {
+              
+            },
+            error: (error) => {
+              // treat error
+            },
+            complete: () => {
+      
+            }
+          });
+      }
+  });
 
+}
 
 }
 export interface Error{

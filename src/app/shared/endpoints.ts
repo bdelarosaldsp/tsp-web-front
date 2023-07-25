@@ -68,6 +68,7 @@ export const Endpoint = {
     FIND_DOCUMENT:`/actions/FindDocument`,
     GET_ERRORES:'/actions/GetErrores',
     GET_DETALLE:'/actions/GetDetalleReg',
+    GET_DETALLE_ERR:'/actions/GetDetalleError',
     GET_CABEZA:'/actions/GetCabeza',
     SAVE_REGISTER:'/actions/SaveRegister',
     RESEND:'/actions/ReSend'

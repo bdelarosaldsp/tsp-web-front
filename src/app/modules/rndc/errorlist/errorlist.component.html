@@ -56,6 +56,17 @@
                         </div>
                     </div>
                 </div>
+
+               <div class="row">
+                <div class="col text-center">
+                    <mat-form-field appearance="legacy">
+                        <mat-label >Seleccione Agencia</mat-label>
+                        <mat-select [formControl]="controlSuc">
+                            <mat-option [value]="agency" *ngFor="let agency of agencies">{{agency.vus_insden}}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+               </div> 
                 
 
                 
@@ -172,7 +183,9 @@
 
             <ng-container matColumnDef="descripcion_del_error">
                 <th mat-header-cell *matHeaderCellDef> DESCRIPCION_DEL_ERROR </th>
-                <td mat-cell *matCellDef="let element"> {{element.mensaje_error}} </td>
+                <td mat-cell *matCellDef="let element">
+                    <button mat-button *ngIf="element.codigo_error==='S'" (click)="detalleError(element.id_otm)" >Ver detalle de errores </button>
+                </td>
             </ng-container>
 
             <ng-container matColumnDef="fec_manifiesto">
@@ -181,7 +194,7 @@
             </ng-container>
 
             <ng-container matColumnDef="fec_reg_radicado">
-                <th mat-header-cell *matHeaderCellDef> FEC_REG_RADICADO </th>
+                <th mat-header-cell *matHeaderCellDef> FECHA_RESPUESTA_RNDC </th>
                 <td mat-cell *matCellDef="let element"> {{element.fecha_registro_radicado}} </td>
             </ng-container>
 

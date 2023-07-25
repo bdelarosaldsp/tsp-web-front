@@ -24,6 +24,7 @@ import { EditregComponent } from './editreg/editreg.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTableExporterModule } from 'mat-table-exporter';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { DeterrComponent } from './deterr/deterr.component';
 
 
 @NgModule({
@@ -31,7 +32,8 @@ import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
     SearchComponent,
     DetailsComponent,
     ErrorlistComponent,
-    EditregComponent   
+    EditregComponent,
+    DeterrComponent   
   ],
   imports: [
     CommonModule,
