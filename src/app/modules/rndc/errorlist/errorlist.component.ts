@@ -57,7 +57,7 @@ export class ErrorlistComponent implements OnInit {
     this.label='Obteniendo resultados de la consulta';
     this.progressbar=true;
     //this.controlSuc.=typeof(this.controlSuc.value.vus_codage)==='undefined'?'':this.controlSuc.value.vus_codage;
-   this.rndcService.getErrores(this.controlMan.value===''?null:this.controlMan.value,this.controlRem.value===''?null:this.controlRem.value,this.controlEst.value===''?'S':this.controlEst.value,this.controlFec.value===''?null:this.controlFec.value,this.controlSuc.value===''?null:this.controlSuc.value.vus_codage)
+   this.rndcService.getErrores(this.controlMan.value===''?null:this.controlMan.value,this.controlRem.value===''?null:this.controlRem.value,this.controlEst.value===''?'E':this.controlEst.value,this.controlFec.value===''?null:this.controlFec.value,this.controlSuc.value===''?null:this.controlSuc.value.vus_codage)
    .subscribe({
     next:(res)=>{
       this.Errores = res.data.inferr;
