@@ -13,14 +13,14 @@
         <mat-card-content style="margin-top: 30px;">
             <div class="row">
                 <div class="col text-center">
-                    <div class="row">
+                    <div class="row1">
                         <mat-form-field appearance="outline">
                             <mat-label> Manifiesto:</mat-label>
                             <input matInput placeholder="Numero manifiesto" [formControl]="controlMan">
                         </mat-form-field>
                     </div>
 
-                    <div class="row" >
+                    <div class="row3" >
                         <mat-form-field appearance="outline" >
                             <mat-label>Estado:</mat-label>
                             <mat-select style="height: 50px;" disableRipple [formControl]="controlEst">
@@ -34,30 +34,30 @@
     
                
                 <div class="col text-center">
-                    <div class="row">
+                    <div class="row1">
                         <mat-form-field appearance="outline">
                             <mat-label> Remesa:</mat-label>
                             <input matInput placeholder="Remesa" [formControl]="controlRem">
                         </mat-form-field>
                     </div>
 
-                    <div class="row">
-                        <mat-form-field appearance="outline">
-                            <mat-datepicker-toggle matIconSuffix [for]="picker">
-                                <mat-icon>event</mat-icon>
-                            </mat-datepicker-toggle>
-                            <mat-label>Desde:</mat-label>
-                            <input [formControl]="controlFec" class="date" readonly matInput [matDatepickerFilter]="myFilter" [matDatepicker]="picker"> 
-                        </mat-form-field>
+                    <div class="row1">
+                        <mat-form-field>
+                            <mat-label>Seleccione rango de fecha</mat-label>
+                            <mat-date-range-input [rangePicker]="picker">
+                              <input matStartDate placeholder="Start date">
+                              <input matEndDate placeholder="End date">
+                            </mat-date-range-input>
                             
-                        <div class="col">
+                            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-date-range-picker #picker></mat-date-range-picker>
+                          </mat-form-field>
                             
-                            <mat-datepicker #picker></mat-datepicker>
-                        </div>
+
                     </div>
                 </div>
 
-               <div class="row">
+               <div class="row2">
                 <div class="col text-center">
                     <mat-form-field appearance="legacy">
                         <mat-label >Seleccione Agencia</mat-label>
@@ -74,7 +74,7 @@
                     <div class="col" style="padding-left: 35px;">
                         <div class="row">
                             <div  class="col">
-                                <button (click)="onSearch()" style="height: 50px; width: 200px;"  mat-raised-button color="primary" >
+                                <button (click)="onSearch()" style="height: 40px; width: 35%;"  mat-raised-button color="primary" >
                                     <span class="material-icons">
                                         search
                                     </span>
@@ -82,7 +82,7 @@
                                 </button>
                             </div>
                             <div *ngIf="controlMan.value || controlRem.value || controlEst.value || controlFec.value>0" class="col" style="padding-left: 50px;">
-                                <button (click)="onClear()" style="height: 50px; width: 200px;" mat-raised-button color="warn" >
+                                <button (click)="onClear()" style="height: 40px; width: 45%;" mat-raised-button color="warn" >
                                     <span class="material-icons">
                                         cached
                                     </span>
@@ -91,7 +91,7 @@
                             </div> 
                             <div class="col">
                                 <button mat-raised-button (click)="exporter.exportTable('xlsx')"  >
-                                    <img width="50" height="50" src="https://img.icons8.com/color/48/export-excel.png" alt="export-excel"/>
+                                    <img width="30%" height="40px" src="https://img.icons8.com/color/48/export-excel.png" alt="export-excel"/>
                                     Exportar
                                 </button>
                                 </div>

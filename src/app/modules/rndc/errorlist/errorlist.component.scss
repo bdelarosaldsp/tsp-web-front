@@ -8,17 +8,59 @@ mat-select{
     align-items: center;
     vertical-align: middle;
 }
+.row1{
+width: 90%;
+}
+.row2{
+  width: 90%;
+  align-content: center;
+  }
+  .row3{
+    width: 90%;
+    height: 50px;
+    }
 table{
     width: 100%;
     margin: 1rem auto;
 
   }
+
 .container1{
+  max-width: 1300px;
   
-  max-width: 1200px;
-  overflow-x:scroll;
+  
+  overflow-x: scroll;
+  
+}
+.container1::-webkit-scrollbar{
+  
+  -webkit-appearance:none;
+  Scrollbar-width: auto;
+  height: 20px;
 
 }
+
+
+.container1::-webkit-scrollbar-button:increment,.contenedor::-webkit-scrollbar-button {
+  display:none;
+} 
+
+.containe1::-webkit-scrollbar:horizontal {
+  width: 1300px;
+  height: 100px;
+}
+
+.container1::-webkit-scrollbar-thumb  {
+  background-color: #98999b;
+  border-radius: 40px;
+  border: 2px solid #f1f2f3;
+  width: 100px;
+}
+
+.container1::-webkit-scrollbar-track {
+  border-radius: 100px;  
+}
+
   
   .mat-row {
      height: auto;

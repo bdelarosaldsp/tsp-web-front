@@ -57,8 +57,6 @@ import { DeterrComponent } from './deterr/deterr.component';
     MatIconModule,
     MatTableExporterModule,
     MatPaginatorModule
-    
-
-  ]
+    ]
 })
 export class RndcModule { }
