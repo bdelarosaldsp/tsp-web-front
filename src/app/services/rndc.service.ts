@@ -63,7 +63,7 @@ export class RndcService extends BaseService {
   }
 
   public reSend(id:string){
-    return this.globalService.get(`${this.urlBase}${Constant.Endpoints.RNDC.RESEND}/${id}/`).pipe(
+    return this.globalService.get(`${this.urlBase}${Constant.Endpoints.RNDC.RESEND}/${id}`).pipe(
       map(res => {
         
        return res;

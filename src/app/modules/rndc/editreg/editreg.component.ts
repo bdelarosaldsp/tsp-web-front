@@ -111,9 +111,25 @@ export class EditregComponent implements OnInit {
         {
           icon:'warning',
           title:"Registros sin cambios...",
-          text:"No se realizaron cambios.",
-          confirmButtonColor:"green",
-          confirmButtonText:"Aceptar"
+          text:"No se realizaron cambios. Desea reprocesar el registro?",
+          confirmButtonText:'SI',
+          showCancelButton: true,
+          cancelButtonText:'NO',
+          
+        }).then((result)=>{
+          if (!result.isConfirmed) {
+            Swal.fire({text:"No se reprocesó", icon:"info"});
+            this.onClear();
+          }else {
+            this.rndcService.reSend(this.data.proceso_id).subscribe({
+              next:()=> {
+                this.toastr.success('Registro reprocesado');
+              },
+              error:(err) =>{
+                this.toastr.error('Error:'+err.message);
+              },
+            })
+          }
         });
     }else{
       let datareg={

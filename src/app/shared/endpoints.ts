@@ -71,7 +71,7 @@ export const Endpoint = {
     GET_DETALLE_ERR:'/actions/GetDetalleError',
     GET_CABEZA:'/actions/GetCabeza',
     SAVE_REGISTER:'/actions/SaveRegister',
-    RESEND:'/actions/ReSend'
+    RESEND:'/actions/RetransmiteReg'
   },
   USERS:{
     BASE: `users`
