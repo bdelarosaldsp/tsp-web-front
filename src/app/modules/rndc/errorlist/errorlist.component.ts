@@ -20,12 +20,15 @@ const ELEMENT_DATA: Error[] = [];
 export class ErrorlistComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   
-
+  fecha:Date= new Date();
   controlMan : FormControl  = new FormControl('')
   controlRem : FormControl  = new FormControl('');
   controlEst : FormControl  = new FormControl('');
-  controlFec : FormControl  = new FormControl('');
+  controlFecIni : FormControl  = new FormControl(`${this.fecha.getFullYear()}-${('0'+(this.fecha.getMonth()+1)).slice(-2)}-${('0'+(this.fecha.getDay()-7)).slice(-2)}`);
+  controlFecFin : FormControl  = new FormControl(`${this.fecha.getFullYear()}-${('0'+(this.fecha.getMonth()+1)).slice(-2)}-${('0'+(this.fecha.getDay()-1)).slice(-2)}`);
   controlSuc : FormControl  = new FormControl('');
+  controlType : FormControl  = new FormControl('3', [Validators.required]);
+
   label: string='';
   progressbar: boolean=false;
   datasource= new MatTableDataSource<Error>(ELEMENT_DATA);
@@ -51,13 +54,14 @@ export class ErrorlistComponent implements OnInit {
   
 
   ngOnInit(): void {
+    console.log("fecha inicial:"+ this.controlFecIni.value+"; Fecha final:"+this.controlFecFin.value)
   }
 
   onSearch(){console.log(this.controlSuc)
     this.label='Obteniendo resultados de la consulta';
     this.progressbar=true;
     //this.controlSuc.=typeof(this.controlSuc.value.vus_codage)==='undefined'?'':this.controlSuc.value.vus_codage;
-   this.rndcService.getErrores(this.controlMan.value===''?null:this.controlMan.value,this.controlRem.value===''?null:this.controlRem.value,this.controlEst.value===''?'E':this.controlEst.value,this.controlFec.value===''?null:this.controlFec.value,this.controlSuc.value===''?null:this.controlSuc.value.vus_codage)
+   this.rndcService.getErrores(this.controlMan.value===''?null:this.controlMan.value,this.controlRem.value===''?null:this.controlRem.value,this.controlEst.value===''?'E':this.controlEst.value,this.controlFecIni.value===''?null:this.controlFecIni.value,this.controlSuc.value===''?null:this.controlSuc.value.vus_codage)
    .subscribe({
     next:(res)=>{
       this.Errores = res.data.inferr;
