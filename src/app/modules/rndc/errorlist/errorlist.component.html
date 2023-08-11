@@ -60,7 +60,7 @@
                         <mat-form-field appearance="outline">
                             <mat-label>Seleccione rango de fecha</mat-label>
                             <mat-date-range-input [rangePicker]="picker">
-                              <input [formControl]="controlFecIni" readonly matStartDate placeholder="Fecha inicial">
+                              <input [formControl]="controlFecIni" readonly matStartDate placeholder="Fecha inicial" >
                               <input [formControl]="controlFecFin" readonly matEndDate placeholder="Fecha final">
                             </mat-date-range-input>
                             <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
