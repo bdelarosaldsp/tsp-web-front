@@ -17,8 +17,8 @@ export class RndcService extends BaseService {
     super(apiBase+Constant.Endpoints.RNDC.BASE, injector);
   }
 
-  public getErrores(manifiesto:string,remesa:string,estado:string,fecha:string,sucursal:string){
-    return this.globalService.get(`${this.urlBase}${Constant.Endpoints.RNDC.GET_ERRORES}/${manifiesto}/${remesa}/${estado}/${fecha}/${sucursal}`).pipe(
+  public getErrores(manifiesto:string,remesa:string,estado:string,fecha:string,fechafin:string,sucursal:string,tipo:string){
+    return this.globalService.get(`${this.urlBase}${Constant.Endpoints.RNDC.GET_ERRORES}/${manifiesto}/${remesa}/${estado}/${fecha}/${fechafin}/${sucursal}/${tipo}`).pipe(
       map(res => {
         
        return res;
