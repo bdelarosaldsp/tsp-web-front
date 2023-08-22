@@ -71,7 +71,10 @@ export const Endpoint = {
     GET_DETALLE_ERR:'/actions/GetDetalleError',
     GET_CABEZA:'/actions/GetCabeza',
     SAVE_REGISTER:'/actions/SaveRegister',
-    RESEND:'/actions/RetransmiteReg'
+    RESEND:'/actions/RetransmiteReg',
+    GET_DESTINATARIOS:'/actions/GetDestinatarios',
+    SET_DESTINATARIO:'/actions/setDestinatario',
+    GET_PROPIETARIOS:'/actions/GetPropietarios',
   },
   USERS:{
     BASE: `users`
