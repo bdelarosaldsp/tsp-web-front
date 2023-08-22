@@ -52,6 +52,33 @@ export class RndcService extends BaseService {
     );
   }
 
+  public getDestinatarios(sucursal:string){
+    return this.globalService.get(`${this.urlBase}${Constant.Endpoints.RNDC.GET_DESTINATARIOS}/${sucursal}`).pipe(
+      map(res => {
+        
+       return res;
+      })
+    );
+  }
+
+  public getPropietarios(){
+    return this.globalService.get(`${this.urlBase}${Constant.Endpoints.RNDC.GET_PROPIETARIOS}`).pipe(
+      map(res => {
+        
+       return res;
+      })
+    );
+  }
+
+  public SetDestinatario(otm:string){
+    return this.globalService.get(`${this.urlBase}${Constant.Endpoints.RNDC.SET_DESTINATARIO}/${otm}`).pipe(
+      map(res => {
+        
+       return res;
+      })
+    );
+  }
+
   public saveRegister(data: any): Observable<any> {
     return this.globalService
       .post(this.urlBase+Constant.Endpoints.RNDC.SAVE_REGISTER, data)
@@ -63,7 +90,7 @@ export class RndcService extends BaseService {
   }
 
   public reSend(id:string){
-    return this.globalService.get(`${this.urlBase}${Constant.Endpoints.RNDC.RESEND}/${id}/`).pipe(
+    return this.globalService.get(`${this.urlBase}${Constant.Endpoints.RNDC.RESEND}/${id}`).pipe(
       map(res => {
         
        return res;

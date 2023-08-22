@@ -8,9 +8,8 @@ import { RndcService } from 'src/app/services/rndc.service';
 import { EditregComponent } from '../editreg/editreg.component';
 import { Constant } from 'src/app/shared/constant';
 import { DeterrComponent } from '../deterr/deterr.component';
-import { error } from 'console';
-import { Toast } from 'bootstrap';
 import { ToastrService } from 'ngx-toastr';
+
 
 
 
@@ -44,9 +43,10 @@ export class ErrorlistComponent implements OnInit {
   Errores : Array<Error>=[];
   displayedColumnsErr: string[] =['clasificacion','tipo','planilla','remesa','cod_cli','nom_cli','cod_analogia','cod_pto','nom_pto','cod_suc','nom_suc','enviado','cod_error','descripcion_del_error','fec_manifiesto','fec_reg_radicado','fec_reporte','loc_ori_pla','loc_dest_pla','loc_ori_rem','loc_dest_rem','nit_analogia','nit_conductor','nombre_conductor','nit_propietario','propietario','num_doc','peso_remesa','peso_manifiesto','placa','placa_trailer','num_radicado','source_location_gid','tipo_viaje','editar'];
 
-  constructor(
-    private toastr:ToastrService,private rndcService:RndcService, private cdr:ChangeDetectorRef, private router: Router,
-    public dialog:MatDialog) { }
+
+  constructor(private rndcService:RndcService, private cdr:ChangeDetectorRef, private router: Router,
+    public dialog:MatDialog,
+    private toastr:ToastrService,) { }
   myFilter = (d: Date | null): boolean => {
     const day = (d || new Date()).getDay();
     // Prevent Saturday and Sunday from being selected.
@@ -55,9 +55,6 @@ export class ErrorlistComponent implements OnInit {
 
   ngAfterViewInit() {
     this.datasource.paginator = this.paginator;
-    console.log((this.fecha.toLocaleDateString()))
-    
-
     this.cdr.detectChanges();
   }
 
@@ -69,16 +66,29 @@ export class ErrorlistComponent implements OnInit {
   onSearch(){console.log(this.controlSuc)
     this.label='Obteniendo resultados de la consulta';
     this.progressbar=true;
-    let fechai:string=this.convertDate(this.controlFecIni.value);
-    let fechaf:string=this.convertDate(this.controlFecFin.value);
+
+    let fechai:string;
+    if(typeof(this.controlFecIni.value)==="string"  && this.controlFecIni.value.includes('-')){
+      fechai=this.controlFecIni.value;
+    }else{
+      fechai=this.convertDate(this.controlFecIni.value);
+    }
+    
+    let fechaf:string
+    if(typeof(this.controlFecFin.value)==="string" && this.controlFecFin.value.includes('-')){
+      fechaf=this.controlFecFin.value;
+    }else{
+      fechaf=this.convertDate(this.controlFecFin.value);
+    }
 
    this.rndcService.getErrores(this.controlMan.value===''?null:this.controlMan.value,this.controlRem.value===''?null:this.controlRem.value,this.controlEst.value===''?'E':this.controlEst.value,fechai===''?'null':fechai,fechaf===''?'null':fechaf,this.controlSuc.value===''?null:this.controlSuc.value.vus_codage,this.controlType.value===''?null:this.controlType.value)
-   .subscribe({
+.subscribe({
     next:(res)=>{
+      console.log(res)
       this.Errores = res.data.inferr;
       this.datasource.data=this.Errores;
-      console.log(res)
-    },
+ },
+    
     error:(err)=>{
       console.log(err)
       this.toastr.warning(err?.error?.message)
@@ -109,15 +119,15 @@ export class ErrorlistComponent implements OnInit {
   editReg(reg:any){
     let id:number=reg.id_otm;
     let proceso_id:number=reg.proceso_id;
+    let sucursal:string= reg.cod_suc;
 
     let cabeza:Array<any>=[]
     let detalle:Array<any>=[];
 
     this.rndcService.getCabeza(proceso_id).subscribe(
       {
-        next: (res) => {
-          cabeza=res.data.cabeza;
-        },
+        next: (res) => { console.log(res)
+        cabeza=res.data.cabeza;},
         error: (err) => {
           // treat error
         },
@@ -127,7 +137,8 @@ export class ErrorlistComponent implements OnInit {
     this.rndcService.getDetalle(id).subscribe(
       {
         next: (res) => {
-          detalle=res.data.detalle;
+        console.log(res)
+        detalle=res.data.detalle;
         },
         error: (err) => {
           // treat error
@@ -135,20 +146,24 @@ export class ErrorlistComponent implements OnInit {
         complete: () => {
           const dialogRef = this.dialog.open(EditregComponent, {
             width: '400px',
-            data:{cabecera:cabeza,detalle:detalle,proceso_id:id.toString()}
+            data:{cabecera:cabeza,detalle:detalle,proceso_id:id.toString(),sucursal:sucursal}
           });
         
           dialogRef.afterClosed().subscribe(
             {
               next: (response) => {
-                
-              },
+             cabeza=[];
+              detalle=[];   
+            },
               error: (error) => {
-                // treat error
+                cabeza=[];
+                detalle=[]; 
               },
               complete: () => {
-        
-              }
+                cabeza=[];
+                detalle=[]; 
+            }
+
             });
         }
     });

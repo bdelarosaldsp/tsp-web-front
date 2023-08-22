@@ -1,111 +1,128 @@
 <div class="container text-center">
-    <mat-card>
-        <mat-card-header>
-            <div mat-card-avatar>
-                <span class="material-icons">
-                    error
-                </span>
-            </div>
-            <mat-card-title>Errores rndc</mat-card-title>
-        </mat-card-header>
+    <mat-accordion  multi>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title>
+                    Errores RNDC
+                </mat-panel-title>
+                <mat-panel-description *ngIf="controlType.value === '1'">
+                    Consulta de Registros de RNDC
+                </mat-panel-description>
+               
+            </mat-expansion-panel-header>
+            <mat-card>
+                <mat-card-header>
+                    <div mat-card-avatar>
+                        <span class="material-icons">
+                            error
+                        </span>
+                    </div>
+                    <mat-card-title>Errores rndc</mat-card-title>
+                </mat-card-header>
 
-        <mat-divider></mat-divider>
-        <mat-card-content style="margin-top: 30px;">
-            <div class="container">
-                <div class="row">
-                    <div class="col">
-                        <mat-form-field appearance="outline">
-                            <mat-label> Manifiesto:</mat-label>
-                            <input matInput placeholder="Numero manifiesto" [formControl]="controlMan">
-                        </mat-form-field>
-                    </div>
-                    <div class="col">
-                        <mat-form-field appearance="outline">
-                            <mat-label> Remesa:</mat-label>
-                            <input matInput placeholder="Remesa" [formControl]="controlRem">
-                        </mat-form-field>
-                    </div>
-                    <div class="col">
-                        <mat-form-field appearance="outline" >
-                            <mat-label>Estado:</mat-label>
-                            <mat-select  disableRipple [formControl]="controlEst">
-                                <mat-option value="1">Enviado con error</mat-option>
-                                <mat-option value="2">Enviado con radicado</mat-option>
-                                <mat-option value="3">Procesando</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col">
-                        <mat-form-field appearance="outline">
-                            <mat-label >Seleccione Agencia</mat-label>
-                            <mat-select [formControl]="controlSuc">
-                                <mat-option [value]="agency" *ngFor="let agency of agencies">{{agency.vus_insden}}</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
-                    <div class="col">
-                        
-                        <label style="padding-right: 5px; padding-top: 5px;">Elija una opción:</label>
-                        <br>
-                        <mat-radio-group [formControl]="controlType">
-                            <mat-radio-button value="1">Planilla</mat-radio-button>
-                            <mat-radio-button style="padding-left: 3px;" value="2">Remesa</mat-radio-button>
-                            <mat-radio-button style="padding-left: 3px;" value="3">Todo</mat-radio-button>
-
-                        </mat-radio-group>
-                    </div>
-                    <div class="col">
-                        <mat-form-field appearance="outline">
-                            <mat-label>Seleccione rango de fecha</mat-label>
-                            <mat-date-range-input [rangePicker]="picker">
-                              <input [formControl]="controlFecIni" readonly matStartDate placeholder="Fecha inicial" >
-                              <input [formControl]="controlFecFin" readonly matEndDate placeholder="Fecha final">
-                            </mat-date-range-input>
-                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                            <mat-date-range-picker #picker></mat-date-range-picker>
-                        </mat-form-field>
-                    </div>
-                </div>
-
-                <div class="row">
-                    <div class="col" style="padding-left: 35px;">
-                        <div class="row">
-                            <div  class="col">
-                                <button (click)="onSearch()"  style="height: 40px;" mat-raised-button color="primary" >
-                                    <span class="material-icons">
-                                        search
-                                    </span>
-                                    Consultar
-                                </button>
-                            </div>
-                            <div *ngIf="controlMan.value || controlRem.value || controlEst.value " class="col" style="padding-left: 50px;">
-                                <button (click)="onClear()" style="height: 40px;" mat-raised-button color="warn" >
-                                    <span class="material-icons">
-                                        cached
-                                    </span>
-                                    Limpiar panel
-                                </button>
-                            </div> 
-                            <div class="col">
-                                <button mat-raised-button (click)="exporter.exportTable('xlsx')"  >
-                                    <img width="30%" height="40px" src="https://img.icons8.com/color/48/export-excel.png" alt="export-excel"/>
-                                    Exportar
-                                </button>
+                <mat-divider></mat-divider>
+       
+                <mat-card-content style="margin-top: 30px;">
+                    
+                            <div class="container">
+                                <div class="row">
+                                    <div class="col">
+                                        <mat-form-field appearance="outline">
+                                            <mat-label> Manifiesto:</mat-label>
+                                            <input matInput placeholder="Numero manifiesto" [formControl]="controlMan">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col">
+                                        <mat-form-field appearance="outline">
+                                            <mat-label> Remesa:</mat-label>
+                                            <input matInput placeholder="Remesa" [formControl]="controlRem">
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col">
+                                        <mat-form-field appearance="outline" >
+                                            <mat-label>Estado:</mat-label>
+                                            <mat-select  disableRipple [formControl]="controlEst" >
+                                                <mat-option value="E">Enviado con error</mat-option>
+                                                <mat-option value="S">Enviado con radicado</mat-option>
+                                                <mat-option value="N">Procesando</mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
                                 </div>
-                        </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <mat-form-field appearance="outline">
+                                            <mat-label >Seleccione Agencia</mat-label>
+                                            <mat-select [formControl]="controlSuc">
+                                                <mat-option [value]="agency" *ngFor="let agency of agencies">{{agency.vus_insden}}</mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col">
+                                        
+                                        <label style="padding-right: 5px; padding-top: 5px;">Elija una opción:</label>
+                                        <br>
+                                        <mat-radio-group [formControl]="controlType">
+                                            <mat-radio-button value="1">Planilla</mat-radio-button>
+                                            <mat-radio-button style="padding-left: 3px;" value="2">Remesa</mat-radio-button>
+                                            <mat-radio-button style="padding-left: 3px;" value="3">Todo</mat-radio-button>
 
-                        
+                                        </mat-radio-group>
+                                    </div>
+                                    <div class="col">
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>Seleccione rango de fecha</mat-label>
+                                            <mat-date-range-input [rangePicker]="picker">
+                                            <input [formControl]="controlFecIni" readonly matStartDate placeholder="Fecha inicial" >
+                                            <input [formControl]="controlFecFin" readonly matEndDate placeholder="Fecha final">
+                                            </mat-date-range-input>
+                                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                            <mat-date-range-picker #picker></mat-date-range-picker>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
 
-                    </div>
-                </div>
-            </div>
-            <br>
-            <br>
+                                <div class="row">
+                                    <div class="col" style="padding-left: 35px;">
+                                        <div class="row">
+                                            <div  class="col">
+                                                <button (click)="onSearch()"  style="height: 40px;" mat-raised-button color="primary" >
+                                                    <span class="material-icons">
+                                                        search
+                                                    </span>
+                                                    Consultar
+                                                </button>
+                                            </div>
+                                            <div *ngIf="controlMan.value || controlRem.value || controlEst.value " class="col" style="padding-left: 50px;">
+                                                <button (click)="onClear()" style="height: 40px;" mat-raised-button color="warn" >
+                                                    <span class="material-icons">
+                                                        cached
+                                                    </span>
+                                                    Limpiar panel
+                                                </button>
+                                            </div> 
+                                            <div class="col">
+                                                <button mat-raised-button (click)="exporter.exportTable('xlsx')"  >
+                                                    <img width="30%" height="40px" src="https://img.icons8.com/color/48/export-excel.png" alt="export-excel"/>
+                                                    Exportar
+                                                </button>
+                                                </div>
+                                        </div>
 
-        </mat-card-content>
-    </mat-card>
+                                        
+
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <br>
+                       
+                </mat-card-content>
+            </mat-card>
+        </mat-expansion-panel>
+    </mat-accordion>
+        
+    
     <div class="text-center">
             
         <h2>{{label}}</h2>

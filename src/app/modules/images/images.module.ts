@@ -68,12 +68,11 @@ import { ImgtopdfComponent } from './imgtopdf/imgtopdf.component';
     ImageViewerModule,
     MatAutocompleteModule,
     NgbModule,
-    PdfViewerModule,
     NgxExtendedPdfViewerModule,
     PdfJsViewerModule,
     SharedModule,
     MatTooltipModule,
-    MatExpansionModule
+    MatExpansionModule,
   ]
 })
 export class ImagesModule { }
