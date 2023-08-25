@@ -1,5 +1,5 @@
 import { Injectable, Injector } from '@angular/core';
-import { map } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { Constant } from '../shared/constant';
 import { ConfigService } from './config.service';
 import { BaseService } from './core/base.service';
@@ -59,4 +59,13 @@ export class UsersService extends BaseService{
     );
   }
   
+  public ChangeImg(data: any): Observable<any> {
+    return this.globalService
+      .post(`${this.urlBase}/actions/ChangeImg`, data)
+      .pipe(
+        map(res => {
+          return res;
+        })
+      );
+  }
 }

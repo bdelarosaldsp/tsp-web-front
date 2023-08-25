@@ -113,7 +113,7 @@
     data-kt-menu-placement="bottom-end"
     data-kt-menu-flip="bottom"
   >
-    <img src="./assets/media/avatars/300-2.png" alt="User" />
+    <img [src]="user.image!==null ? user.image.user_img : './assets/media/avatars/300-2.png' " alt="User" />
   </div>
   <!-- end::Toggle  -->
   <app-user-inner></app-user-inner>

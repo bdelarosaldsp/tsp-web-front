@@ -17,17 +17,10 @@
         <div class="row mb-6">
           <label class="col-lg-4 col-form-label fw-bold fs-6">Avatar</label>
           <div class="col-lg-8">
-            <div
-              class="image-input image-input-outline"
-              data-kt-image-input="true"
-              [style.background-image]="getUrl(img.value)"
-            >
-            <input type="file" name="img" (change)="imageSync($event)" #img>
-            <img [src]="getUrl(img.value)" alt="">
-              <div
-                class="image-input-wrapper w-125px h-125px"
-                [style.background-image]="getUrl(img.value)"
-              ></div>
+            <div id="avatarimg">
+             <input type="file" name="img" (change)="imageSync($event)" hidden="hidden" #img>
+             <img  class="image-input image-input-outline w-125px h-125px" [src]="getUrl(base64textString[0]|| (user.image!==null?user.image.user_img:'./assets/media/avatars/300-2.png') )" (click)="img.click()"> 
+             
             </div>
           </div>
         </div>
@@ -89,30 +82,30 @@
               placeholder="Company name"
               name="company"
               disabled
-              [value]="agency.vus_insden"
+              [value]="agency?.vus_insden || 'Sin Seleccionar'"
             />
           </div>
         </div>
        
       </div>
-   <!--    <div class="card-footer d-flex justify-content-end py-6 px-9">
+       <div class="card-footer d-flex justify-content-end py-6 px-9">
         <button
           type="button"
           class="btn btn-primary"
           [disabled]="isLoading"
           (click)="saveSettings()"
         >
-          <ng-container *ngIf="!isLoading">Save Changes</ng-container>
+          <ng-container *ngIf="!isLoading">Guardar cambios</ng-container>
           <ng-container *ngIf="isLoading">
             <span clas="indicator-progress" [style.display]="'block'">
-              Please wait...{{ " " }}
+              Guardando cambios...{{ " " }}
               <span
                 class="spinner-border spinner-border-sm align-middle ms-2"
               ></span>
             </span>
           </ng-container>
         </button>
-      </div> -->
+      </div> 
     </form>
   </div>
 </div>
