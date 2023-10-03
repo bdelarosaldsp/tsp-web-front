@@ -39,7 +39,7 @@
             <div class="text-center">
                 <div class=" text-center ">
                 
-                  <button  mat-icon-button color="primary" matTooltip="Editar mensaje" >
+                  <button (click)="editMessage(element)" mat-icon-button color="primary" matTooltip="Editar mensaje" >
                     <mat-icon>edit</mat-icon>
                   </button>
                   <button  (click)="viewMessage(element.message)" mat-icon-button color="accent" matTooltip="Probar mensaje" >

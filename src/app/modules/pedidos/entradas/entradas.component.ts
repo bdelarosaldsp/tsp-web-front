@@ -99,9 +99,8 @@ export class EntradasComponent implements OnInit {
             }); 
 
     this.dataSource = new MatTableDataSource((this.VOForm.get('VORows') as FormArray).controls);
-    
-
-
+    this.dataSource.paginator=this.paginator;
+    this.cdr.detectChanges();
   }
   getHeader(){
     let obj =this.ELEMENT_DATA[0]

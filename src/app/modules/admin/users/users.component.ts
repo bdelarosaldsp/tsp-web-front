@@ -58,6 +58,7 @@ export class UsersComponent {
       let results:Array<any>=[];
       
       results=res.data;
+      console.log(res.data)
       let count :number=1;
       results.forEach(element => {
         let user:User={
@@ -87,7 +88,7 @@ export class UsersComponent {
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    this.dataSource.filter = filterValue.trim().toUpperCase();
 
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();

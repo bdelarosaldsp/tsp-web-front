@@ -1,0 +1,42 @@
+.container1{
+    max-width: 1300px;
+   
+  }
+  .mat-expansion-panel {
+    background-color: rgba(127, 186, 253, 0.342);
+  }
+.mat-dialog-content::-webkit-scrollbar-thumb  {
+    background-color: #98999b;
+    border-radius: 40px;
+    border: 2px solid #f1f2f3;
+    width: 100px;
+  }
+  .mat-dialog-content::-webkit-scrollbar{
+  
+    --webkit-appearance:none;
+    Scrollbar-width: auto;
+    width:15px;
+  
+  }
+  table{
+    width: 100%;
+    margin: 1rem auto;
+
+  }
+.mat-row {
+    height: auto;
+ }
+ 
+ .mat-cell {
+   text-align:center ;
+   font-size: 12px;
+ }
+
+.mat-header-cell{
+  background-color:steelblue;
+  color: whitesmoke;
+  text-align: center;
+  min-width:70px;
+  min-height: 45px;
+  font-size: 12px;
+}

@@ -63,7 +63,7 @@ export class ErrorlistComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onSearch(){console.log(this.controlSuc)
+  onSearch(){
     this.label='Obteniendo resultados de la consulta';
     this.progressbar=true;
 

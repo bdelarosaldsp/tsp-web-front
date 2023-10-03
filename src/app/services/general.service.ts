@@ -30,6 +30,31 @@ export class GeneralService extends BaseService {
       })
     );
   }
+  
+  public getOpOtmCab(planillas:string,placa:string,feci:string ,fecf:string,codins:string,estado:string){
+    return this.globalService.get(`${this.urlBase+Constant.Endpoints.GENERALES.GET_OPOTMCAB}/${planillas}/${placa}/${feci}/${fecf}/${codins}/${estado}`).pipe(
+      map(res => {
+  
+        return res;
+      },(err:any) => {
+        return  err;
+      }),catchError((err:any)=>{
+        return throwError (err);
+      })
+    );
+  }
+  public getOpOtmDet(planilla:string){
+    return this.globalService.get(`${this.urlBase+Constant.Endpoints.GENERALES.GET_OPOTMDET}/${planilla}`).pipe(
+      map(res => {
+  
+        return res;
+      },(err:any) => {
+        return  err;
+      }),catchError((err:any)=>{
+        return throwError (err);
+      })
+    );
+  }
   public getAlmacenes( ){
     return this.globalService.get(`${this.urlBase+Constant.Endpoints.GENERALES.GET_ALMACENES}`).pipe(
       map(res => {

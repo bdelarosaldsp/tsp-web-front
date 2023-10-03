@@ -6,6 +6,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Messages } from 'src/app/models/messages';
 import { MessagesService } from 'src/app/services/messages.service';
 import Swal from 'sweetalert2';
+import { EditmsgComponent } from '../editmsg/editmsg.component';
 import { ViewmsgComponent } from '../viewmsg/viewmsg.component';
 
 const ELEMENT_DATA: Messages[] = [];
@@ -41,19 +42,21 @@ export class ListmsgComponent implements OnInit {
       results=res.data;
       let count :number=1;
       results.forEach(element => {
-        let user:Messages={
+        let mess:Messages={
           'position':count,
           'id':element.id,
           'name':element.name.toUpperCase(),
           'message':element.message,
           'type':element.type,
           'range':element.range,
-          'active':element.active ==='1' ? 'Activo': 'Inactivo'
+          'active':element.active ==='1' ? 'Activo': 'Inactivo',
+          'mailcopy':element.mail_copy==='1'?true:false,
+          'startdate':element.start_date,
+          'enddate':element.end_date
         };
         count =count +1;
-        data.push(user);
+        data.push(mess);
         this.dataSource.data=data;
-        console.log(this.dataSource)
         this.cdr.detectChanges();
         
       });
@@ -80,7 +83,7 @@ export class ListmsgComponent implements OnInit {
 
   EnDisMessage(id:string){
     this.messageService.actDeactMessages(id).subscribe((res)=>{
-      console.log(res);
+      
       this.getMessages();
     });
   }
@@ -96,7 +99,6 @@ export class ListmsgComponent implements OnInit {
     dialogRef.afterClosed().subscribe(
       {
         next: (response) => {
-          console.log(response)
         },
         error: (error) => {
           // treat error
@@ -120,7 +122,7 @@ export class ListmsgComponent implements OnInit {
       }).then((result) => {
         if (result.isConfirmed) {
           this.messageService.deleteMessage(id).subscribe((res)=>{
-            console.log(res);
+            
             this.getMessages();
           });
         }
@@ -128,4 +130,22 @@ export class ListmsgComponent implements OnInit {
     
   }
   
+  editMessage(message:Messages){
+    const dialogRef = this.dialog.open(EditmsgComponent, {
+      data:message
+    });
+  
+    dialogRef.afterClosed().subscribe(
+      {
+        next: (response) => {
+          
+        },
+        error: (error) => {
+          // treat error
+        },
+        complete: () => {
+  
+        }
+      });
+  }
 }

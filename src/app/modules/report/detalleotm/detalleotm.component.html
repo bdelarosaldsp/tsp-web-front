@@ -1,0 +1,222 @@
+<div mat-dialog-actions  align="end">
+    <button mat-raised-button color="warn" [mat-dialog-close]="true" cdkFocusInitial>X</button>
+</div>
+<br>
+<div mat-dialog-content>
+    <div class="container">
+        <mat-accordion multi>
+            <mat-expansion-panel >
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    Detalles de planilla
+                  </mat-panel-title>
+                  <mat-panel-description>
+                    Información acerca de la planilla
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                <div *ngIf="data" class="row">
+                    <table  text_align='Center'  width='100%'>
+                        
+                        <tr>
+                            <td text_align='left' width="35%"><strong>COD INSTALACION</strong>: {{data[0].cod_instalacion}} </td>
+                            <td text_align='left'><strong>PLANILLA</strong>: {{data[0].planilla}} </td>
+                            <td text_align='left'><strong>FECHA PLANILLA</strong>: {{data[0].fechat}}</td>
+                        </tr>
+                        <tr>
+                            <td text_align='left'><strong>INSTALACION</strong>: {{data[0].instalacion}}</td>
+                            <td text_align='left'><strong>PLACA</strong>: {{data[0].placa}} &nbsp;</td>
+                            <td text_align='left'><strong>CEDULA DEL CONDUCTOR</strong>: {{data[0].doccon_ol}}</td>
+                        </tr>
+                        
+                    </table>
+                </div>
+                
+            </mat-expansion-panel>
+        </mat-accordion>
+    </div>
+    <div class="container">  
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" >
+  
+        <ng-container matColumnDef="cod_cliente">
+            <th mat-header-cell *matHeaderCellDef> CODIGO CLIENTE </th>
+            <td mat-cell *matCellDef="let element"> {{element.cod_cliente}} </td>
+        </ng-container>
+  
+  
+        <ng-container matColumnDef="cliente">
+            <th mat-header-cell *matHeaderCellDef> CLIENTE </th>
+            <td mat-cell *matCellDef="let element"> {{element.cliente}} </td>
+        </ng-container>
+        <ng-container  matColumnDef="cod_instalacion">
+            <th mat-header-cell *matHeaderCellDef>COD. INSTALACION</th>
+            <td mat-cell *matCellDef="let element"> {{element.cod_instalacion}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="instalacion">
+          <th mat-header-cell *matHeaderCellDef>INSTALACION</th>
+          <td mat-cell *matCellDef="let element"> {{element.instalacion}} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="fecha">
+        <th mat-header-cell *matHeaderCellDef> FECHA</th>
+          <td mat-cell *matCellDef="let element"> {{element.fecha}} </td>
+        </ng-container>
+      
+        <ng-container matColumnDef="fechat">
+            <th mat-header-cell *matHeaderCellDef>FECHAT</th>
+            <td mat-cell *matCellDef="let element"> {{element.fechat}} </td>
+          </ng-container>
+        
+          <ng-container matColumnDef="pedido_otm">
+            <th mat-header-cell *matHeaderCellDef> PEDIDO OTM </th>
+            <td mat-cell *matCellDef="let element"> {{element.pedido_otm}} </td>
+          </ng-container>
+
+        <ng-container matColumnDef="planilla">
+          <th mat-header-cell *matHeaderCellDef> PLANILLA </th>
+          <td mat-cell *matCellDef="let element"> {{element.planilla}} </td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="placa">
+            <th mat-header-cell *matHeaderCellDef> PLACA </th>
+            <td mat-cell *matCellDef="let element"> {{element.placa}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="estado_integ">
+            <th mat-header-cell *matHeaderCellDef> ESTADO INTEGRACION </th>
+            <td mat-cell *matCellDef="let element"> {{element.estado_integ==null?'null':element.estado_integ}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="estado">
+            <th mat-header-cell *matHeaderCellDef> ESTADO </th>
+            <td mat-cell *matCellDef="let element"> {{element.estado}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="estado_wms">
+            <th mat-header-cell *matHeaderCellDef> ESTADO WMS</th>
+            <td mat-cell *matCellDef="let element"> {{element.estado_wms}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="fh_confotm">
+            <th mat-header-cell *matHeaderCellDef> FEC. CONF. OTM </th>
+            <td mat-cell *matCellDef="let element"> {{element.fh_confotm===null?'null':element.fh_confotm}} </td>
+        </ng-container>
+
+        
+  
+          <ng-container matColumnDef="servicio_ol">
+              <th mat-header-cell *matHeaderCellDef> SERVICIO OL </th>
+              <td mat-cell *matCellDef="let element"> {{element.servicio_ol}} </td>
+          </ng-container>
+  
+          <ng-container matColumnDef="sitped_ol">
+              <th mat-header-cell *matHeaderCellDef> ESTADO OL</th>
+              <td mat-cell *matCellDef="let element"> {{element.sitped_ol}} </td>
+          </ng-container>
+  
+          <ng-container matColumnDef="pedido_ol">
+              <th mat-header-cell *matHeaderCellDef> PEDIDO OL</th>
+              <td mat-cell *matCellDef="let element"> {{element.pedido_ol}} </td>
+          </ng-container>
+  
+          <ng-container matColumnDef="divped_ol">
+              <th mat-header-cell *matHeaderCellDef> DIVISION PEDIDO OL </th>
+              <td mat-cell *matCellDef="let element"> {{element.divped_ol}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="pedotm_ol">
+            <th mat-header-cell *matHeaderCellDef> PEDIDO OTM OL </th>
+            <td mat-cell *matCellDef="let element"> {{element.pedotm_ol}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="doctra_ol">
+            <th mat-header-cell *matHeaderCellDef> DOCTRA OL </th>
+            <td mat-cell *matCellDef="let element"> {{element.doctra_ol}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="remesa_ol">
+            <th mat-header-cell *matHeaderCellDef> REMESA OL</th>
+            <td mat-cell *matCellDef="let element"> {{element.remesa_ol}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="factur_ol">
+            <th mat-header-cell *matHeaderCellDef> FACTURA OL</th>
+            <td mat-cell *matCellDef="let element"> {{element.regtur_ol}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="matric_ol">
+            <th mat-header-cell *matHeaderCellDef> MATRICULA OL</th>
+            <td mat-cell *matCellDef="let element"> {{element.matric_ol}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="doccon_ol">
+            <th mat-header-cell *matHeaderCellDef> DOCCON OL</th>
+            <td mat-cell *matCellDef="let element"> {{element.doccon_ol}} </td>
+        </ng-container>
+<!-- 
+        <ng-container matColumnDef="sitped_al">
+            <th mat-header-cell *matHeaderCellDef> ESTADO AL</th>
+            <td mat-cell *matCellDef="let element"> {{element.sitped_al}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="pedido_al">
+            <th mat-header-cell *matHeaderCellDef> PEDIDO AL</th>
+            <td mat-cell *matCellDef="let element"> {{element.pedido_al}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="divped_al">
+            <th mat-header-cell *matHeaderCellDef> DIVISION PEDIDO AL </th>
+            <td mat-cell *matCellDef="let element"> {{element.divped_al}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="pedotm_al">
+          <th mat-header-cell *matHeaderCellDef> PEDIDO OTM AL </th>
+          <td mat-cell *matCellDef="let element"> {{element.pedotm_al}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="doctra _al">
+          <th mat-header-cell *matHeaderCellDef> DOCTRA AL </th>
+          <td mat-cell *matCellDef="let element"> {{element.servicio_al}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="remesa_al">
+          <th mat-header-cell *matHeaderCellDef> REMESA AL</th>
+          <td mat-cell *matCellDef="let element"> {{element.remesa_al}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="regtur_al">
+          <th mat-header-cell *matHeaderCellDef> regTURA AL</th>
+          <td mat-cell *matCellDef="let element"> {{element.regtur_al}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="matric_al">
+          <th mat-header-cell *matHeaderCellDef> MATRICULA AL</th>
+          <td mat-cell *matCellDef="let element"> {{element.matric_al}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="doccon_al">
+          <th mat-header-cell *matHeaderCellDef> DOCCON AL</th>
+          <td mat-cell *matCellDef="let element"> {{element.doccon_al}} </td>
+      </ng-container> -->
+
+        <ng-container matColumnDef="fecoci">
+            <th mat-header-cell *matHeaderCellDef> FEC. CONF. OTM </th>
+            <td mat-cell *matCellDef="let element"> {{element.fecoci}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="fehocierre">
+            <th mat-header-cell *matHeaderCellDef> FECHA CIERRE </th>
+            <td mat-cell *matCellDef="let element"> {{element.fehocierre===null?'null':element.fehocierre}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="fecha_consulta">
+            <th mat-header-cell *matHeaderCellDef> FECHA_CONSULTA </th>
+            <td mat-cell *matCellDef="let element"> {{element.fecha_consulta}} </td>
+        </ng-container>
+  
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
+    

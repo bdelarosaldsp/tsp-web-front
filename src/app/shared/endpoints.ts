@@ -54,10 +54,13 @@ export const Endpoint = {
     BASE: `general`,
     GET_MANTENIMIENTO: `/actions/GetMantenimiento`,
     GET_ALMACENES: `/actions/GetAlmacenes`,
+    GET_OPOTMCAB:`/actions/GetOperacionOtmCab`,
+    GET_OPOTMDET:`/actions/GetOperacionOtmDet`,
   },
   MESSAGES:{
     BASE: `messages`,
     ADD_MESSAGE: `/actions/Add`,
+    EDIT_MESSAGE:`/actions/Edit`,
     GET_LIST: `/actions/GetList`,
     CHANGE_STATE: `/actions/ChangeState`,
     READ_MESSAGE: `/actions/ReadMessage`,

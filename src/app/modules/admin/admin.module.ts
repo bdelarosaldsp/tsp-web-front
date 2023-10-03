@@ -30,6 +30,9 @@ import { MatSelectModule } from '@angular/material/select';
 import { ActdesComponent } from './actdes/actdes.component';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatDatepickerModule, MatRangeDateSelectionModel } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { EditmsgComponent } from './editmsg/editmsg.component';
 
 
 @NgModule({
@@ -41,6 +44,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     ListmsgComponent,
     ViewmsgComponent,
     ActdesComponent,
+    EditmsgComponent,
   ],
   imports: [
     CommonModule,
@@ -67,7 +71,9 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     MatSortModule,
     MatExpansionModule,
     MatAutocompleteModule,
-    MatTabsModule
+    MatTabsModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ]
 })
 export class AdminModule { }

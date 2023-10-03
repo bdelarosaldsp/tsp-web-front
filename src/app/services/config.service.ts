@@ -15,7 +15,7 @@ export class ConfigService {
     return this.http.get(this.router.url).pipe(
       map(res=>{
         return ()=>{
-          if(res.toString().includes("172.17.3.5") || res.toString().includes("localhost") ){
+          if(res.toString().includes("11.0.2.5") || res.toString().includes("129.213.65.149") || res.toString().includes("localhost") ){
             console.log(res);
             return this.http
             .get('./assets/app-config-int.json').pipe(
@@ -38,7 +38,7 @@ export class ConfigService {
         }
       }),catchError((err:any)=>{
         
-        if(err.url.includes("172.17.3.5") || err.url.includes("localhost") ){
+        if(err.url.includes("11.0.2.5") || err.url.includes("129.213.65.149")|| err.url.includes("localhost") ){
          
           return this.http
           .get('./assets/app-config-int.json').pipe(

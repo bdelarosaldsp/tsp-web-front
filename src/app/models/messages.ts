@@ -6,4 +6,7 @@ export interface Messages{
     active:string,
     type:string,
     range:string,
+    startdate:string,
+    enddate:string,
+    mailcopy:boolean
 }
