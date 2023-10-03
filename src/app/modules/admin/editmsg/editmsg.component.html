@@ -1,5 +1,10 @@
-<mat-card>
-      <mat-card-content style="margin-top: 30px;">
+<div mat-dialog-actions  align="end">
+    <button mat-raised-button color="warn" [mat-dialog-close]="true" cdkFocusInitial>X</button>
+</div>
+<br>
+<div mat-dialog-content>
+    <mat-card>
+        <mat-card-content style="margin-top: 30px;">
         <div class="row align-items-center"> 
             <div class="col w-80">
                 <mat-form-field  style="padding-left: 50px;" appearance="outline" >
@@ -12,8 +17,8 @@
                 <mat-form-field  appearance="outline">
                     <mat-label>Seleccione rango de fecha</mat-label>
                     <mat-date-range-input [rangePicker]="picker">
-                    <input [formControl]="controlFecIni" readonly matStartDate placeholder="Fecha inicial" >
-                    <input [formControl]="controlFecFin" readonly matEndDate placeholder="Fecha final">
+                    <input [disabled]="indefinido" [formControl]="controlFecIni" readonly matStartDate placeholder="Fecha inicial" >
+                    <input [disabled]="indefinido" [formControl]="controlFecFin" readonly matEndDate placeholder="Fecha final">
                     </mat-date-range-input>
                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-date-range-picker [disabled]="indefinido" #picker></mat-date-range-picker>
@@ -28,11 +33,11 @@
                 <mat-form-field style="padding-left: 50px;"  required appearance="fill">
                     <mat-label>Alcance:</mat-label>
                     <mat-select [formControl]="controlRange">
-                      <mat-option value="2">Interno</mat-option>
-                      <mat-option value="3">Externo</mat-option>
-                      <mat-option value="0">Todos</mat-option>
+                        <mat-option value="2">Interno</mat-option>
+                        <mat-option value="3">Externo</mat-option>
+                        <mat-option value="0">Todos</mat-option>
                     </mat-select>
-                  </mat-form-field>
+                    </mat-form-field>
             </div>
             <div class="col w-80">
                 <label >Tipo de mensaje:</label>
@@ -57,12 +62,13 @@
         </div>
         <br>
         <div class="col w-10 text-center">
-            <button (click)="addMessage()" style="padding-right: 50px;"  mat-raised-button class="ok" style="width: 150px; height:55px ;left: 30px;" [disabled]="controlTitle.invalid || controlType.invalid">
+            <button (click)="editMessage()" style="padding-right: 50px;"  mat-raised-button class="ok" style="width: 150px; height:55px ;left: 30px;" [disabled]="controlTitle.invalid || controlType.invalid">
                 <span class="material-icons"> 
-                    check
+                    update
                 </span>
-                Crear mensaje
+                <strong>Actualizar</strong>
             </button>
         </div>
     </mat-card-content>
-</mat-card>
+    </mat-card>
+</div>

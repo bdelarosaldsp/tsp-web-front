@@ -85,113 +85,118 @@ export class AppComponent implements OnInit {
         if(!res.toString().includes("/auth/")){
           let email:string=Constant.AUTH.getUser()?.email;
           let typeusr: string=Constant.AUTH.getUser()?.roles[0]?.id;
-          this.messagesService.getMessages(email,typeusr).subscribe((resp)=>{
-            this.Messages=resp.data;
-            this.Messages.forEach(message => {
-              console.log(message.type)
-              if (message.type==='R'){
-                Swal.fire({
-                  title: message.name,
-                  html: message.message,
-                  width:'70%',
-                  showConfirmButton: true,
-                  confirmButtonText:'Leido',
-                  confirmButtonColor:'GREEN',
-                  showCancelButton:true,
-                  cancelButtonText:'Cancelar',
-                  cancelButtonColor:'RED',
-                  allowEscapeKey : false,
-                  allowOutsideClick: false
-                }).then((result) => {
-                 
-                  if (!result.isConfirmed) {
-                    Swal.fire('Es necesario confirmar lectura del mensaje', '', 'info')
-                    .then((result) => {
-                      if (result.isConfirmed) {
-                        this.authService.logout().subscribe(
-                          res => {
-                            document.location.reload();
-                          }
-                        );
-                      }
-                      
-                    });
-                  } else{
-                    let data: any={
-                      'user_email':Constant.AUTH.getUser()?.email.toUpperCase(),
-                      'message_id':message.id
-                    }
-                    this.messagesService.ReadMessage(data).subscribe((res)=>{
-                      console.log(res);
-                    });
-                    Swal.fire('Confirmación de lectura enviada', '', 'success');
-                  }
-                });
-              }else if(message.type==='O'){
-                Swal.fire({
-                  title: message.name,
-                  html: message.message,
-                  width:'70%',
-                  input:'checkbox',
-                  
-                  allowEscapeKey : false,
-                  allowOutsideClick: false,
-                  preConfirm(inputValue) {
-                    if (inputValue === null) return false;
-                    if (inputValue === 0) {
-                      Swal.showValidationMessage('Debe aceptar y firmar');
-                      return false;
-                    }
-                  },
-                }).then((result)=>{
-                  if (!result.isConfirmed) {
-                    Swal.fire('Es necesario firmar el consentimiento', '', 'info')
-                    .then((result) => {
-                      if (result.isConfirmed) {
-                        this.authService.logout().subscribe(
-                          res => {
-                            document.location.reload();
-                          }
-                        );
-                      }
-                    });
-                  } else{
-                    let data: any={
-                      'user_email':Constant.AUTH.getUser()?.email.toUpperCase(),
-                      'message_id':message.id,
-                      'token':Constant.AUTH.getToken()
-                    }
-                    this.messagesService.ReadMessage(data).subscribe((res)=>{
-                      console.log(res);
-                    });
-                    Swal.fire('Aceptacion y firma enviada', '', 'success');
-                  }
-
-                });
-              }else if(message.type==='I'){
-                Swal.fire(
-                  { 
-                    title:message.title,
-                    html:message.message,
-                    width:'70%',
-                    icon:"info",
-                    timer:1000*30,
-                    timerProgressBar:true
-                  }).then(() => {
+          this.messagesService.getMessages(email,typeusr).subscribe(
+            {
+              next:(resp)=>{
+                this.Messages=resp.data;
+                this.Messages.forEach(message => {
+                  console.log(message.type)
+                  if (message.type==='R'){
+                    Swal.fire({
+                      title: message.name,
+                      html: message.message,
+                      width:'70%',
+                      showConfirmButton: true,
+                      confirmButtonText:'Leido',
+                      confirmButtonColor:'GREEN',
+                      showCancelButton:true,
+                      cancelButtonText:'Cancelar',
+                      cancelButtonColor:'RED',
+                      allowEscapeKey : false,
+                      allowOutsideClick: false
+                    }).then((result) => {
                     
-                    let data: any={
-                      'user_email':Constant.AUTH.getUser()?.email.toUpperCase(),
-                      'message_id':message.id
-                    }
-                    this.messagesService.ReadMessage(data).subscribe((res)=>{
-                      console.log(res);
+                      if (!result.isConfirmed) {
+                        Swal.fire('Es necesario confirmar lectura del mensaje', '', 'info')
+                        .then((result) => {
+                          if (result.isConfirmed) {
+                            this.authService.logout().subscribe(
+                              res => {
+                                document.location.reload();
+                              }
+                            );
+                          }
+                          
+                        });
+                      } else{
+                        let data: any={
+                          'user_email':Constant.AUTH.getUser()?.email.toUpperCase(),
+                          'message_id':message.id
+                        }
+                        this.messagesService.ReadMessage(data).subscribe((res)=>{
+                          console.log(res);
+                        });
+                        Swal.fire('Confirmación de lectura enviada', '', 'success');
+                      }
                     });
-                  
-                  });;
+                  }else if(message.type==='O'){
+                    Swal.fire({
+                      title: message.name,
+                      html: message.message,
+                      width:'70%',
+                      input:'checkbox',
+                      
+                      allowEscapeKey : false,
+                      allowOutsideClick: false,
+                      preConfirm(inputValue) {
+                        if (inputValue === null) return false;
+                        if (inputValue === 0) {
+                          Swal.showValidationMessage('Debe aceptar y firmar');
+                          return false;
+                        }
+                      },
+                    }).then((result)=>{
+                      if (!result.isConfirmed) {
+                        Swal.fire('Es necesario firmar el consentimiento', '', 'info')
+                        .then((result) => {
+                          if (result.isConfirmed) {
+                            this.authService.logout().subscribe(
+                              res => {
+                                document.location.reload();
+                              }
+                            );
+                          }
+                        });
+                      } else{
+                        let data: any={
+                          'user_email':Constant.AUTH.getUser()?.email.toUpperCase(),
+                          'message_id':message.id,
+                          'token':Constant.AUTH.getToken()
+                        }
+                        this.messagesService.ReadMessage(data).subscribe((res)=>{
+                          console.log(res);
+                        });
+                        Swal.fire('Aceptacion y firma enviada', '', 'success');
+                      }
+
+                    });
+                  }else if(message.type==='I'){
+                    Swal.fire(
+                      { 
+                        title:message.title,
+                        html:message.message,
+                        width:'70%',
+                        icon:"info",
+                        timer:1000*30,
+                        timerProgressBar:true
+                      }).then(() => {
+                        
+                        let data: any={
+                          'user_email':Constant.AUTH.getUser()?.email.toUpperCase(),
+                          'message_id':message.id
+                        }
+                        this.messagesService.ReadMessage(data).subscribe((res)=>{
+                          console.log(res);
+                        });
+                      
+                      });;
+                  }
+                });
+              },error:(err)=>{
+                console.log(err)
               }
-            });
-            
           });
+          
         }
       
       },
@@ -200,9 +205,11 @@ export class AppComponent implements OnInit {
         if(!err.url.includes("/auth/")){
           let email:string=Constant.AUTH.getUser()?.email;
           let typeusr: string=Constant.AUTH.getUser()?.roles[0]?.id;
-          this.messagesService.getMessages(email,typeusr).subscribe((resp)=>{
-            this.Messages=resp.data;
-            this.Messages.forEach(message => {
+          this.messagesService.getMessages(email,typeusr).subscribe(
+            {
+              next:(resp)=>{
+                this.Messages=resp.data;
+                this.Messages.forEach(message => {
               if(message.name==='POLITICA DE TRATAMIENTO DE DATOS PERSONALES'){
                 const dialogRef = this.dialog.open(PoliticadatosComponent, {
                   width: '90vw',
@@ -327,9 +334,12 @@ export class AppComponent implements OnInit {
                   
                   });;
               }
-            });
-            
-          });
+                });
+              },error:(err)=>{
+                console.log(err)
+              }
+            }
+          );
         }
       }
     });  

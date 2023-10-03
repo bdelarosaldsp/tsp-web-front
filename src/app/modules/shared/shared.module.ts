@@ -9,6 +9,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ImglistComponent } from '../images/imglist/imglist.component';
 import { RemoteDeskComponent } from './modals/remote-desk/remote-desk.component';
 import { SharedRoutingModule } from './shared-routing.module';
+import { Ng2SmartTableModule } from 'ng2-smart-table';
 
 @NgModule({
   declarations: [AgencyModalComponent, ImglistComponent, RemoteDeskComponent],
@@ -19,7 +20,8 @@ import { SharedRoutingModule } from './shared-routing.module';
     MatSelectModule,
     MatDividerModule,
     ReactiveFormsModule,
-    SharedRoutingModule
+    SharedRoutingModule,
+    Ng2SmartTableModule
   ],
   exports: [AgencyModalComponent,ImglistComponent],
 })

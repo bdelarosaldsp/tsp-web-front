@@ -76,5 +76,17 @@ export class MessagesService extends BaseService{
       );
   }
 
+  public editMessage(data:any): Observable<any> {
+    return this.globalService
+      .post(`${this.urlBase+Constant.Endpoints.MESSAGES.EDIT_MESSAGE}`, data)
+      .pipe(
+        map(res => {
+             return res;
+        }),catchError((err:any)=>{
+          return throwError (err)
+        })
+      );
+  }
+
 }
 
