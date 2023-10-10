@@ -87,6 +87,10 @@ export const Endpoint = {
     VAL_ARTICLES:`/actions/valArticles`,
     IMPORT_ENTRADA: `/actions/createFileEnt`,
     IMPORT_SALIDA: `/actions/createFileSal`,
+  },
+  REPORTS:{
+    BASE: `report`,
+    GET_TRANSMISIONES:`/actions/GetTransmisiones`,
   }
 
 }

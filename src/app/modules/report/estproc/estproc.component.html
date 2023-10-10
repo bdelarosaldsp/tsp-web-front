@@ -1,0 +1,431 @@
+<div class="container text-center">
+    <mat-accordion  multi>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>               
+            </mat-expansion-panel-header>
+            <mat-card tyle="padding-top: 0px;">
+                <mat-card-header>
+                    <div mat-card-avatar>
+                        <span class="material-icons">
+                            list
+                        </span>
+                    </div>
+                    <mat-card-title>Estado de operacion OTM</mat-card-title>
+                </mat-card-header>
+
+                <mat-divider></mat-divider>
+       
+                <mat-card-content style="margin-top: 20px;">
+                    
+                    <div class="container">
+                        <div class="row">
+                            <div class="col">
+                                <mat-form-field appearance="legacy">
+                                    <mat-label> Planilla o Planillas:</mat-label>
+                                    <textarea matInput placeholder="Planilla o Planillas" [formControl]="controlMan"></textarea>
+                                </mat-form-field>
+                            </div>
+                            <div class="col">
+                                <mat-form-field style="width:85px;" appearance="outline">
+                                    <mat-label> Placa:</mat-label>
+                                    <input matInput placeholder="placa" [formControl]="controlPlaca">
+                                </mat-form-field>
+                            </div>
+                            <div class="col">
+                                <mat-form-field style="width:120px ;" appearance="outline" >
+                                    <mat-label>Estado:</mat-label>
+                                    <mat-select  disableRipple [formControl]="controlEst" >
+                                        <mat-option value="TODOS">TODOS</mat-option>
+                                        <mat-option value="EN_PROCESO">EN PROCESO</mat-option>
+                                        <mat-option value="PENDIENTE">PENDIENTE</mat-option>
+                                        <mat-option value="FINALIZADO">FINALIZADO</mat-option>
+                                        <mat-option value="ANULADO">ANULADO</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="col">
+                                <mat-form-field style="width: 180px;" appearance="outline">
+                                    <mat-label >Seleccione Agencia</mat-label>
+                                    <mat-select [formControl]="controlSuc">
+                                        <mat-option value="TODAS"> TODAS</mat-option>
+                                        <mat-option [value]="agency" *ngFor="let agency of agencies">{{agency.vus_insden}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="col">
+                                <mat-form-field style="width: 180px;" appearance="outline">
+                                    <mat-label>Seleccione rango de fecha</mat-label>
+                                    <mat-date-range-input [rangePicker]="picker">
+                                    <input [formControl]="controlFecIni" readonly matStartDate placeholder="Fecha inicial" >
+                                    <input [formControl]="controlFecFin" readonly matEndDate placeholder="Fecha final">
+                                    </mat-date-range-input>
+                                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                    <mat-date-range-picker #picker></mat-date-range-picker>
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col" style="padding-left: 35px;">
+                                <div class="row">
+                                    <div  class="col">
+                                        <button (click)="onSearch()"  style="height: 40px;" mat-raised-button color="primary" >
+                                            <span class="material-icons">
+                                                search
+                                            </span>
+                                            Consultar
+                                        </button>
+                                    </div>
+                                    <div *ngIf="controlMan.value || controlPlaca.value" class="col" style="padding-left: 50px;">
+                                        <button (click)="onClear()" style="height: 40px;" mat-raised-button color="warn" >
+                                            <span class="material-icons">
+                                                cached
+                                            </span>
+                                            Limpiar panel
+                                        </button>
+                                    </div> 
+                                    <div class="col">
+                                        <button mat-raised-button (click)="exporter.exportTable('xlsx',
+                                        {fileName:email+'_RESUMEN_OPERACION_OTM_'+datepipe.transform(this.fechaEx.setDate(this.fechaEx.getDate()),'yyyyMMdd')+'_'+datepipe.transform(this.fechaEx.setDate(this.fechaEx.getDate()),'HHmmss'), sheet: 'RESUMEN_OPERACION_OTM', Props: {Author: 'WEB WMS'}})"  >
+                                            <img width="30%" height="40px" src="https://img.icons8.com/color/48/export-excel.png" alt="export-excel"/>
+                                            Exportar
+                                        </button>
+                                        </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                </mat-card-content>
+            </mat-card>
+        </mat-expansion-panel>
+    </mat-accordion>
+        
+    
+    <div class="text-center">
+        <h2>{{label}}</h2>
+        <mat-progress-bar *ngIf="progressbar" mode="query"></mat-progress-bar>
+    </div>
+    
+    <div class="container1">
+        <div class="loading-shade" *ngIf="isLoading">
+            <mat-spinner *ngIf="isLoading"></mat-spinner>
+        </div>
+
+        <section class="table-container mat-elevation-z8" tabindex="0">
+            <table  mat-table matTableExporter [dataSource]="datasource" #table="matTable" #exporter="matTableExporter">
+
+                <ng-container  matColumnDef="cod_instalacion">
+                    <th mat-header-cell *matHeaderCellDef>COD. INSTALACION</th>
+                    <td mat-cell *matCellDef="let element"> {{element.cod_instalacion}} </td>
+                </ng-container>
+    
+                <ng-container matColumnDef="instalacion">
+                  <th mat-header-cell *matHeaderCellDef>INSTALACION</th>
+                  <td mat-cell *matCellDef="let element"> {{element.instalacion}} </td>
+                </ng-container>
+              
+                <ng-container matColumnDef="fecha">
+                <th mat-header-cell *matHeaderCellDef> FECHA</th>
+                  <td mat-cell *matCellDef="let element"> {{element.fecha}} </td>
+                </ng-container>
+              
+                <ng-container matColumnDef="fechat">
+                    <th mat-header-cell *matHeaderCellDef>FECHA PLANILLA</th>
+                    <td mat-cell *matCellDef="let element"> {{element.fechat}} </td>
+                  </ng-container>
+                
+                  <ng-container matColumnDef="fecha_cierre">
+                    <th mat-header-cell *matHeaderCellDef> FECHA CIERRE </th>
+                    <td mat-cell *matCellDef="let element"> {{element.fecha_cierre}} </td>
+                  </ng-container>
+    
+                <ng-container matColumnDef="planilla">
+                  <th mat-header-cell *matHeaderCellDef> PLANILLA </th>
+                  <td mat-cell *matCellDef="let element"> {{element.planilla}} </td>
+                </ng-container>
+    
+    
+                <ng-container matColumnDef="placa">
+                    <th mat-header-cell *matHeaderCellDef> PLACA </th>
+                    <td mat-cell *matCellDef="let element"> {{element.placa}} </td>
+                </ng-container>
+    
+                <ng-container matColumnDef="estado_integ">
+                    <th mat-header-cell *matHeaderCellDef> ESTADO </th>
+                    <td mat-cell *matCellDef="let element"> {{element.estado_integ}} </td>
+                </ng-container>
+    
+                <ng-container matColumnDef="fh_confotm">
+                    <th mat-header-cell *matHeaderCellDef>FEC. CONF. OTM</th>
+                    <td mat-cell *matCellDef="let element"> {{element.fh_confotm}} </td>
+                </ng-container>
+    
+                <ng-container matColumnDef="anticipo">
+                    <th mat-header-cell *matHeaderCellDef>ANTICIPO</th>
+                    <td mat-cell *matCellDef="let element"> {{element.anticipo}} </td>
+                </ng-container>
+    
+                <ng-container matColumnDef="a_pend_fec">
+                    <th mat-header-cell *matHeaderCellDef> FEC. ANTICIPO(S) INTEGRACION</th>
+                    <td mat-cell *matCellDef="let element"> {{element.a_pend_fec}} </td>
+                </ng-container>
+                <ng-container matColumnDef="estado_anticipo">
+                    <th mat-header-cell *matHeaderCellDef> ESTADO ANTICIPO</th>
+                    <td mat-cell *matCellDef="let element"> {{element.estado_anticipo}} </td>
+                </ng-container>
+                <ng-container matColumnDef="a_pend_cant">
+                    <th mat-header-cell *matHeaderCellDef> CANTIDAD ANTICIPO(S) PENDIENTE(S)</th>
+                    <td mat-cell *matCellDef="let element"> {{element.a_pend_cant}} </td>
+                </ng-container>
+                <ng-container matColumnDef="a_pend_v$alor">
+                    <th mat-header-cell *matHeaderCellDef> VALOR ANTICIPO(S) PENDIENTE(S)</th>
+                    <td mat-cell *matCellDef="let element"> {{element.a_pend_v$alor}} </td>
+                </ng-container>
+                <ng-container matColumnDef="a_ejec_fec">
+                    <th mat-header-cell *matHeaderCellDef> FEC. ANTICIPO(S) EJECUTADO(S)</th>
+                    <td mat-cell *matCellDef="let element"> {{element.a_ejec_fec}} </td>
+                </ng-container>
+                <ng-container matColumnDef="a_ejec_cant">
+                    <th mat-header-cell *matHeaderCellDef> CANT. ANTICIPO(S) EJECUTADO(S)</th>
+                    <td mat-cell *matCellDef="let element"> {{element.a_ejec_cant}} </td>
+                </ng-container>
+                <ng-container matColumnDef="a_ejec_v$alor">
+                    <th mat-header-cell *matHeaderCellDef> VAL. ANTICIPO(S) EJECUTADO(S)</th>
+                    <td mat-cell *matCellDef="let element"> {{element.a_ejec_v$alor}} </td>
+                </ng-container>
+                <ng-container matColumnDef="estado_remesas">
+                    <th mat-header-cell *matHeaderCellDef> ESTADO REMESAS INTRA</th>
+                    <td mat-cell *matCellDef="let element"> {{element.estado_remesas}} </td>
+                </ng-container>
+                <ng-container matColumnDef="remesas_planilla">
+                    <th mat-header-cell *matHeaderCellDef> NUMERO DE REMESAS INTRA</th>
+                    <td mat-cell *matCellDef="let element"> {{element.remesas_planilla}} </td>
+                </ng-container>
+                <ng-container matColumnDef="v$alor_planilla">
+                    <th mat-header-cell *matHeaderCellDef> VALOR PLANILLA</th>
+                    <td mat-cell *matCellDef="let element"> {{element.v$alor_planilla}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="dummy">
+                    <th mat-header-cell *matHeaderCellDef> PLANILLA CONTIENE DUMMY</th>
+                    <td mat-cell *matCellDef="let element"> {{element.dummy}} </td>
+                </ng-container>
+                <ng-container matColumnDef="fintra_cant_ant">
+                    <th mat-header-cell *matHeaderCellDef>CANT. ANTICIPO(S) FINTRA PEND</th>
+                    <td mat-cell *matCellDef="let element"> {{element.fintra_cant_ant}} </td>
+                </ng-container>
+                <ng-container matColumnDef="fintra_valor_ant">
+                    <th mat-header-cell *matHeaderCellDef>VALOR ANTICIPO(S) FINTRA PEND</th>
+                    <td mat-cell *matCellDef="let element"> {{element.fintra_valor_ant}} </td>
+                </ng-container>
+                <ng-container matColumnDef="fintra_cant_ejec">
+                    <th mat-header-cell *matHeaderCellDef>CANT. ANTICIPO(S) FINTRA EJEC</th>
+                    <td mat-cell *matCellDef="let element"> {{element.fintra_cant_ejec}} </td>
+                </ng-container>
+                <ng-container matColumnDef="fintra_valor_ejec">
+                    <th mat-header-cell *matHeaderCellDef>VALOR ANTICIPO(S) FINTRA EJEC</th>
+                    <td mat-cell *matCellDef="let element"> {{element.fintra_valor_ejec}} </td>
+                </ng-container>
+
+                <ng-container matColumnDef="cumplido_wms">
+                    <th mat-header-cell *matHeaderCellDef> CUMPLIDO WMS</th>
+                    <td mat-cell *matCellDef="let element"> {{element.cumplido_wms}} </td>
+                </ng-container>
+                <ng-container matColumnDef="cumplidos_fecha">
+                    <th mat-header-cell *matHeaderCellDef> FECHA CUMPLIDO INTEGRACION</th>
+                    <td mat-cell *matCellDef="let element"> {{element.cumplidos_fecha}} </td>
+                </ng-container>
+                <ng-container matColumnDef="cumplidos_estado">
+                    <th mat-header-cell *matHeaderCellDef> ESTADO CUMPLIDO INTRANET</th>
+                    <td mat-cell *matCellDef="let element"> {{element.cumplidos_estado}} </td>
+                </ng-container>
+    
+                <ng-container matColumnDef="cumplido_valor_intranet">
+                    <th mat-header-cell *matHeaderCellDef>VALOR CUMPLIDO INTRANET</th>
+                    <td mat-cell *matCellDef="let element"> {{element.cumplido_valor_intranet}} </td>
+                </ng-container>
+                <ng-container matColumnDef="cumplido_valor_costo">
+                    <th mat-header-cell *matHeaderCellDef>VALOR CUMPLIDO COSTO</th>
+                    <td mat-cell *matCellDef="let element"> {{element.cumplido_valor_costo}} </td>
+                </ng-container>
+                <ng-container matColumnDef="cumplido_valor_ajustes">
+                    <th mat-header-cell *matHeaderCellDef>VALOR CUMPLIDO AJUSTES</th>
+                    <td mat-cell *matCellDef="let element"> {{element.cumplido_valor_ajustes}} </td>
+                </ng-container>
+                <ng-container matColumnDef="cumplido_valor_saldo">
+                    <th mat-header-cell *matHeaderCellDef>VALOR SALDO PLANILLA</th>
+                    <td mat-cell *matCellDef="let element"> {{element.cumplido_valor_saldo}} </td>
+                </ng-container>
+                <ng-container matColumnDef="cumplidos_proc_fecha">
+                    <th mat-header-cell *matHeaderCellDef> FECHA CUMPLIDO INTRANET</th>
+                    <td mat-cell *matCellDef="let element"> {{element.cumplidos_proc_fecha}} </td>
+                </ng-container>
+                
+                <ng-container matColumnDef="fecha_consulta">
+                    <th mat-header-cell *matHeaderCellDef> FECHA_CONSULTA </th>
+                    <td mat-cell *matCellDef="let element"> {{element.fecha_consulta}} </td>
+                </ng-container>
+                
+                <ng-container matColumnDef="detalles">
+                    <th mat-header-cell *matHeaderCellDef> DETALLES </th>
+                    <td mat-cell *matCellDef="let element"> 
+                        <button  mat-icon-button color="warn"  (click)="detalleOtm(element.planilla)">
+                            <mat-icon>list</mat-icon>
+                        </button>    
+                    </td>
+    
+                </ng-container>
+    
+                <!--Filtros-->
+    
+                <!-- <ng-container  matColumnDef="cod_instalacion-filter">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <input [disabled]="datasource.data.length===0" style="font-size:12px; "  (keyup)="applyFilter($event)">
+                    </th>
+                </ng-container>
+    
+                <ng-container matColumnDef="instalacion-filter">
+                  <th mat-header-cell *matHeaderCellDef>
+                    <input [disabled]="datasource.data.length===0" style="font-size:12px; "  (keyup)="applyFilter($event)">
+                  </th>
+                </ng-container>
+              
+                <ng-container matColumnDef="fecha-filter">
+                <th mat-header-cell *matHeaderCellDef>
+                    <input [disabled]="datasource.data.length===0" style="font-size:12px; "  (keyup)="applyFilter($event)">
+                </th>
+                </ng-container>
+              
+                <ng-container matColumnDef="fechat-filter">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <input [disabled]="datasource.data.length===0" style="font-size:12px; "  (keyup)="applyFilter($event)">
+                    </th>
+                </ng-container>
+                
+                <ng-container matColumnDef="fecha_cierre-filter">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <input [disabled]="datasource.data.length===0" style="font-size:12px; "  (keyup)="applyFilter($event)">
+                    </th>
+                 </ng-container>
+    
+                <ng-container matColumnDef="planilla-filter">
+                  <th mat-header-cell *matHeaderCellDef>
+                    <input [disabled]="datasource.data.length===0" style="font-size:12px; "  (keyup)="applyFilter($event)">
+                  </th>
+                </ng-container>
+    
+    
+                <ng-container matColumnDef="placa-filter">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <input [disabled]="datasource.data.length===0" style="font-size:12px; "  (keyup)="applyFilter($event)">
+                    </th>
+                </ng-container>
+    
+                <ng-container matColumnDef="estado_integ-filter">
+                    <th mat-header-cell *matHeaderCellDef> 
+                        <input [disabled]="datasource.data.length===0" style="font-size:12px; "  (keyup)="applyFilter($event)">
+                    </th>
+                </ng-container>
+    
+                <ng-container matColumnDef="fh_confotm-filter">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <input [disabled]="datasource.data.length===0" style="font-size:12px; "  (keyup)="applyFilter($event)"> 
+                    </th>
+                </ng-container>
+    
+                <ng-container matColumnDef="anticipo-filter">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <input [disabled]="datasource.data.length===0" style="font-size:12px; "  (keyup)="applyFilter($event)"> 
+                    </th>
+                </ng-container>
+    
+                <ng-container matColumnDef="a_pend_fec-filter">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <input [disabled]="datasource.data.length===0" style="font-size:12px; "  (keyup)="applyFilter($event)">
+                    </th>
+                </ng-container>
+                <ng-container matColumnDef="a_pend_cant-filter">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <input [disabled]="datasource.data.length===0" style="font-size:12px; "  (keyup)="applyFilter($event)">
+                    </th>
+                </ng-container>
+                <ng-container matColumnDef="a_pend_v$alor-filter">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <input [disabled]="datasource.data.length===0" style="font-size:12px; "  (keyup)="applyFilter($event)">
+                    </th>
+                </ng-container>
+                <ng-container matColumnDef="a_ejec_fec-filter">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <input [disabled]="datasource.data.length===0" style="font-size:12px; "  (keyup)="applyFilter($event)">
+                    </th>
+                </ng-container>
+                <ng-container matColumnDef="a_ejec_cant-filter">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <input [disabled]="datasource.data.length===0" style="font-size:12px; "  (keyup)="applyFilter($event)">
+                    </th>
+                </ng-container>
+                <ng-container matColumnDef="a_ejec_v$alor-filter">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <input [disabled]="datasource.data.length===0" style="font-size:12px; "  (keyup)="applyFilter($event)">
+                    </th>
+                </ng-container>
+                <ng-container matColumnDef="v$alor_planilla-filter">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <input [disabled]="datasource.data.length===0" style="font-size:12px; "  (keyup)="applyFilter($event)">
+                    </th>
+                </ng-container>
+                <ng-container matColumnDef="cumplido_wms-filter">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <input [disabled]="datasource.data.length===0" style="font-size:12px; "  (keyup)="applyFilter($event)">
+                    </th>
+                </ng-container>
+                <ng-container matColumnDef="cumplidos_fecha-filter">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <input [disabled]="datasource.data.length===0" style="font-size:12px; "  (keyup)="applyFilter($event)">
+                    </th>
+                </ng-container>
+                <ng-container matColumnDef="cumplidos_estado-filter">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <input [disabled]="datasource.data.length===0" style="font-size:12px; "  (keyup)="applyFilter($event)">
+                    </th>
+                </ng-container>
+                <ng-container matColumnDef="cumplidos_valor_planilla-filter">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <input [disabled]="datasource.data.length===0" style="font-size:12px; "  (keyup)="applyFilter($event)">
+                    </th>
+                </ng-container>
+                <ng-container matColumnDef="cumplidos_valor_voucher-filter">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <input [disabled]="datasource.data.length===0" style="font-size:12px; "  (keyup)="applyFilter($event)">
+                    </th>
+                </ng-container>
+                <ng-container matColumnDef="cumplidos_proc_fecha-filter">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <input [disabled]="datasource.data.length===0" style="font-size:12px; "  (keyup)="applyFilter($event)">
+                    </th>
+                </ng-container>
+                
+                <ng-container matColumnDef="fecha_consulta-filter">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <input [disabled]="datasource.data.length===0" style="font-size:12px; "  (keyup)="applyFilter($event)">
+                    </th>
+                </ng-container>
+                
+                <ng-container matColumnDef="detalles-filter">
+                    <th mat-header-cell *matHeaderCellDef> </th>
+                </ng-container>
+     -->
+                <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true"></tr>
+                <!-- <tr mat-header-row *matHeaderRowDef="['cod_instalacion-filter','instalacion-filter','fechat-filter','fecha_cierre-filter','planilla-filter','placa-filter','estado_integ-filter','fh_confotm-filter','anticipo-filter','a_pend_fec-filter',                        
+                'a_pend_cant-filter','a_pend_v$alor-filter','a_ejec_fec-filter', 'a_ejec_cant-filter','a_ejec_v$alor-filter','v$alor_planilla-filter',     
+                 'cumplido_wms-filter','cumplidos_fecha-filter','cumplidos_estado-filter','cumplidos_valor_planilla-filter',
+                 'cumplidos_valor_voucher-filter',
+                 'cumplidos_proc_fecha-filter','fecha_consulta-filter','detalles-filter'];sticky: true"> </tr> -->
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+        </section>
+        <mat-paginator [pageSizeOptions]="[5, 10, 25,50,100]" aria-label="Select page of users"></mat-paginator>
+    </div>
+   
+</div>
