@@ -111,7 +111,7 @@ export class TransmisionotmComponent implements OnInit {
     //this.dataImage.length=0;
     this.cdr.detectChanges();
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-      this.router.navigate(['/report/operacionotm']);
+      this.router.navigate(['/report/transmisionotm']);
     });
   }
 

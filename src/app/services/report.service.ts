@@ -23,4 +23,13 @@ export class ReportService extends BaseService{
       })
     );
   }
+
+  public GetTransmisionesProcesos(){
+    return this.globalService.get(`${this.urlBase}${Constant.Endpoints.REPORTS.GET_PROCESOS}`).pipe(
+      map(res => {
+        
+       return res;
+      })
+    );
+  }
 }

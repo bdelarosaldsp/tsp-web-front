@@ -10,7 +10,7 @@ import { ToastrService } from 'ngx-toastr';
 import { GeneralService } from 'src/app/services/general.service';
 import { Constant } from 'src/app/shared/constant';
 import { DetalleotmComponent } from '../detalleotm/detalleotm.component';
-
+import { ReportService } from 'src/app/services/report.service';
 const ELEMENT_DATA: any[] = [];
 
 
@@ -39,17 +39,11 @@ export class EstprocComponent implements OnInit {
   agencies : Array<any> =  Constant.AUTH.getUser()?.agencies;
   email:string= Constant.AUTH.getUser()?.email;
   datos:Array<any>=[];
-  displayedColumns: string[] =['cod_instalacion','instalacion','planilla','fechat','placa','fecha_cierre','estado_integ','fh_confotm','anticipo','a_pend_fec','estado_anticipo',                   
- 'v$alor_planilla','dummy','a_pend_cant','a_pend_v$alor','a_ejec_fec', 'a_ejec_cant','a_ejec_v$alor',   
- 'estado_remesas','remesas_planilla',
- 'fintra_cant_ant','fintra_valor_ant','fintra_cant_ejec','fintra_valor_ejec',  
-  'cumplido_wms','cumplidos_fecha','cumplidos_estado','cumplidos_proc_fecha',
-  'cumplido_valor_intranet','cumplido_valor_costo', 'cumplido_valor_ajustes','cumplido_valor_saldo',
-  'fecha_consulta','detalles'];
+  displayedColumns: string[] =['nombre_proceso','id_proceso','cantidad'];
 
   constructor(private cdr:ChangeDetectorRef, private router: Router,
     public dialog:MatDialog, private generalService:GeneralService,
-    private toastr:ToastrService,public datepipe: DatePipe) { }
+    private toastr:ToastrService,public datepipe: DatePipe,private reportService:ReportService,) { }
 
     ngOnInit() {
     }
@@ -91,11 +85,12 @@ export class EstprocComponent implements OnInit {
       fechaf=this.convertDate(this.controlFecFin.value);
     }
 
-    this.generalService.getOpOtmCab(this.controlMan.value===''?null:this.controlMan.value,this.controlPlaca.value===''?null:this.controlPlaca.value,fechai===''?'null':fechai,fechaf===''?'null':fechaf,this.controlSuc.value==='TODAS'?null:this.controlSuc.value.vus_codins,this.controlEst.value===''?'TODOS':this.controlEst.value)
+    this.reportService.GetTransmisionesProcesos()
     .subscribe({
         next:(res)=>{
           console.log(res)
-          this.datos = res.data.opotm;
+          this.datos = res.data.trmotm;
+
           this.datasource.data=this.datos;
         },
         error:(err)=>{
@@ -119,7 +114,7 @@ export class EstprocComponent implements OnInit {
     //this.dataImage.length=0;
     this.cdr.detectChanges();
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-      this.router.navigate(['/report/operacionotm']);
+      this.router.navigate(['/report/estproc']);
     });
   }
 
@@ -134,65 +129,7 @@ export class EstprocComponent implements OnInit {
       return fecha;
   }
 
-  detalleOtm(planilla:string){
-    this.isLoading=true;
-    let detalle:Array<any>;
-    this.generalService.getOpOtmDet(planilla).subscribe(
-    {
-      next: (res) => {
-        console.log(res)
-        detalle=res.data.opotm;
-      },
-      error: (err) => {
-        // treat error
-      },
-      complete: () => {
-        this.isLoading=false;
-        this.cdr.detectChanges();
-        const dialogRef = this.dialog.open(DetalleotmComponent, {
-          data:detalle
-        });
-      
-        dialogRef.afterClosed().subscribe(
-          {
-            next: (response) => {
-              
-            },
-            error: (error) => {
-              // treat error
-            },
-            complete: () => {
-      
-            }
-          });
-      }
-    });
-
 
 }
-}
 
-export interface Opotmcab{
-
-  cod_instalacion:string, 
-  instalacion:string, 
-  fechat:string, 
-  fecha_cierre:string, 
-  planilla:string, 
-  placa:string, 
-  estado_integ:string, 
-  fh_confotm:string, 
-  anticipo:string, 
-  a_pend_fec:string,                        
-  a_pend_cant:string, 
-  a_pend_v$alor:string, 
-  a_ejec_fec:string,
-  a_ejec_cant:string, 
-  a_ejec_v$alor:string, 
-  v$alor_planilla:string,     
-  cumplido_wms:string, 
-  cumplidos_fecha:string, 
-  cumplidos_estado:string, 
-  fecha_consulta:string
-}
 
