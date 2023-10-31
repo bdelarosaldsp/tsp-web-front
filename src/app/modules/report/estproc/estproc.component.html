@@ -1,0 +1,232 @@
+<div class="container text-center">
+    <mat-accordion  multi>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>               
+            </mat-expansion-panel-header>
+            <mat-card tyle="padding-top: 0px;">
+                <mat-card-header>
+                    <div mat-card-avatar>
+                        <span class="material-icons">
+                            list
+                        </span>
+                    </div>
+                    <mat-card-title>Consulta Procesos Servidor Integracion OTM</mat-card-title>
+                </mat-card-header>
+
+                <mat-divider></mat-divider>
+       
+                <mat-card-content style="margin-top: 20px;">
+                    
+                    <div class="container">
+                       
+
+                        <div class="row">
+                            <div class="col" style="padding-left: 35px;">
+                                <div class="row">
+                                    <div  class="col">
+                                        <button (click)="onSearch()"  style="height: 40px;" mat-raised-button color="primary" >
+                                            <span class="material-icons">
+                                                search
+                                            </span>
+                                            Consultar
+                                        </button>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                </mat-card-content>
+            </mat-card>
+        </mat-expansion-panel>
+    </mat-accordion>
+        
+    
+    <div class="text-center">
+        <h2>{{label}}</h2>
+        <mat-progress-bar *ngIf="progressbar" mode="query"></mat-progress-bar>
+    </div>
+    
+    <div class="container1">
+        <div class="loading-shade" *ngIf="isLoading">
+            <mat-spinner *ngIf="isLoading"></mat-spinner>
+        </div>
+
+        <section class="table-container mat-elevation-z8" tabindex="0">
+            <table  mat-table matTableExporter [dataSource]="datasource" #table="matTable" #exporter="matTableExporter">
+
+                <ng-container  matColumnDef="nombre_proceso">
+                    <th mat-header-cell *matHeaderCellDef>NOMBRE_PROCESO</th>
+                    <td mat-cell *matCellDef="let element"> {{element.nombre_proceso}} </td>
+                </ng-container>
+    
+                <ng-container matColumnDef="id_proceso">
+                  <th mat-header-cell *matHeaderCellDef>ID_PROCESO</th>
+                  <td mat-cell *matCellDef="let element"> {{element.id_proceso}} </td>
+                </ng-container>
+              
+                <ng-container matColumnDef="cantidad">
+                <th mat-header-cell *matHeaderCellDef> CANTIDAD</th>
+                  <td mat-cell *matCellDef="let element"> {{element.cantidad}} </td>
+                </ng-container>
+              
+                <ng-container matColumnDef="fecha_consulta">
+                    <th mat-header-cell *matHeaderCellDef>FECHA CONSULTA</th>
+                    <td mat-cell *matCellDef="let element"> {{element.fecha_consulta}} </td>
+                  </ng-container>
+
+                
+
+    
+                <!--Filtros-->
+    
+                <!-- <ng-container  matColumnDef="cod_instalacion-filter">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <input [disabled]="datasource.data.length===0" style="font-size:12px; "  (keyup)="applyFilter($event)">
+                    </th>
+                </ng-container>
+    
+                <ng-container matColumnDef="instalacion-filter">
+                  <th mat-header-cell *matHeaderCellDef>
+                    <input [disabled]="datasource.data.length===0" style="font-size:12px; "  (keyup)="applyFilter($event)">
+                  </th>
+                </ng-container>
+              
+                <ng-container matColumnDef="fecha-filter">
+                <th mat-header-cell *matHeaderCellDef>
+                    <input [disabled]="datasource.data.length===0" style="font-size:12px; "  (keyup)="applyFilter($event)">
+                </th>
+                </ng-container>
+              
+                <ng-container matColumnDef="fechat-filter">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <input [disabled]="datasource.data.length===0" style="font-size:12px; "  (keyup)="applyFilter($event)">
+                    </th>
+                </ng-container>
+                
+                <ng-container matColumnDef="fecha_cierre-filter">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <input [disabled]="datasource.data.length===0" style="font-size:12px; "  (keyup)="applyFilter($event)">
+                    </th>
+                 </ng-container>
+    
+                <ng-container matColumnDef="planilla-filter">
+                  <th mat-header-cell *matHeaderCellDef>
+                    <input [disabled]="datasource.data.length===0" style="font-size:12px; "  (keyup)="applyFilter($event)">
+                  </th>
+                </ng-container>
+    
+    
+                <ng-container matColumnDef="placa-filter">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <input [disabled]="datasource.data.length===0" style="font-size:12px; "  (keyup)="applyFilter($event)">
+                    </th>
+                </ng-container>
+    
+                <ng-container matColumnDef="estado_integ-filter">
+                    <th mat-header-cell *matHeaderCellDef> 
+                        <input [disabled]="datasource.data.length===0" style="font-size:12px; "  (keyup)="applyFilter($event)">
+                    </th>
+                </ng-container>
+    
+                <ng-container matColumnDef="fh_confotm-filter">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <input [disabled]="datasource.data.length===0" style="font-size:12px; "  (keyup)="applyFilter($event)"> 
+                    </th>
+                </ng-container>
+    
+                <ng-container matColumnDef="anticipo-filter">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <input [disabled]="datasource.data.length===0" style="font-size:12px; "  (keyup)="applyFilter($event)"> 
+                    </th>
+                </ng-container>
+    
+                <ng-container matColumnDef="a_pend_fec-filter">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <input [disabled]="datasource.data.length===0" style="font-size:12px; "  (keyup)="applyFilter($event)">
+                    </th>
+                </ng-container>
+                <ng-container matColumnDef="a_pend_cant-filter">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <input [disabled]="datasource.data.length===0" style="font-size:12px; "  (keyup)="applyFilter($event)">
+                    </th>
+                </ng-container>
+                <ng-container matColumnDef="a_pend_v$alor-filter">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <input [disabled]="datasource.data.length===0" style="font-size:12px; "  (keyup)="applyFilter($event)">
+                    </th>
+                </ng-container>
+                <ng-container matColumnDef="a_ejec_fec-filter">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <input [disabled]="datasource.data.length===0" style="font-size:12px; "  (keyup)="applyFilter($event)">
+                    </th>
+                </ng-container>
+                <ng-container matColumnDef="a_ejec_cant-filter">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <input [disabled]="datasource.data.length===0" style="font-size:12px; "  (keyup)="applyFilter($event)">
+                    </th>
+                </ng-container>
+                <ng-container matColumnDef="a_ejec_v$alor-filter">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <input [disabled]="datasource.data.length===0" style="font-size:12px; "  (keyup)="applyFilter($event)">
+                    </th>
+                </ng-container>
+                <ng-container matColumnDef="v$alor_planilla-filter">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <input [disabled]="datasource.data.length===0" style="font-size:12px; "  (keyup)="applyFilter($event)">
+                    </th>
+                </ng-container>
+                <ng-container matColumnDef="cumplido_wms-filter">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <input [disabled]="datasource.data.length===0" style="font-size:12px; "  (keyup)="applyFilter($event)">
+                    </th>
+                </ng-container>
+                <ng-container matColumnDef="cumplidos_fecha-filter">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <input [disabled]="datasource.data.length===0" style="font-size:12px; "  (keyup)="applyFilter($event)">
+                    </th>
+                </ng-container>
+                <ng-container matColumnDef="cumplidos_estado-filter">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <input [disabled]="datasource.data.length===0" style="font-size:12px; "  (keyup)="applyFilter($event)">
+                    </th>
+                </ng-container>
+                <ng-container matColumnDef="cumplidos_valor_planilla-filter">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <input [disabled]="datasource.data.length===0" style="font-size:12px; "  (keyup)="applyFilter($event)">
+                    </th>
+                </ng-container>
+                <ng-container matColumnDef="cumplidos_valor_voucher-filter">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <input [disabled]="datasource.data.length===0" style="font-size:12px; "  (keyup)="applyFilter($event)">
+                    </th>
+                </ng-container>
+                <ng-container matColumnDef="cumplidos_proc_fecha-filter">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <input [disabled]="datasource.data.length===0" style="font-size:12px; "  (keyup)="applyFilter($event)">
+                    </th>
+                </ng-container>
+                
+                <ng-container matColumnDef="fecha_consulta-filter">
+                    <th mat-header-cell *matHeaderCellDef>
+                        <input [disabled]="datasource.data.length===0" style="font-size:12px; "  (keyup)="applyFilter($event)">
+                    </th>
+                </ng-container>
+                
+                <ng-container matColumnDef="detalles-filter">
+                    <th mat-header-cell *matHeaderCellDef> </th>
+                </ng-container>
+     -->
+                <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true"></tr>
+                <!-- <tr mat-header-row *matHeaderRowDef="['cod_instalacion-filter','instalacion-filter','fechat-filter','fecha_cierre-filter','planilla-filter','placa-filter','estado_integ-filter','fh_confotm-filter','anticipo-filter','a_pend_fec-filter',                        
+                'a_pend_cant-filter','a_pend_v$alor-filter','a_ejec_fec-filter', 'a_ejec_cant-filter','a_ejec_v$alor-filter','v$alor_planilla-filter',     
+                 'cumplido_wms-filter','cumplidos_fecha-filter','cumplidos_estado-filter','cumplidos_valor_planilla-filter',
+                 'cumplidos_valor_voucher-filter',
+                 'cumplidos_proc_fecha-filter','fecha_consulta-filter','detalles-filter'];sticky: true"> </tr> -->
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+        </section>
+        
+   
+</div>

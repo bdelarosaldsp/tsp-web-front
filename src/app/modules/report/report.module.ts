@@ -26,6 +26,8 @@ import { MatTableExporterModule } from 'mat-table-exporter';
 import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
 import { DetalleotmComponent } from './detalleotm/detalleotm.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { EstprocComponent } from './estproc/estproc.component';
+import { TransmisionotmComponent } from './transmisionotm/transmisionotm.component';
 
 
 @NgModule({
@@ -33,7 +35,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     Report1Component,
     Report2Component,
     OperacionotmComponent,
-    DetalleotmComponent
+    DetalleotmComponent,
+    EstprocComponent,
+    TransmisionotmComponent
   ],
   imports: [
     CommonModule,
