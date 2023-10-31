@@ -40,10 +40,11 @@ export class OperacionotmComponent implements OnInit {
   datos:Array<any>=[];
   displayedColumns: string[] =['cod_instalacion','instalacion','planilla','fechat','placa','fecha_cierre','estado_integ','fh_confotm','anticipo','a_pend_fec','estado_anticipo',                   
  'v$alor_planilla','dummy','a_pend_cant','a_pend_v$alor','a_ejec_fec', 'a_ejec_cant','a_ejec_v$alor',   
- 'estado_remesas','remesas_planilla',
  'fintra_cant_ant','fintra_valor_ant','fintra_cant_ejec','fintra_valor_ejec',  
-  'cumplido_wms','cumplidos_fecha','cumplidos_estado','cumplidos_proc_fecha',
+  'cumplido_wms','pla_informacion','pla_imagenes','pla_cumplido_imagen','pla_novedad','pla_devnegativa',
+  'cumplidos_fecha','cumplidos_estado','cumplidos_proc_fecha',
   'cumplido_valor_intranet','cumplido_valor_costo', 'cumplido_valor_ajustes','cumplido_valor_saldo',
+  'estado_remesas','remesas_planilla',
   'fecha_consulta','detalles'];
 
   constructor(private cdr:ChangeDetectorRef, private router: Router,
