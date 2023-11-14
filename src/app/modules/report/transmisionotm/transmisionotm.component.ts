@@ -37,7 +37,7 @@ export class TransmisionotmComponent implements OnInit {
   agencies : Array<any> =  Constant.AUTH.getUser()?.agencies;
   email:string= Constant.AUTH.getUser()?.email;
   datos:Array<any>=[];
-  displayedColumns: string[] =['documento','id','id_proceso','trm_estado','respuesta','fecha_creacion','fecha_proceso_final',];
+  displayedColumns: string[] =['documento','id','transmision_num_origen','id_proceso','trm_estado','respuesta','fecha_creacion','fecha_proceso_final',];
 
   constructor(private cdr:ChangeDetectorRef, private router: Router,
     public dialog:MatDialog, private reportService:ReportService,

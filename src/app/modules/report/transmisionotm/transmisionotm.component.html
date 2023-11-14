@@ -111,6 +111,11 @@
                     <th mat-header-cell *matHeaderCellDef>ID TRANSMISION</th>
                     <td mat-cell *matCellDef="let element"> {{element.id}} </td>
                 </ng-container>
+
+                <ng-container  matColumnDef="transmision_num_origen">
+                    <th mat-header-cell *matHeaderCellDef>NUM TRANSMISION</th>
+                    <td mat-cell *matCellDef="let element"> {{element.transmision_num_origen}} </td>
+                </ng-container>
     
                 <ng-container matColumnDef="id_proceso">
                   <th mat-header-cell *matHeaderCellDef>ID PROCESO</th>
