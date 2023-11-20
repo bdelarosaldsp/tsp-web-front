@@ -9,9 +9,9 @@
     "isMockEnabled":true,
     "appThemeName":"Metronic",
 
-   "apiUrl":"http://172.17.3.5:9000/api/",
-    "netSiteUrl":"http://172.17.3.5:8000/",
-    "phpSiteUrl":"http://172.17.3.5:5000/",
-    "intSiteUrl":"http://172.17.3.5:5000/IntOptions/"
+   "apiUrl":"http://129.213.65.149:8091/api/",
+    "netSiteUrl":"http://129.213.65.149:8000/",
+    "phpSiteUrl":"http://129.213.65.149:5000/",
+    "intSiteUrl":"http://129.213.65.149:5000/IntOptions/"
 
 }

@@ -31,8 +31,33 @@ export class GeneralService extends BaseService {
     );
   }
   
-  public getOpOtmCab(planillas:string,placa:string,feci:string ,fecf:string,codins:string,estado:string){
-    return this.globalService.get(`${this.urlBase+Constant.Endpoints.GENERALES.GET_OPOTMCAB}/${planillas}/${placa}/${feci}/${fecf}/${codins}/${estado}`).pipe(
+  public getOpOtmCab(planillas:string,placa:string,feci:string ,fecf:string,codins:string,estado:string,anticipo:string,estcum:string,cumwms:string,estant:string,estext:string,fecant:string,fecotm:string){
+    // return this.globalService.get(`${this.urlBase+Constant.Endpoints.GENERALES.GET_OPOTMCAB}/${planillas}/${placa}/${feci}/${fecf}/${codins}/${estado}/${anticipo}/${estcum}/${cumwms}/${estant}/${estext}/${fecant}/${fecotm}`).pipe(
+    //   map(res => {
+  
+    //     return res;
+    //   },(err:any) => {
+    //     return  err;
+    //   }),catchError((err:any)=>{
+    //     return throwError (err);
+    //   })
+    // );
+    let data={
+      planillas:planillas,
+      placa:placa,
+      feci:feci ,
+      fecf:fecf,
+      codins:codins,
+      estado:estado,
+      anticipo:anticipo,
+      estcum:estcum,
+      cumwms:cumwms,
+      estant:estant,
+      estext:estext,
+      fecant:fecant,
+      fecotm:fecotm
+    }
+    return this.globalService.post(this.urlBase+Constant.Endpoints.GENERALES.GET_OPOTMCAB,data).pipe(
       map(res => {
   
         return res;

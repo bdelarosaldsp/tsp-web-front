@@ -31,6 +31,13 @@ export class OperacionotmComponent implements OnInit {
   controlMan : FormControl  = new FormControl('')
   controlPlaca : FormControl  = new FormControl('');
   controlEst : FormControl  = new FormControl('TODOS');
+  controlAnt : FormControl  = new FormControl('TODOS');
+  controlEstCum : FormControl  = new FormControl('TODOS');
+  controlEstCumWms : FormControl  = new FormControl('TODOS');
+  controlEstAnt: FormControl  = new FormControl('TODOS');
+  controlEstExt : FormControl  = new FormControl('TODOS');
+  controlFecAnt : FormControl  = new FormControl('TODOS');
+  controlFecConfOtm : FormControl  = new FormControl('TODOS');
   controlFecIni : FormControl  = new FormControl(this.datepipe.transform(this.fecha.setDate(this.fecha.getDate()-6),'yyyy-MM-dd'));
   controlFecFin : FormControl  = new FormControl(this.datepipe.transform(this.fecha.setDate(this.fecha.getDate()+7),'yyyy-MM-dd'));
   controlSuc : FormControl  = new FormControl('TODAS');
@@ -39,13 +46,14 @@ export class OperacionotmComponent implements OnInit {
   email:string= Constant.AUTH.getUser()?.email;
   datos:Array<any>=[];
   displayedColumns: string[] =['cod_instalacion','instalacion','planilla','fechat','placa','fecha_cierre','estado_integ','fh_confotm','anticipo','a_pend_fec','estado_anticipo',                   
- 'v$alor_planilla','dummy','a_pend_cant','a_pend_v$alor','a_ejec_fec', 'a_ejec_cant','a_ejec_v$alor',   
+ 'v$alor_planilla','dummy','a_pend_cant','a_pend_v$alor','a_ejec_fec', 'a_ejec_cant','a_ejec_v$alor','fintra_fecha', 
  'fintra_cant_ant','fintra_valor_ant','fintra_cant_ejec','fintra_valor_ejec',  
   'cumplido_wms','pla_informacion','pla_imagenes','pla_cumplido_imagen','pla_novedad','pla_devnegativa',
   'cumplidos_fecha','cumplidos_estado','cumplidos_proc_fecha',
   'cumplido_valor_intranet','cumplido_valor_costo', 'cumplido_valor_ajustes','cumplido_valor_saldo',
   'estado_remesas','remesas_planilla',
-  'fecha_consulta','detalles'];
+  'saldopla_extracto', 'saldopla_estadoext','saldopla_plano','saldopla_fechaext','saldopla_valor','fecha_consulta','detalles'
+];
 
   constructor(private cdr:ChangeDetectorRef, private router: Router,
     public dialog:MatDialog, private generalService:GeneralService,
@@ -91,7 +99,8 @@ export class OperacionotmComponent implements OnInit {
       fechaf=this.convertDate(this.controlFecFin.value);
     }
 
-    this.generalService.getOpOtmCab(this.controlMan.value===''?null:this.controlMan.value,this.controlPlaca.value===''?null:this.controlPlaca.value,fechai===''?'null':fechai,fechaf===''?'null':fechaf,this.controlSuc.value==='TODAS'?null:this.controlSuc.value.vus_codins,this.controlEst.value===''?'TODOS':this.controlEst.value)
+    this.generalService.getOpOtmCab(this.controlMan.value===''?'null':this.controlMan.value,this.controlPlaca.value===''?'null':this.controlPlaca.value,fechai===''?'null':fechai,fechaf===''?'null':fechaf,this.controlSuc.value==='TODAS'?'null':this.controlSuc.value.vus_codins,this.controlEst.value===''?'TODOS':this.controlEst.value,this.controlAnt.value===''?'TODOS':this.controlAnt.value,this.controlEstCum.value===''?'TODOS':this.controlEstCum.value,
+    this.controlEstCumWms.value===''?'TODOS':this.controlEstCumWms.value,this.controlEstAnt.value===''?'TODOS':this.controlEstAnt.value,this.controlEstExt.value===''?'TODOS':this.controlEstExt.value,this.controlFecAnt.value===''?'TODOS':this.controlFecAnt.value,this.controlFecConfOtm.value===''?'TODOS':this.controlFecConfOtm.value)
     .subscribe({
         next:(res)=>{
           console.log(res)
