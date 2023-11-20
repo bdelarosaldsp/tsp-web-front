@@ -73,7 +73,7 @@
                                     </div> 
                                     <div class="col">
                                         <button *ngIf="controlMan.value" mat-raised-button (click)="exporter.exportTable('xlsx',
-                                        {fileName:email+'_TRANSMISIONES_OTM_'+datepipe.transform(this.fechaEx.setDate(this.fechaEx.getDate()),'yyyyMMdd')+'_'+datepipe.transform(this.fechaEx.setDate(this.fechaEx.getDate()),'HHmmss'), sheet: 'RESUMEN_OPERACION_OTM', Props: {Author: 'WEB WMS'}})"  >
+                                        {fileName:email+'_TRANSMISIONES_OTM_'+datepipe.transform(this.fechaEx.setDate(this.fechaEx.getDate()),'yyyyMMdd')+'_'+datepipe.transform(this.fechaEx.setDate(this.fechaEx.getDate()),'HHmmss'), sheet: 'TRANSMISION_OTM', Props: {Author: 'WEB WMS'}})"  >
                                             <img width="30%" height="40px" src="https://img.icons8.com/color/48/export-excel.png" alt="export-excel"/>
                                             Exportar
                                         </button>
