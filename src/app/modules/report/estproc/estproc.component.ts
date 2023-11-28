@@ -26,8 +26,10 @@ export class EstprocComponent implements OnInit {
   
   label: string='';
   progressbar: boolean=false;
+  progressbar2: boolean=false;
   isLoading: boolean=false;
   datasource= new MatTableDataSource<Error>(ELEMENT_DATA);
+  datasource1= new MatTableDataSource<Error>(ELEMENT_DATA);
   fechaEx:Date= new Date();
   fecha:Date= new Date();
   controlMan : FormControl  = new FormControl('')
@@ -40,6 +42,7 @@ export class EstprocComponent implements OnInit {
   agencies : Array<any> =  Constant.AUTH.getUser()?.agencies;
   email:string= Constant.AUTH.getUser()?.email;
   datos:Array<any>=[];
+  datos1:Array<any>=[];
   displayedColumns: string[] =['nombre_proceso','id_proceso','cantidad'];
   displayedColumns1: string[] =['fecha','cantidad'];
 
@@ -119,7 +122,7 @@ export class EstprocComponent implements OnInit {
 
   historialTransmisiones(){
     this.label='Obteniendo resultados de la consulta';
-    this.progressbar=true;
+    this.progressbar2=true;
 
     let fechai:string;
     if(typeof(this.controlFecIni.value)==="string"  && this.controlFecIni.value.includes('-')){
@@ -143,22 +146,22 @@ export class EstprocComponent implements OnInit {
     .subscribe({
         next:(res)=>{
           console.log(res)
-          this.datos = res.data.trmotm;
+          this.datos1 = res.data.trmotm;
 
-          this.datasource.data=this.datos;
+          this.datasource1.data=this.datos1;
         },
         error:(err)=>{
           console.log(err)
           this.toastr.warning(err?.error?.message)
           this.label='';
-          this.progressbar=false;
+          this.progressbar2=false;
           this.cdr.detectChanges()
         }
         ,complete:()=> {
           this.label='';
-          this.progressbar=false;
+          this.progressbar2=false;
           this.cdr.detectChanges();
-          this.openSnackBar();
+          
 
         },
       })
