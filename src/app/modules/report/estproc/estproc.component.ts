@@ -11,6 +11,7 @@ import { GeneralService } from 'src/app/services/general.service';
 import { Constant } from 'src/app/shared/constant';
 import { DetalleotmComponent } from '../detalleotm/detalleotm.component';
 import { ReportService } from 'src/app/services/report.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 const ELEMENT_DATA: any[] = [];
 
 
@@ -40,13 +41,19 @@ export class EstprocComponent implements OnInit {
   email:string= Constant.AUTH.getUser()?.email;
   datos:Array<any>=[];
   displayedColumns: string[] =['nombre_proceso','id_proceso','cantidad'];
+  displayedColumns1: string[] =['fecha','cantidad'];
 
   constructor(private cdr:ChangeDetectorRef, private router: Router,
     public dialog:MatDialog, private generalService:GeneralService,
-    private toastr:ToastrService,public datepipe: DatePipe,private reportService:ReportService,) { }
+    private toastr:ToastrService,public datepipe: DatePipe,private reportService:ReportService,private _snackBar: MatSnackBar) { }
 
+    
     ngOnInit() {
     }
+    
+    openSnackBar() {
+      this._snackBar.open("TOTAL PROCESOS PENDIENTE: "+ this.datasource.data.length, "CERRAR");}
+
     applyFilter(event: Event) {
       const filterValue = (event.target as HTMLInputElement).value;
       // this.datasource.filterPredicate = (data: Opotmcab, filter: string) => {
@@ -103,7 +110,56 @@ export class EstprocComponent implements OnInit {
         ,complete:()=> {
           this.label='';
           this.progressbar=false;
+          this.cdr.detectChanges();
+          this.openSnackBar();
+
+        },
+      })
+  }
+
+  historialTransmisiones(){
+    this.label='Obteniendo resultados de la consulta';
+    this.progressbar=true;
+
+    let fechai:string;
+    if(typeof(this.controlFecIni.value)==="string"  && this.controlFecIni.value.includes('-')){
+      var vali= this.controlFecIni.value.split('-');
+      fechai=(Number(vali[2])!==1?Number(vali[2])-1:Number(vali[2]))+'-'+vali[1]+'-'+vali[0]
+      console.log(fechai)
+    }else{
+      fechai=this.convertDate(this.controlFecIni.value);
+    }
+    
+    let fechaf:string
+    if(typeof(this.controlFecFin.value)==="string" && this.controlFecFin.value.includes('-')){
+      var val= this.controlFecFin.value.split('-');
+      fechaf=(Number(val[2])!==1?Number(val[2])-1:Number(val[2]))+'-'+val[1]+'-'+val[0]
+      console.log(fechaf)
+    }else{
+      fechaf=this.convertDate(this.controlFecFin.value);
+    }
+
+    this.reportService.GetHistorialTransmisiones()
+    .subscribe({
+        next:(res)=>{
+          console.log(res)
+          this.datos = res.data.trmotm;
+
+          this.datasource.data=this.datos;
+        },
+        error:(err)=>{
+          console.log(err)
+          this.toastr.warning(err?.error?.message)
+          this.label='';
+          this.progressbar=false;
           this.cdr.detectChanges()
+        }
+        ,complete:()=> {
+          this.label='';
+          this.progressbar=false;
+          this.cdr.detectChanges();
+          this.openSnackBar();
+
         },
       })
   }

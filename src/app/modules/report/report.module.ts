@@ -28,7 +28,7 @@ import { DetalleotmComponent } from './detalleotm/detalleotm.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { EstprocComponent } from './estproc/estproc.component';
 import { TransmisionotmComponent } from './transmisionotm/transmisionotm.component';
-
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
@@ -61,7 +61,8 @@ import { TransmisionotmComponent } from './transmisionotm/transmisionotm.compone
     MatIconModule,
     MatTableExporterModule,
     MatPaginatorModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatSnackBarModule
   ],
   providers: [DatePipe]
 })
