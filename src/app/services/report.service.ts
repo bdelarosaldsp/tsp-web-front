@@ -32,4 +32,13 @@ export class ReportService extends BaseService{
       })
     );
   }
+
+  public GetHistorialTransmisiones(){
+    return this.globalService.get(`${this.urlBase}${Constant.Endpoints.REPORTS.GET_HISTORIAL}`).pipe(
+      map(res => {
+        
+       return res;
+      })
+    );
+  }
 }

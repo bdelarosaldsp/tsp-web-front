@@ -92,6 +92,7 @@ export const Endpoint = {
     BASE: `report`,
     GET_TRANSMISIONES:`/actions/GetTransmisiones`,
     GET_PROCESOS:`/actions/GetTransmisionesProcesos`,
+    GET_HISTORIAL:`/actions/GetHistorialTransmisones`,
   }
 
 }
