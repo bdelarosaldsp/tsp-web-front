@@ -24,6 +24,7 @@ export class EstprocComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatDateRangePicker) datepicker:MatDateRangePicker<any>;
   
+  
   label: string='';
   progressbar: boolean=false;
   progressbar2: boolean=false;
@@ -45,6 +46,8 @@ export class EstprocComponent implements OnInit {
   datos1:Array<any>=[];
   displayedColumns: string[] =['nombre_proceso','id_proceso','cantidad'];
   displayedColumns1: string[] =['fecha','cantidad'];
+
+  totalReg: number=0;
 
   constructor(private cdr:ChangeDetectorRef, private router: Router,
     public dialog:MatDialog, private generalService:GeneralService,
@@ -95,12 +98,21 @@ export class EstprocComponent implements OnInit {
       fechaf=this.convertDate(this.controlFecFin.value);
     }
 
+
     this.reportService.GetTransmisionesProcesos()
     .subscribe({
         next:(res)=>{
           console.log(res)
           this.datos = res.data.trmotm;
 
+          this.datos.forEach(reg=>{
+            this.totalReg=this.totalReg + reg.cantidad;
+          })
+
+          this.datos.push({
+            nombre_proceso:'TOTAL REGISTROS',cantidad:this.totalReg,id_proceso:'',fecha_consulta:''
+          });
+          
           this.datasource.data=this.datos;
         },
         error:(err)=>{

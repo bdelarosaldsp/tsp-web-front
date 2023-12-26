@@ -26,6 +26,27 @@
                                     <textarea matInput placeholder="Planilla o Planillas" [formControl]="controlMan" required></textarea>
                                 </mat-form-field>
                             </div>
+
+                            <div class="col">
+                                <label style="padding-right: 5px;">Tipo de consulta:</label>
+                                <br>
+                                <mat-radio-group [formControl]="controlType">
+                                    <mat-radio-button value="1">Objeto</mat-radio-button>
+                                    <mat-radio-button value="2">Transmision</mat-radio-button>
+                                    
+                                </mat-radio-group>
+                            </div>
+
+                            <div class="col">
+                                <mat-form-field style="width:220px ;" appearance="outline" >
+                                    <mat-label>Orden de Campo:</mat-label>
+                                    <mat-select  disableRipple [formControl]="controlEst" >
+                                        <mat-option value="TODOS">PROCESO</mat-option>
+                                        <mat-option value="EN_PROCESO">FECHA</mat-option>
+                                        <mat-option value="PENDIENTE">TRANSMISION</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
                             
                             <div class="col">
                                 <mat-form-field style="width:220px ;" appearance="outline" >
