@@ -7,6 +7,7 @@ import { MixedComponent } from './mixed/mixed.component';
 import { StatisticsComponent } from './statistics/statistics.component';
 import { TablesComponent } from './tables/tables.component';
 import { WidgetsExamplesComponent } from './widgets-examples.component';
+import { TilesWidget10Component } from 'src/app/_metronic/partials/content/widgets/tiles/tiles-widget10/tiles-widget10.component';
 
 const routes: Routes = [
   {

@@ -18,29 +18,40 @@ const ELEMENT_DATA: any[] = [];
   templateUrl: './operacionotm.component.html',
   styleUrls: ['./operacionotm.component.scss']
 })
-export class OperacionotmComponent implements OnInit {
+export class OperacionotmComponent {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatDateRangePicker) datepicker:MatDateRangePicker<any>;
   
   label: string='';
   progressbar: boolean=false;
   isLoading: boolean=false;
+
+  codins: string='';
+  est: string='';
+  anticipo: string='';
+  estCum: string='';
+  estWms: string='';
+  estAnt: string='';
+  estExt: string='';
+  FecAnt: string='';
+  FecConfOtm: string='';
+
   datasource= new MatTableDataSource<Error>(ELEMENT_DATA);
   fechaEx:Date= new Date();
   fecha:Date= new Date();
   controlMan : FormControl  = new FormControl('')
   controlPlaca : FormControl  = new FormControl('');
-  controlEst : FormControl  = new FormControl('TODOS');
-  controlAnt : FormControl  = new FormControl('TODOS');
-  controlEstCum : FormControl  = new FormControl('TODOS');
-  controlEstCumWms : FormControl  = new FormControl('TODOS');
-  controlEstAnt: FormControl  = new FormControl('TODOS');
-  controlEstExt : FormControl  = new FormControl('TODOS');
-  controlFecAnt : FormControl  = new FormControl('TODOS');
-  controlFecConfOtm : FormControl  = new FormControl('TODOS');
+  controlEst : FormControl  = new FormControl(['TODOS']);
+  controlAnt : FormControl  = new FormControl(['TODOS']);
+  controlEstCum : FormControl  = new FormControl(['TODOS']);
+  controlEstCumWms : FormControl  = new FormControl(['TODOS']);
+  controlEstAnt: FormControl  = new FormControl(['TODOS']);
+  controlEstExt : FormControl  = new FormControl(['TODOS']);
+  controlFecAnt : FormControl  = new FormControl(['TODOS']);
+  controlFecConfOtm : FormControl  = new FormControl(['TODOS']);
   controlFecIni : FormControl  = new FormControl(this.datepipe.transform(this.fecha.setDate(this.fecha.getDate()-6),'yyyy-MM-dd'));
   controlFecFin : FormControl  = new FormControl(this.datepipe.transform(this.fecha.setDate(this.fecha.getDate()+7),'yyyy-MM-dd'));
-  controlSuc : FormControl  = new FormControl('TODAS');
+  controlSuc : FormControl  = new FormControl(['TODAS']);
   
   agencies : Array<any> =  Constant.AUTH.getUser()?.agencies;
   email:string= Constant.AUTH.getUser()?.email;
@@ -59,8 +70,7 @@ export class OperacionotmComponent implements OnInit {
     public dialog:MatDialog, private generalService:GeneralService,
     private toastr:ToastrService,public datepipe: DatePipe) { }
 
-    ngOnInit() {
-    }
+    
     applyFilter(event: Event) {
       const filterValue = (event.target as HTMLInputElement).value;
       // this.datasource.filterPredicate = (data: Opotmcab, filter: string) => {
@@ -78,6 +88,7 @@ export class OperacionotmComponent implements OnInit {
   }
 
   onSearch(){
+    this.unsetValcontrols();
     this.label='Obteniendo resultados de la consulta';
     this.progressbar=true;
 
@@ -99,8 +110,10 @@ export class OperacionotmComponent implements OnInit {
       fechaf=this.convertDate(this.controlFecFin.value);
     }
 
-    this.generalService.getOpOtmCab(this.controlMan.value===''?'null':this.controlMan.value,this.controlPlaca.value===''?'null':this.controlPlaca.value,fechai===''?'null':fechai,fechaf===''?'null':fechaf,this.controlSuc.value==='TODAS'?'null':this.controlSuc.value.vus_codins,this.controlEst.value===''?'TODOS':this.controlEst.value,this.controlAnt.value===''?'TODOS':this.controlAnt.value,this.controlEstCum.value===''?'TODOS':this.controlEstCum.value,
-    this.controlEstCumWms.value===''?'TODOS':this.controlEstCumWms.value,this.controlEstAnt.value===''?'TODOS':this.controlEstAnt.value,this.controlEstExt.value===''?'TODOS':this.controlEstExt.value,this.controlFecAnt.value===''?'TODOS':this.controlFecAnt.value,this.controlFecConfOtm.value===''?'TODOS':this.controlFecConfOtm.value)
+    this.setValcontrols();
+    console.log(this.estAnt)
+    this.generalService.getOpOtmCab(this.controlMan.value===''?'null':this.controlMan.value,this.controlPlaca.value===''?'null':this.controlPlaca.value,fechai===''?'null':fechai,fechaf===''?'null':fechaf,this.codins,
+    this.est,this.anticipo,this.estCum,this.estWms,this.estAnt,this.estExt,this.FecAnt,this.FecConfOtm)
     .subscribe({
         next:(res)=>{
           console.log(res)
@@ -178,6 +191,65 @@ export class OperacionotmComponent implements OnInit {
     });
 
 
+}
+
+unsetValcontrols(){
+
+  this.FecConfOtm='';
+  this.FecAnt='';
+  this.estExt='';
+  this.estWms='';
+  this.estCum='';
+  this.estAnt='';
+  this.est='';
+  this.anticipo='';
+  this.codins='';
+}
+setValcontrols(){
+  this.controlFecConfOtm.value.forEach((x: string) => {
+    this.FecConfOtm=this.FecConfOtm+x+',';
+  });
+  this.FecConfOtm=this.FecConfOtm.substring(0,this.FecConfOtm.length-1);
+
+  this.controlFecAnt.value.forEach((x: string) => {
+    this.FecAnt=this.FecAnt+x+',';
+  });
+  this.FecAnt=this.FecAnt.substring(0,this.FecAnt.length-1);
+
+  this.controlEstExt.value.forEach((x: string) => {
+    this.estExt=this.estExt+x+',';
+  });
+  this.estExt=this.estExt.substring(0,this.estExt.length-1);
+
+  this.controlEstCumWms.value.forEach((x: string) => {
+    this.estWms=this.estWms+x+',';
+  });
+  this.estWms=this.estWms.substring(0,this.estWms.length-1);
+
+  this.controlEstCum.value.forEach((x: string) => {
+    this.estCum=this.estCum+x+',';
+  });
+  this.estCum=this.estCum.substring(0,this.estCum.length-1);
+
+  this.controlEstAnt.value.forEach((x: string) => {
+    this.estAnt=this.estAnt+x+',';
+  });
+  this.estAnt=this.estAnt.substring(0,this.estAnt.length-1);
+  
+  this.controlEst.value.forEach((x: string) => {
+    this.est=this.est+x+',';
+  });
+  this.est=this.est.substring(0,this.est.length-1);
+
+  this.controlAnt.value.forEach((x: string) => {
+    this.anticipo=this.anticipo+x+',';
+  });
+  this.anticipo=this.anticipo.substring(0,this.anticipo.length-1);
+  
+  this.controlSuc.value.forEach((x: string) => {
+    this.codins=this.codins+x+',';
+  });
+  this.codins=this.codins.substring(0,this.codins.length-1);
 }
 }
 

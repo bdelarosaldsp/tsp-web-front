@@ -1,31 +1,35 @@
 import { DatePipe } from '@angular/common';
 import { ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
+import { FormControl } from '@angular/forms';
 import { MatDateRangePicker } from '@angular/material/datepicker';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
-import { Constant } from 'src/app/shared/constant';
-import { DetalleotmComponent } from '../detalleotm/detalleotm.component';
 import { ReportService } from 'src/app/services/report.service';
+import { Constant } from 'src/app/shared/constant';
 
 const ELEMENT_DATA: any[] = [];
 
 @Component({
-  selector: 'app-transmisionotm',
-  templateUrl: './transmisionotm.component.html',
-  styleUrls: ['./transmisionotm.component.scss']
+  selector: 'app-plaremotm',
+  templateUrl: './plaremotm.component.html',
+  styleUrls: ['./plaremotm.component.scss']
 })
-export class TransmisionotmComponent  {
+export class PlaremotmComponent {
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatDateRangePicker) datepicker:MatDateRangePicker<any>;
   
   label: string='';
   progressbar: boolean=false;
   isLoading: boolean=false;
+  selectedRowIndex:any;
+
   datasource= new MatTableDataSource<Error>(ELEMENT_DATA);
+  datasourcePlarem= new MatTableDataSource<Error>(ELEMENT_DATA);
+  datasourceRemesa= new MatTableDataSource<Error>(ELEMENT_DATA);
   fechaEx:Date= new Date();
   fecha:Date= new Date();
   controlMan : FormControl  = new FormControl('')
@@ -37,12 +41,23 @@ export class TransmisionotmComponent  {
   agencies : Array<any> =  Constant.AUTH.getUser()?.agencies;
   email:string= Constant.AUTH.getUser()?.email;
   datos:Array<any>=[];
-  displayedColumns: string[] =['documento','id','transmision_num_origen','id_proceso','trm_estado','respuesta','fecha_creacion','fecha_proceso_final',];
+  displayedColumns: string[] =['position','planilla','placa','Fecha_Planilla','valor_planilla',
+  'cedula_conductor','nombre_conductor','nombre_beneficiario','beneficiario_anticipo',
+  'servprov','cliente','nit_propietario','valor_anticipo','estado','procesado',
+  'fecha_procesado','fecha_creacion','valor_dummy'];
+
+  displayedColumnsRem: string[] =['position','planilla','remesa','valor_remesa',
+  'codigo_cliente','nit_cliente','servprov','cod_suc',
+  'peso_remesa','tipo_unidad_remesa','volumen_remesa','tipo_volumen_remesa',
+  'fecha_remesa','fecha_creacion','fecha_modificacion','reg_status','valor_dummy'];
+
+  displayedColumnsPlarem: string[] =['position','planilla','remesa','compania',
+  'porcentaje_contabilizacion','estado','usuario_creacion',
+  'fecha_creacion','dummy','secundaria'];
 
   constructor(private cdr:ChangeDetectorRef, private router: Router,
     public dialog:MatDialog, private reportService:ReportService,
     private toastr:ToastrService,public datepipe: DatePipe) { }
-
 
     applyFilter(event: Event) {
       const filterValue = (event.target as HTMLInputElement).value;
@@ -82,12 +97,14 @@ export class TransmisionotmComponent  {
       fechaf=this.convertDate(this.controlFecFin.value);
     }
 
-    this.reportService.GetTransmisiones(this.controlMan.value===''?null:this.controlMan.value,this.controlEst.value===''?'null':this.controlEst.value)
+    this.reportService.GetPlanillasIntra(this.controlMan.value===''?null:this.controlMan.value)
     .subscribe({
         next:(res)=>{
           console.log(res)
-          this.datos = res.data.trmotm;
+          this.datos = res.data.placost;
           this.datasource.data=this.datos;
+          this.datasourceRemesa.data=res.data.remotm;
+          this.datasourcePlarem.data=res.data.plarem;
         },
         error:(err)=>{
           console.log(err)
@@ -105,12 +122,11 @@ export class TransmisionotmComponent  {
   }
 
   onClear(){
-    this.datos.values;
     
     //this.dataImage.length=0;
     this.cdr.detectChanges();
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-      this.router.navigate(['/report/transmisionotm']);
+      this.router.navigate(['/report/plaremotm']);
     });
   }
 
@@ -125,18 +141,7 @@ export class TransmisionotmComponent  {
       return fecha;
   }
 
-
+  highlight(row:any){
+    this.selectedRowIndex=row.planilla;
+  }
 }
-
-export interface Opotmcab{
-
-  id:string, 
-  id_proceso:string, 
-  trm_estado:string, 
-  respuesta:string, 
-  fecha_creacion:string, 
-  fecha_proceso_final:string, 
-  planilla:string
-  
-}
-

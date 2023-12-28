@@ -1,0 +1,329 @@
+<div class="container text-center">
+    <mat-accordion  multi>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>               
+            </mat-expansion-panel-header>
+            <mat-card tyle="padding-top: 0px;">
+                <mat-card-header>
+                    <div mat-card-avatar>
+                        <span class="material-icons">
+                            list
+                        </span>
+                    </div>
+                    <mat-card-title>Consulta planillas Intranet-OTM</mat-card-title>
+                </mat-card-header>
+
+                <mat-divider></mat-divider>
+       
+                <mat-card-content style="margin-top: 20px;">
+                    
+                    
+                    <div class="container">
+                        <div class="row">
+                            <div class="col">
+                                <mat-form-field appearance="legacy">
+                                    <mat-label> Planilla(s):</mat-label>
+                                    <textarea matInput placeholder="Planilla o Planillas" [formControl]="controlMan" required></textarea>
+                                </mat-form-field>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col" style="padding-left: 35px;">
+                                <div class="row">
+                                    <div  class="col">
+                                        <button *ngIf="controlMan.value" (click)="onSearch()"  style="height: 40px;" mat-raised-button color="primary" >
+                                            <span class="material-icons">
+                                                search
+                                            </span>
+                                            Consultar
+                                        </button>
+                                    </div>
+                                    <div *ngIf="controlMan.value || controlPlaca.value" class="col" style="padding-left: 50px;">
+                                        <button (click)="onClear()" style="height: 40px;" mat-raised-button color="warn" >
+                                            <span class="material-icons">
+                                                cached
+                                            </span>
+                                            Limpiar panel
+                                        </button>
+                                    </div> 
+                                    <!-- <div class="col">
+                                        <button *ngIf="controlMan.value" mat-raised-button (click)="exporter.exportTable('xlsx',
+                                        {fileName:email+'_TRANSMISIONES_OTM_'+datepipe.transform(this.fechaEx.setDate(this.fechaEx.getDate()),'yyyyMMdd')+'_'+datepipe.transform(this.fechaEx.setDate(this.fechaEx.getDate()),'HHmmss'), sheet: 'TRANSMISION_OTM', Props: {Author: 'WEB WMS'}})"  >
+                                            <img width="30%" height="40px" src="https://img.icons8.com/color/48/export-excel.png" alt="export-excel"/>
+                                            Exportar
+                                        </button>
+                                        </div> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                </mat-card-content>
+            </mat-card>
+        </mat-expansion-panel>
+    </mat-accordion>
+        
+    
+    <div class="text-center">
+        <h2>{{label}}</h2>
+        <mat-progress-bar *ngIf="progressbar" mode="query"></mat-progress-bar>
+    </div>
+    
+    <div class="container1">
+        <div class="loading-shade" *ngIf="isLoading">
+            <mat-spinner *ngIf="isLoading"></mat-spinner>
+        </div>
+        <mat-accordion  multi>
+            <mat-expansion-panel *ngIf="datasource.data.length>0">
+                <mat-expansion-panel-header>
+                    PLANILLA_COST_OTM         
+                </mat-expansion-panel-header>
+                <section class="table-container mat-elevation-z8" tabindex="0">
+                    <table  mat-table matTableExporter [dataSource]="datasource" #table="matTable" #exporter="matTableExporter">
+                        <ng-container  matColumnDef="position">
+                            <th mat-header-cell *matHeaderCellDef> FILA</th>
+                            <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+                        </ng-container>
+        
+                        <ng-container  matColumnDef="cedula_conductor">
+                            <th mat-header-cell *matHeaderCellDef> CEDULA CONDUCTOR </th>
+                            <td mat-cell *matCellDef="let element"> {{element.cedula_conductor}} </td>
+                        </ng-container>
+        
+                        <ng-container  matColumnDef="nombre_conductor">
+                            <th mat-header-cell *matHeaderCellDef>NOMBRE CONDUCTOR</th>
+                            <td mat-cell *matCellDef="let element"> {{element.cedula_conductor}} </td>
+                        </ng-container>
+        
+                        <ng-container  matColumnDef="nombre_beneficiario">
+                            <th mat-header-cell *matHeaderCellDef>NOMBRE BENEFICIARIO</th>
+                            <td mat-cell *matCellDef="let element"> {{element.nombre_beneficiario}} </td>
+                        </ng-container>
+            
+                        <ng-container matColumnDef="beneficiario_anticipo">
+                          <th mat-header-cell *matHeaderCellDef>BENEFICIARIO ANTICIPO</th>
+                          <td mat-cell *matCellDef="let element"> {{element.beneficiario_anticipo}} </td>
+                        </ng-container>
+                      
+                        <ng-container matColumnDef="valor_planilla">
+                        <th mat-header-cell *matHeaderCellDef>VALOR PLANILLA</th>
+                          <td mat-cell *matCellDef="let element"> {{element.valor_planilla}} </td>
+                        </ng-container>
+                      
+                        <ng-container matColumnDef="planilla">
+                            <th mat-header-cell *matHeaderCellDef>PLANILLA</th>
+                            <td mat-cell *matCellDef="let element"> {{element.planilla}} </td>
+                          </ng-container>
+                        
+                          <ng-container matColumnDef="fecha_creacion">
+                            <th mat-header-cell *matHeaderCellDef> FECHA CREACION </th>
+                            <td mat-cell *matCellDef="let element"> {{element.fecha_creacion}} </td>
+                          </ng-container>
+            
+                        <ng-container matColumnDef="placa">
+                          <th mat-header-cell *matHeaderCellDef>PLACA </th>
+                          <td mat-cell *matCellDef="let element"> {{element.placa}} </td>
+                        </ng-container>
+        
+                        <ng-container matColumnDef="Fecha_Planilla">
+                            <th mat-header-cell *matHeaderCellDef>FECHA PLANILLA </th>
+                            <td mat-cell *matCellDef="let element"> {{element.Fecha_Planilla}} </td>
+                        </ng-container>
+        
+                        <ng-container matColumnDef="servprov">
+                            <th mat-header-cell *matHeaderCellDef>SERVPROV </th>
+                            <td mat-cell *matCellDef="let element"> {{element.servprov}} </td>
+                        </ng-container>
+        
+                        <ng-container matColumnDef="cliente">
+                            <th mat-header-cell *matHeaderCellDef>CLIENTE </th>
+                            <td mat-cell *matCellDef="let element"> {{element.cliente}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="nit_propietario">
+                            <th mat-header-cell *matHeaderCellDef>NIT PROPOIETARIO </th>
+                            <td mat-cell *matCellDef="let element"> {{element.nit_propietario}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="valor_anticipo">
+                            <th mat-header-cell *matHeaderCellDef>VLR ANTICIPO</th>
+                            <td mat-cell *matCellDef="let element"> {{element.valor_anticipo}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="procesado">
+                            <th mat-header-cell *matHeaderCellDef>PROCESADO</th>
+                            <td mat-cell *matCellDef="let element"> {{element.procesado}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="estado">
+                            <th mat-header-cell *matHeaderCellDef>ESTADO</th>
+                            <td mat-cell *matCellDef="let element"> {{element.estado}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="fecha_procesado">
+                            <th mat-header-cell *matHeaderCellDef>FECHA PROCESADO</th>
+                            <td mat-cell *matCellDef="let element"> {{element.fecha_procesado}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="valor_dummy">
+                            <th mat-header-cell *matHeaderCellDef>VLR DUMMY</th>
+                            <td mat-cell *matCellDef="let element"> {{element.valor_dummy}} </td>
+                        </ng-container>
+            
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns;sticky: true"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="highlight(row)" [ngClass]="{'highlightTableColor': selectedRowIndex === row.planilla}"></tr>
+                    </table>
+                </section>
+            </mat-expansion-panel>
+
+            <mat-expansion-panel *ngIf="datasourceRemesa.data.length>0">
+                <mat-expansion-panel-header>
+                    REMESA_OTM
+                </mat-expansion-panel-header>
+                <section class="table-container mat-elevation-z8" tabindex="0">
+                    <table  mat-table matTableExporter [dataSource]="datasourceRemesa" #table="matTable" #exporter="matTableExporter">
+                        <ng-container  matColumnDef="position">
+                            <th mat-header-cell *matHeaderCellDef> FILA</th>
+                            <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+                        </ng-container>
+        
+                        <ng-container  matColumnDef="planilla">
+                            <th mat-header-cell *matHeaderCellDef> PLANILLA</th>
+                            <td mat-cell *matCellDef="let element"> {{element.planilla}} </td>
+                        </ng-container>
+        
+                        <ng-container  matColumnDef="remesa">
+                            <th mat-header-cell *matHeaderCellDef>REMESA</th>
+                            <td mat-cell *matCellDef="let element"> {{element.remesa}} </td>
+                        </ng-container>
+        
+                        <ng-container  matColumnDef="valor_remesa">
+                            <th mat-header-cell *matHeaderCellDef>VLR REMESA</th>
+                            <td mat-cell *matCellDef="let element"> {{element.valor_remesa}} </td>
+                        </ng-container>
+            
+                        <ng-container matColumnDef="codigo_cliente">
+                          <th mat-header-cell *matHeaderCellDef>CODIGO CLIENTE</th>
+                          <td mat-cell *matCellDef="let element"> {{element.codigo_cliente}} </td>
+                        </ng-container>
+                      
+                        <ng-container matColumnDef="nit_cliente">
+                        <th mat-header-cell *matHeaderCellDef>NIT CLIENTE</th>
+                          <td mat-cell *matCellDef="let element"> {{element.nit_cliente}} </td>
+                        </ng-container>
+                      
+                        <ng-container matColumnDef="servprov">
+                            <th mat-header-cell *matHeaderCellDef>SERVPROV</th>
+                            <td mat-cell *matCellDef="let element"> {{element.servprov}} </td>
+                          </ng-container>
+                        
+                          <ng-container matColumnDef="cod_suc">
+                            <th mat-header-cell *matHeaderCellDef> CODIGO SUCURSAL </th>
+                            <td mat-cell *matCellDef="let element"> {{element.cod_suc}} </td>
+                          </ng-container>
+            
+                        <ng-container matColumnDef="peso_remesa">
+                          <th mat-header-cell *matHeaderCellDef>PESO REMESA</th>
+                          <td mat-cell *matCellDef="let element"> {{element.peso_remesa}} </td>
+                        </ng-container>
+        
+                        <ng-container matColumnDef="tipo_unidad_remesa">
+                            <th mat-header-cell *matHeaderCellDef>UNIDAD PESO</th>
+                            <td mat-cell *matCellDef="let element"> {{element.tipo_unidad_remesa}} </td>
+                        </ng-container>
+        
+                        <ng-container matColumnDef="volumen_remesa">
+                            <th mat-header-cell *matHeaderCellDef>VOLUMEN REMESA</th>
+                            <td mat-cell *matCellDef="let element"> {{element.volumen_remesa}} </td>
+                        </ng-container>
+        
+                        <ng-container matColumnDef="tipo_volumen_remesa">
+                            <th mat-header-cell *matHeaderCellDef>UNIDAD VOLUMEN </th>
+                            <td mat-cell *matCellDef="let element"> {{element.tipo_volumen_remesa}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="fecha_remesa">
+                            <th mat-header-cell *matHeaderCellDef>FECHA REMESA</th>
+                            <td mat-cell *matCellDef="let element"> {{element.fecha_remesa}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="fecha_creacion">
+                            <th mat-header-cell *matHeaderCellDef>FECHA CREACION</th>
+                            <td mat-cell *matCellDef="let element"> {{element.fecha_creacion}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="fecha_modificacion">
+                            <th mat-header-cell *matHeaderCellDef>FECHA MODIFICACION</th>
+                            <td mat-cell *matCellDef="let element"> {{element.fecha_modificacion}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="reg_status">
+                            <th mat-header-cell *matHeaderCellDef>ESTADO</th>
+                            <td mat-cell *matCellDef="let element"> {{element.reg_status}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="valor_dummy">
+                            <th mat-header-cell *matHeaderCellDef>VLR DUMMY</th>
+                            <td mat-cell *matCellDef="let element"> {{element.valor_dummy}} </td>
+                        </ng-container>
+            
+                        <tr mat-header-row *matHeaderRowDef="displayedColumnsRem;sticky: true"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumnsRem;" [ngClass]="{'highlightTableColor': selectedRowIndex === row.planilla}"></tr>
+                    </table>
+                </section>
+            </mat-expansion-panel>
+            <mat-expansion-panel *ngIf="datasourcePlarem.data.length>0">
+                <mat-expansion-panel-header>
+                    PLAREM_OTM
+                </mat-expansion-panel-header>
+                <section class="table-container mat-elevation-z8" tabindex="0">
+                    <table  mat-table matTableExporter [dataSource]="datasourcePlarem" #table="matTable" #exporter="matTableExporter">
+        
+                        <ng-container  matColumnDef="position">
+                            <th mat-header-cell *matHeaderCellDef> FILA</th>
+                            <td mat-cell *matCellDef="let element"> {{element.position}} </td>
+                        </ng-container>
+                        <ng-container  matColumnDef="planilla">
+                            <th mat-header-cell *matHeaderCellDef> PLANILLA</th>
+                            <td mat-cell *matCellDef="let element"> {{element.planilla}} </td>
+                        </ng-container>
+        
+                        <ng-container  matColumnDef="remesa">
+                            <th mat-header-cell *matHeaderCellDef>REMESA</th>
+                            <td mat-cell *matCellDef="let element"> {{element.remesa}} </td>
+                        </ng-container>
+        
+                        <ng-container  matColumnDef="compania">
+                            <th mat-header-cell *matHeaderCellDef>COMPANIA</th>
+                            <td mat-cell *matCellDef="let element"> {{element.compania}} </td>
+                        </ng-container>
+            
+                        <ng-container matColumnDef="porcentaje_contabilizacion">
+                          <th mat-header-cell *matHeaderCellDef>PORCENTAJE CONTABILIZACION</th>
+                          <td mat-cell *matCellDef="let element"> {{element.porcentaje_contabilizacion}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="usuario_creacion">
+                            <th mat-header-cell *matHeaderCellDef> USUARIO CREACION </th>
+                            <td mat-cell *matCellDef="let element"> {{element.usuario_creacion}} </td>
+                        </ng-container>
+                    
+                        <ng-container matColumnDef="fecha_creacion">
+                            <th mat-header-cell *matHeaderCellDef> FECHA CREACION </th>
+                            <td mat-cell *matCellDef="let element"> {{element.fecha_creacion}} </td>
+                        </ng-container>
+        
+                        <ng-container matColumnDef="secundaria">
+                          <th mat-header-cell *matHeaderCellDef>SECUNDARIA</th>
+                          <td mat-cell *matCellDef="let element"> {{element.secundaria}} </td>
+                        </ng-container>
+        
+                        <ng-container matColumnDef="estado">
+                            <th mat-header-cell *matHeaderCellDef>ESTADO</th>
+                            <td mat-cell *matCellDef="let element"> {{element.estado}} </td>
+                        </ng-container>
+                        
+                        <ng-container matColumnDef="dummy">
+                            <th mat-header-cell *matHeaderCellDef>DUMMY</th>
+                            <td mat-cell *matCellDef="let element"> {{element.dummy}} </td>
+                        </ng-container>
+            
+                        <tr mat-header-row *matHeaderRowDef="displayedColumnsPlarem;sticky: true"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumnsPlarem;" [ngClass]="{'highlightTableColor': selectedRowIndex === row.planilla}"></tr>
+                    </table>
+                </section>
+            </mat-expansion-panel>
+        </mat-accordion>
+        
+    </div>
+   
+</div>

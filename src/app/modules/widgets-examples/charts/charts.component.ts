@@ -5,5 +5,8 @@ import { Component } from '@angular/core';
   templateUrl: './charts.component.html',
 })
 export class ChartsComponent {
+
+  categorias: Array<any>=["enero","febrero","marzo","abril","mayo"];
+  datos: Array<any>=[50,35,80,10,20];
   constructor() {}
 }

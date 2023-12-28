@@ -6,6 +6,9 @@ import { LayoutService } from '../../../../../layout';
   templateUrl: './tiles-widget1.component.html',
 })
 export class TilesWidget1Component implements OnInit {
+  @Input() nombre:string;
+  @Input() categorias:Array<any>;
+  @Input() valores:Array<number>;
   @Input() cssClass = '';
   @Input() chartColor = 'primary';
   chartOptions: any = {};
@@ -51,8 +54,8 @@ export class TilesWidget1Component implements OnInit {
     return {
       series: [
         {
-          name: 'Net Profit',
-          data: [20, 22, 30, 28, 25, 26, 30, 28, 22, 24, 25, 35],
+          name: this.nombre,
+          data: this.valores,
         },
       ],
       chart: {
@@ -96,20 +99,7 @@ export class TilesWidget1Component implements OnInit {
         colors: [this.colorsThemeBaseColor],
       },
       xaxis: {
-        categories: [
-          'Jan',
-          'Feb',
-          'Mar',
-          'Apr',
-          'May',
-          'Jun',
-          'Jul',
-          'Aug',
-          'Sep',
-          'Oct',
-          'Nov',
-          'Dec',
-        ],
+        categories: this.categorias,
         axisBorder: {
           show: false,
         },

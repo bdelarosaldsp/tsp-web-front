@@ -29,6 +29,13 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { EstprocComponent } from './estproc/estproc.component';
 import { TransmisionotmComponent } from './transmisionotm/transmisionotm.component';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { WidgetsModule } from '../../_metronic/partials';
+import { ResuopComponent } from './resuop/resuop.component';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { MatTooltipModule} from '@angular/material/tooltip'
+import {MatSortModule} from '@angular/material/sort';
+import { PlaremotmComponent } from './plaremotm/plaremotm.component';
+import { WmsreportsComponent } from './wmsreports/wmsreports.component'
 
 @NgModule({
   declarations: [
@@ -37,7 +44,10 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     OperacionotmComponent,
     DetalleotmComponent,
     EstprocComponent,
-    TransmisionotmComponent
+    TransmisionotmComponent,
+    ResuopComponent,
+    PlaremotmComponent,
+    WmsreportsComponent
   ],
   imports: [
     CommonModule,
@@ -62,7 +72,11 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
     MatTableExporterModule,
     MatPaginatorModule,
     MatProgressSpinnerModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    WidgetsModule,
+    NgxChartsModule,
+    MatTooltipModule,
+    MatSortModule,
   ],
   providers: [DatePipe]
 })

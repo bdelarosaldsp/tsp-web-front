@@ -1,0 +1,325 @@
+<div class="container text-center">
+    <mat-accordion  multi>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>               
+            </mat-expansion-panel-header>
+            <mat-card tyle="padding-top: 0px;">
+                <mat-card-header>
+                    <div mat-card-avatar>
+                        <span class="material-icons">
+                            list
+                        </span>
+                    </div>
+                    <mat-card-title>Informe Operacion OTM-WMS</mat-card-title>
+                </mat-card-header>
+
+                <mat-divider></mat-divider>
+       
+                <mat-card-content style="margin-top: 20px;">
+                    
+                    <div class="container">
+                        <div class="row">
+                            
+                            <div class="col">
+                                <mat-form-field appearance="outline">
+                                    <mat-label >Seleccione informe</mat-label>
+                                    <mat-select [formControl]="controlCampo" required>
+                                        <mat-option [value]="campo" *ngFor="let campo of campos">{{campo.campos}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col">
+                                <mat-form-field  appearance="outline">
+                                    <mat-label >Seleccione Agencia</mat-label>
+                                    <mat-select (selectionChange)="onSelect2($event)"  [formControl]="controlSuc"  multiple required>
+                                        <mat-option (onSelectionChange)="onSelect($event)" value="TODOS"> TODAS</mat-option>
+                                        <mat-option (onSelectionChange)="onSelect($event)" [value]="agency.vus_codins" *ngFor="let agency of agencies">{{agency.vus_insden}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <mat-form-field  appearance="outline" >
+                                    <mat-label>Origen contrato(Anticipo):</mat-label>
+                                    <mat-select  [formControl]="controlAnt" multiple required>
+                                        <mat-option value="TODOS">TODOS</mat-option>
+                                        <mat-option value="INTRANET">INTRANET</mat-option>
+                                        <mat-option value="INTRANET/ANGULAR">INTRANET/ANGULAR</mat-option>
+                                        <mat-option value="ANGULAR">ANGULAR</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col">
+                                <mat-form-field appearance="outline">
+                                    <mat-label>Seleccione rango de fecha</mat-label>
+                                    <mat-date-range-input [rangePicker]="picker">
+                                    <input [formControl]="controlFecIni" readonly matStartDate placeholder="Fecha inicial" >
+                                    <input [formControl]="controlFecFin" readonly matEndDate placeholder="Fecha final">
+                                    </mat-date-range-input>
+                                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                    <mat-date-range-picker #picker></mat-date-range-picker>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <!-- <div class="row">
+                            <mat-divider></mat-divider>
+                           
+                            <div class="col">
+                                <br><br>
+                                <mat-form-field appearance="outline">
+                                    <mat-label >Ordenar por</mat-label>
+                                    <mat-select [formControl]="controlCampo" required>
+                                        <mat-option [value]="campo" *ngFor="let campo of campos">{{campo.campos}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <div class="col">
+                                <br><br>
+                                <mat-form-field  appearance="outline">
+                                    <mat-label >Seleccione Agencia</mat-label>
+                                    <mat-select (selectionChange)="onSelect2($event)"  [formControl]="controlSuc"  multiple required>
+                                        <mat-option (onSelectionChange)="onSelect($event)" value="TODOS"> TODAS</mat-option>
+                                        <mat-option (onSelectionChange)="onSelect($event)" [value]="agency.vus_codins" *ngFor="let agency of agencies">{{agency.vus_insden}}</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <mat-divider></mat-divider>
+                        </div> -->
+                        
+                        
+                        <div class="row">
+                            <div class="col" style="padding-left: 35px;">
+                                <div class="row">
+                                    <div  class="col">
+                                        <button (click)="onSearch()"  style="height: 40px;" mat-raised-button color="primary" >
+                                            <span class="material-icons">
+                                                search
+                                            </span>
+                                            Consultar
+                                        </button>
+                                    </div>
+                                    <div *ngIf="controlAnt.value || controlSuc.value" class="col" style="padding-left: 50px;">
+                                        <button (click)="onClear()" style="height: 40px;" mat-raised-button color="warn" >
+                                            <span class="material-icons">
+                                                cached
+                                            </span>
+                                            Limpiar panel
+                                        </button>
+                                    </div> 
+                                    <!-- <div class="col">
+                                        <button mat-raised-button (click)="exporter.exportTable('xlsx',
+                                        {fileName:email+'_RESUMEN_OPERACION_OTM_'+datepipe.transform(this.fechaEx.setDate(this.fechaEx.getDate()),'yyyyMMdd')+'_'+datepipe.transform(this.fechaEx.setDate(this.fechaEx.getDate()),'HHmmss'), sheet: 'RESUMEN_OPERACION_OTM', Props: {Author: 'WEB WMS'}})"  >
+                                            <img width="30%" height="40px" src="https://img.icons8.com/color/48/export-excel.png" alt="export-excel"/>
+                                            Exportar
+                                        </button>
+                                    </div> -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                </mat-card-content>
+            </mat-card>
+        </mat-expansion-panel>
+    </mat-accordion>
+        
+    
+    <div class="text-center">
+        <h2>{{label}}</h2>
+        <mat-progress-bar *ngIf="progressbar" mode="query"></mat-progress-bar>
+    </div>
+
+    <div class="loading-shade" *ngIf="isLoading">
+        <mat-spinner *ngIf="isLoading"></mat-spinner>
+    </div>
+
+
+    <div class="container1">
+        <mat-accordion  multi>
+            <mat-expansion-panel *ngIf="datasource.data.length>0">
+                <mat-expansion-panel-header>
+                    Total General
+                </mat-expansion-panel-header>
+                <div class="container">
+                    <ngx-charts-pie-chart *ngIf="single.length>0"
+                        class="chart-container"
+                        [view]="view"
+                        [legendTitle]="legendTitle"
+                        [legendPosition]="legendPosition"
+                        scheme="cool"
+                        [results]="single"
+                        [legend]="showLegend"
+                        [gradient]="gradient"
+                        [animations]=true
+                        [tooltipText]="pieTooltipText"
+                        (select)="detalle($event.name||$event,'MES','',1)"
+                        [doughnut]="true"
+                        
+                      >
+                    </ngx-charts-pie-chart>
+                    <br>
+                </div>
+                 
+                <br><br><br>
+                <table matSort (matSortChange)="sortData($event,'GEN')"  mat-table matTableExporter [dataSource]="datasource" #table="matTable" #exporter="matTableExporter">
+
+                    <ng-container  matColumnDef="rango_generacion_planilla">
+                        <th mat-sort-header="rango_generacion_planilla" mat-header-cell *matHeaderCellDef>RANGO PLANILLA</th>
+                        <td mat-cell *matCellDef="let element">
+                            <span matTooltip="Ver detalles" *ngIf="!element.campo.startsWith('TOTAL')" (click)="detalle(element.campo,'MES','',1)" >{{element.campo}}</span>  
+                            <span *ngIf="element.campo.startsWith('TOTAL')" ><strong>{{element.campo}}</strong></span>  
+                        </td>
+                    </ng-container>
+        
+                    <ng-container matColumnDef="cantidad">
+                      <th mat-sort-header="cantidad" mat-header-cell *matHeaderCellDef>CANTIDAD PLANILLAS</th>
+                      <td mat-cell *matCellDef="let element"> {{element.cantidad}} </td>
+                    </ng-container>
+    
+                    <ng-container matColumnDef="porcentaje">
+                        <th mat-sort-header="porcentaje" mat-header-cell *matHeaderCellDef>PORCENTAJE</th>
+                        <td mat-cell *matCellDef="let element"> {{((element.cantidad*100)/totalgen).toFixed(2)}}% </td>
+                    </ng-container>
+    
+                    <ng-container matColumnDef="detalle">
+                        <th mat-header-cell *matHeaderCellDef>DETALLES</th>
+                        <td mat-cell *matCellDef="let element">
+                            <button *ngIf="!element.campo.includes('TOTAL GENERAL')"  mat-icon-button color="warn"  (click)="detalle(element.rango_generacion_planilla,'MES','',1)">
+                                <mat-icon>list</mat-icon>
+                            </button> 
+                        </td>
+                    </ng-container>
+                  
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns;"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+            </mat-expansion-panel>
+            
+            <mat-expansion-panel *ngIf="datasourceMes.data.length>0">
+                <mat-expansion-panel-header>    
+                    Detalle por meses:  
+                    <span class="badge badge-light-success">{{valrango}}</span>  
+                </mat-expansion-panel-header>
+                <div class="container">
+                    <ngx-charts-pie-chart *ngIf="datosMes.length>0"
+                        class="chart-container"
+                        [view]="view"
+                        [legendTitle]="legendTitle"
+                        [legendPosition]="legendPosition"
+                        scheme="cool"
+                        [results]="datosMes"
+                        [legend]="showLegend"
+                        [gradient]="gradient"
+                        [animations]=true
+                        [tooltipText]="pieTooltipText"
+                        [doughnut]="true"
+                        (select)="detalle(valrango,'DIA',$event.name,2)"
+                      >
+                    </ngx-charts-pie-chart>
+                    <ngx-charts-legend (labelClick)="detalle(valrango,'DIA',$event,2)"></ngx-charts-legend>
+                    <br>
+                 </div>
+                 <br><br><br>
+            
+                <table  mat-table matTableExporter [dataSource]="datasourceMes" #table="matTable" #exporter="matTableExporter">
+        
+                    <ng-container  matColumnDef="mes_planilla">
+                        <th mat-header-cell *matHeaderCellDef>MES PLANILLA</th>
+                        <td mat-cell *matCellDef="let element"> 
+                            <span *ngIf="!element.mes_planilla.startsWith('TOTAL')">{{element.mes_planilla}}</span>  
+                            <span *ngIf="element.mes_planilla.startsWith('TOTAL')" ><strong>{{element.mes_planilla}}</strong></span>  </td>
+                    </ng-container>
+        
+                    <ng-container matColumnDef="cantidad">
+                        <th mat-header-cell *matHeaderCellDef>CANTIDAD</th>
+                        <td mat-cell *matCellDef="let element"> {{element.cantidad}} </td>
+                    </ng-container>
+        
+                    <ng-container matColumnDef="porcentaje">
+                        <th mat-header-cell *matHeaderCellDef>PORCENTAJE</th>
+                        <td mat-cell *matCellDef="let element"> {{((element.cantidad*100)/totalmeses).toFixed(2)}}% </td>
+                    </ng-container>
+        
+                    <ng-container matColumnDef="detalle">
+                        <th mat-header-cell *matHeaderCellDef>DETALLES</th>
+                        <td mat-cell *matCellDef="let element">
+                            <button  mat-icon-button color="warn"  (click)="detalle(valrango,'DIA',element.mes_planilla,2)">
+                                <mat-icon>list</mat-icon>
+                            </button> 
+                        </td>
+                    </ng-container>
+                    
+                    <tr mat-header-row *matHeaderRowDef="displayedColumnsMes;"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumnsMes;"></tr>
+                </table>
+            
+            </mat-expansion-panel>
+
+            <mat-expansion-panel *ngIf="datasourceDia.data.length>0">
+                <mat-expansion-panel-header>    
+                    Detalle por días:   Mes {{mes_dias}}           
+                </mat-expansion-panel-header>
+
+                <div class="container">
+                    <!-- <ngx-charts-pie-chart *ngIf="datosDia.length>0"
+                        class="chart-container"
+                        [view]="view"
+                        [legendTitle]="legendTitle"
+                        [legendPosition]="legendPosition"
+                        scheme="cool"
+                        [results]="datosDia"
+                        [legend]="showLegend"
+                        [gradient]="gradient"
+                        [animations]=true
+                        [tooltipText]="pieTooltipText"
+                        
+                      >
+                      </ngx-charts-pie-chart> -->
+                    <ngx-charts-bar-vertical
+                      [view]="view"
+                      scheme="cool"
+                      [results]="datosDia"
+                      [gradient]="gradient"
+                      [xAxis]="true"
+                      [yAxis]="true"
+                      [legend]="showLegend"
+                      [showXAxisLabel]="true"
+                      [showYAxisLabel]="true"
+                      xAxisLabel="DIA DEL MES"
+                      yAxisLabel="CANTIDAD PLANILLAS"
+                      [legendTitle]="legendTitle">
+                    </ngx-charts-bar-vertical>      
+                <br>
+                 </div>
+                 <br><br><br>
+                <table mat-table matTableExporter [dataSource]="datasourceDia" #table="matTable" #exporter="matTableExporter">
+        
+                    <ng-container  matColumnDef="mes_planilla">
+                        <th mat-header-cell *matHeaderCellDef>DIA PLANILLA</th>
+                        <td mat-cell *matCellDef="let element"> 
+                            <span *ngIf="!element.dia_planilla.startsWith('TOTAL')">{{element.dia_planilla}}</span>  
+                            <span *ngIf="element.dia_planilla.startsWith('TOTAL')" ><strong>{{element.dia_planilla}}</strong></span>
+                        </td>
+                    </ng-container>
+        
+                    <ng-container matColumnDef="cantidad">
+                        <th mat-header-cell *matHeaderCellDef>CANTIDAD</th>
+                        <td mat-cell *matCellDef="let element"> {{element.cantidad}} </td>
+                    </ng-container>
+        
+                    <ng-container matColumnDef="porcentaje">
+                        <th mat-header-cell *matHeaderCellDef>PORCENTAJE</th>
+                        <td mat-cell *matCellDef="let element"> {{((element.cantidad*100)/totaldias).toFixed(2)}}% </td>
+                    </ng-container>
+                    
+                    <tr mat-header-row *matHeaderRowDef="displayedColumnsDia;"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumnsDia;"></tr>
+                </table>
+
+            </mat-expansion-panel>
+        </mat-accordion>
+    </div>
+</div>

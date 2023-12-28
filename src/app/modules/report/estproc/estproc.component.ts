@@ -43,6 +43,13 @@ export class EstprocComponent implements OnInit {
   email:string= Constant.AUTH.getUser()?.email;
   datos:Array<any>=[];
   datos1:Array<any>=[];
+
+  categorias:Array<any>=[];
+  valores:Array<any>=[];
+
+  categorias2:Array<any>=[];
+  valores2:Array<any>=[];
+
   displayedColumns: string[] =['nombre_proceso','id_proceso','cantidad'];
   displayedColumns1: string[] =['fecha','cantidad'];
 
@@ -102,6 +109,8 @@ export class EstprocComponent implements OnInit {
           this.datos = res.data.trmotm;
 
           this.datasource.data=this.datos;
+          
+
         },
         error:(err)=>{
           console.log(err)
@@ -113,6 +122,13 @@ export class EstprocComponent implements OnInit {
         ,complete:()=> {
           this.label='';
           this.progressbar=false;
+        
+          this.datos.forEach(x=>{
+            this.categorias.push(x.id_proceso+'-'+x.nombre_proceso);
+            let cantidad: Number=x.cantidad;
+            this.valores.push(cantidad);
+          });
+
           this.cdr.detectChanges();
           this.openSnackBar();
 
@@ -121,6 +137,9 @@ export class EstprocComponent implements OnInit {
   }
 
   historialTransmisiones(){
+    this.valores2.length=0;
+    this.categorias2.length=0;
+    this.datos1.length=0;
     this.label='Obteniendo resultados de la consulta';
     this.progressbar2=true;
 
@@ -147,8 +166,18 @@ export class EstprocComponent implements OnInit {
         next:(res)=>{
           console.log(res)
           this.datos1 = res.data.trmotm;
-
           this.datasource1.data=this.datos1;
+          this.datos1.forEach(x=>{
+            if (!x.fecha.includes("TOTAL")) {
+              this.categorias2.push(x.fecha);
+              let cantidad: Number=x.cantidad;
+              this.valores2.push(cantidad);
+            }
+            
+          });
+
+          console.log(this.categorias2);
+          console.log(this.valores2);
         },
         error:(err)=>{
           console.log(err)
@@ -160,6 +189,7 @@ export class EstprocComponent implements OnInit {
         ,complete:()=> {
           this.label='';
           this.progressbar2=false;
+          
           this.cdr.detectChanges();
           
 
@@ -169,7 +199,12 @@ export class EstprocComponent implements OnInit {
 
   onClear(){
     this.datos.values;
-    
+    this.categorias.length=0;
+    this.valores.length=0;
+
+    this.datos1.values;
+    this.categorias2.length=0;
+    this.valores2.length=0;
     //this.dataImage.length=0;
     this.cdr.detectChanges();
     this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
