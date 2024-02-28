@@ -58,7 +58,10 @@
 
                 <ng-container  matColumnDef="nombre_proceso">
                     <th mat-header-cell *matHeaderCellDef>NOMBRE_PROCESO</th>
-                    <td mat-cell *matCellDef="let element"> {{element.nombre_proceso}} </td>
+                    <td mat-cell *matCellDef="let element"> 
+                       <strong *ngIf="element.nombre_proceso.includes('TOTAL')">{{element.nombre_proceso}}</strong>
+                       <p *ngIf="!element.nombre_proceso.includes('TOTAL')"> {{element.nombre_proceso}} </p> 
+                    </td>
                 </ng-container>
     
                 <ng-container matColumnDef="id_proceso">
