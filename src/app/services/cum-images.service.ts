@@ -39,7 +39,27 @@ export class CumImagesService extends BaseService {
       })
     );
  }
-
+ async valFacAsync(data:any) {
+  this.isLoadingSubject.next(true);
+  let result:any= await this.globalService.post(this.apiBase+Constant.Endpoints.CUM_IMAGES.GET_FACTURA,data).pipe(
+    map(res => {
+      
+      this.isLoadingSubject.next(false);
+      
+      return res;
+    },(err:any) => {
+      
+      this.isLoadingSubject.next(true)
+     
+      return err;
+    }),catchError((err:any)=>{
+      
+      this.isLoadingSubject.next(true)
+      return throwError (err);
+    })
+  ).toPromise();
+  return result;
+}
  uploadImage(data:any) {
 
   return this.globalService.post(this.apiBase+Constant.Endpoints.CUM_IMAGES.UPLOAD,data).pipe(

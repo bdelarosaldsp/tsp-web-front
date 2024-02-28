@@ -10,8 +10,8 @@
     "appThemeName":"Metronic",
 
    "apiUrl":"http://193.122.132.147:8091/api/",
-    "netSiteUrl":"http://193.122.132.147:8000/",
-    "phpSiteUrl":"http://193.122.132.147:5000/",
-    "intSiteUrl":"http://193.122.132.147:5000/IntOptions/"
+    "netSiteUrl":"http://193.122.132.147:8001/",
+    "phpSiteUrl":"http://193.122.132.147:5001/",
+    "intSiteUrl":"http://193.122.132.147:5001/IntOptions/"
 
 }
