@@ -36,6 +36,7 @@ export const Endpoint = {
     UPLOAD: `images/actions/upload`,
     GET_FACTURA: `images/actions/validate`,
     GET_REMESAS_OTM:`images/actions/GetRemesasOtm`,
+    GET_REMESAS_OTM_PLA:`images/actions/GetRemesasOtmPla`,
     VALIDA_IMAGENES: `images/actions/ValidarImagenes`,
     GET_SENDMAIL:`images/actions/sendimgmail/`,
     IMG_MAIL:`images/actions/imgmail/`

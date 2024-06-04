@@ -100,6 +100,20 @@ public getRemesasOtm(planilla:string ){
   );
 }
 
+public getRemesasOtmPla(data:any){
+  
+  return this.globalService.post(this.apiBase+Constant.Endpoints.CUM_IMAGES.GET_REMESAS_OTM_PLA,data).pipe(
+    map(res => {
+
+      return res;
+    },(err:any) => {
+      return  err;
+    }),catchError((err:any)=>{
+      return throwError (err);
+    })
+  );
+}
+
 public ValidarImagenes(planilla:string ){
   return this.globalService.get(`${this.apiBase+Constant.Endpoints.CUM_IMAGES.VALIDA_IMAGENES}/${planilla}`).pipe(
     map(res => {

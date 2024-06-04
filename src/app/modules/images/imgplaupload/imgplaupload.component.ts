@@ -14,6 +14,9 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../confirm-dialog/confirm-dialog.component';
 import { AgencyModalComponent } from '../../shared/modals/agency-modal/agency-modal.component';
 import { ImgDialogComponent } from '../img-dialog/img-dialog.component';
+import { Client } from 'src/app/models/client';
+import { Observable, map } from 'rxjs';
+import { ClientsService } from 'src/app/services/clients.service';
 
 @Component({
   selector: 'app-imgplaupload',
@@ -23,6 +26,13 @@ import { ImgDialogComponent } from '../img-dialog/img-dialog.component';
 export class ImgplauploadComponent implements OnInit {
   @ViewChild(NgxDropzoneComponent) panel: NgxDropzoneComponent;
   controlDoc : FormControl  = new FormControl('', [Validators.required])
+  controlRem : FormControl  = new FormControl('')
+  controlFac : FormControl  = new FormControl('')
+  controlImg : FormControl  = new FormControl('AMBOS')
+  controlTipoOrden : FormControl  = new FormControl('ASC')
+  controlOrden : FormControl  = new FormControl('REMESA')
+  control : FormControl  = new FormControl('')
+
   avanza:boolean;
   count :number=0;
 
@@ -31,6 +41,7 @@ export class ImgplauploadComponent implements OnInit {
 
   dataImage:Array<any>=[];
   imgb64:  ArrayBuffer| string;
+  selectedcli:string;
   user:string=Constant.AUTH.getUser()?.email;
   imgerror:Array<any>=[];
   totaldata:Array<Array<any>>=[];
@@ -46,22 +57,36 @@ export class ImgplauploadComponent implements OnInit {
   Imagenes:Array<any>=[];
   imgprov:Array<any>=[];
   
+  options: Client[];
+  filteredOptions: Observable<any[]>;
 
   constructor(
     private toastr:ToastrService,
+    private clientService:ClientsService,
     private cdr: ChangeDetectorRef,
     public dialog:MatDialog,
     private router: Router,
     private sanitizer:DomSanitizer, 
     private imgservice:CumImagesService
-  ) {}
+  ) 
+  {
+    this.getClients();
+  }
 
   ngOnInit(): void {
     if (typeof(Constant.AUTH.getAgency()?.vus_codage)=='undefined'){
       this.toastr.warning('Debe seleccionar una agencia');
       this.router.navigate(['/']);
     }
-    
+
+     this.filteredOptions = this.control.valueChanges.pipe(
+      map((value) => {
+        const client = typeof value === 'string' ? value.toLowerCase() : value?.cliente_cod.toLowerCase();
+        return this.options.filter((option)=>
+          option.cliente_cod.toLowerCase().includes(client)
+        );
+      })
+    );
   }
 
   onClear(){
@@ -72,10 +97,40 @@ export class ImgplauploadComponent implements OnInit {
     });
   }
 
+  getClients(){
+  
+    this.clientService.getClients(Constant.AUTH.getUser()?.email).subscribe(
+      res => {
+        this.options = res.data;
+      }
+      
+    )
+  }
+
+  setClient(){
+
+    if(!this.control.invalid){
+      this.selectedcli = this.control.value?.nit;
+    }
+    
+  }
+
+  displayFn(client: Client): string {
+    return client && client.cliente_cod ? client.cliente_cod : '';
+  }
+
   GetPlanilla(){
     this.progressbar=true;
     let planilla:string =this.controlDoc.value;
-    this.imgservice.getRemesasOtm(planilla).subscribe(
+    let data ={
+      planilla:planilla,
+      remesa:this.controlRem.value==null?"":this.controlRem.value,
+      factura:this.controlFac.value==null?"":this.controlFac.value,
+      cliente:this.selectedcli==null?"":this.selectedcli,
+      conimg:this.controlImg.value==null?"":this.controlImg.value,
+      orden:this.controlOrden.value +" "+ this.controlTipoOrden.value,
+    };
+    this.imgservice.getRemesasOtmPla(data).subscribe(
       {
         next:(res)=>{
           if(res.data.message==='OK'){
@@ -104,8 +159,6 @@ export class ImgplauploadComponent implements OnInit {
             this.cdr.detectChanges();
           }else{
             this.progressbar=false;
-            this.Remesas=res.data.remesas;
-            this.Remimg=res.data.imgpla;
             this.label="";
             this.cdr.detectChanges();
             Swal.fire({
@@ -119,13 +172,13 @@ export class ImgplauploadComponent implements OnInit {
     this.label="Obteniendo detalles de planilla";
   }
 
-  getImgRemesa(remesa:string){
-    this.imgservice.getImages('10',2,remesa).subscribe(
+  getImgRemesa(relacion:string){
+    this.imgservice.getImages('10',4,relacion).subscribe(
       {
         next:(res)=>{
-          let elementIndex = this.Remesas.findIndex((obj => obj.remesa === remesa));
+          let elementIndex = this.Remesas.findIndex((obj => obj.remesa === relacion.split("-")[1] && obj.planilla ===relacion.split("-")[0] && obj.factura ===relacion.split("-")[2]));
           this.Remesas[elementIndex].imagenes = res.data.images;
-          console.log(this.Remesas[elementIndex].imagenes)
+          console.log(res)
         },complete:()=>{
           this.cdr.detectChanges();
         }

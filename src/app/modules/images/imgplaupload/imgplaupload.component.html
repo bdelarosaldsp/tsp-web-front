@@ -11,7 +11,7 @@
     <mat-divider></mat-divider>
     <mat-card-content style="margin-top: 30px;">
         <div class="container">
-            <div class="row">
+            <div class="row text-center">
                 <div class="col">
                     <mat-form-field appearance="outline" >
                         <mat-label >Planila</mat-label>
@@ -20,7 +20,64 @@
                     </mat-form-field>
                 </div>
                 <div class="col">
-                <button  (click)="GetPlanilla()" mat-raised-button color="primary" style="width: 150px; height:55px ;left: 30px;" [disabled]="controlDoc.value=='' || Remesas.length>0"  [hidden]="">
+                    <mat-form-field appearance="outline" >
+                        <mat-label >Remesa (Opcional)</mat-label>
+                        <input style="text-transform:uppercase;" type="text" placeholder="Remesa" aria-label="Remesa" matInput 
+                        [formControl]="controlRem">
+                    </mat-form-field>
+                </div>
+                <div class="col">
+                    <mat-form-field appearance="outline" >
+                        <mat-label >Factura (Opcional)</mat-label>
+                        <input style="text-transform:uppercase;" type="text" placeholder="Factura" aria-label="Factura" matInput 
+                        [formControl]="controlFac">
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row text-center">
+                <mat-form-field appearance="outline" >
+                    <mat-label >Cliente (Opcional)</mat-label>
+                    <input style="text-transform:uppercase;" type="text" placeholder="Nombre del cliente" aria-label="Cliente" matInput
+                    [formControl]="control"
+                    [matAutocomplete]="auto">
+                    <mat-autocomplete   #auto="matAutocomplete" [displayWith]="displayFn">
+                        <mat-option [value]="client" *ngFor="let client of filteredOptions | async">{{client.cliente_cod}}</mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
+            <div class="row text-center">
+                <div class="col">
+                    <label>Con imagen:</label>
+                    <br>
+                    <mat-radio-group [formControl]="controlImg">
+                        <mat-radio-button style="padding-right: 5px;" value="SI">Sí</mat-radio-button>
+                        <mat-radio-button style="padding-right: 5px;" value="NO">No</mat-radio-button>
+                        <mat-radio-button style="padding-right: 5px;" value="AMBOS">Ambos</mat-radio-button>
+                    </mat-radio-group>
+                </div>
+                <div class="col">
+                    <mat-form-field style="width:180px;" appearance="outline" >
+                        <mat-label>Ordenar por:</mat-label>
+                        <mat-select  disableRipple [formControl]="controlOrden">
+                            <mat-option selected value="CLIENTE">CLIENTE</mat-option>
+                            <mat-option value="REMESA">REMESA</mat-option>
+                            <mat-option value="FACTURA">FACTURA</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col">
+                    <label>Tipo ordenmiento:</label>
+                    <br>
+                    <mat-radio-group [formControl]="controlTipoOrden">
+                        <mat-radio-button style="padding-right: 5px;" value="ASC">Ascendente</mat-radio-button>
+                        <mat-radio-button style="padding-right: 5px;" value="DESC">Descendente</mat-radio-button>
+                    </mat-radio-group>
+                </div>
+            </div>
+            <br>
+            <div class="row text-center">
+                <div class="col">
+                <button  (click)="GetPlanilla()" mat-raised-button color="primary" style="width: 150px; height:55px ;" [disabled]="controlDoc.value=='' || Remesas.length>0"  [hidden]="">
                     <span class="material-icons"> 
                         search
                     </span>
@@ -36,6 +93,7 @@
                         Limpiar
                     </button>
                 </div>
+
                 <div class="row">
                     <mat-card class="adv" *ngIf="Remesas.length>0">
                         
@@ -88,7 +146,7 @@
                 </mat-expansion-panel-header>
                 <div class="row">
                     <div class="col" *ngIf="item.imagenes==='SI'">
-                        <button (click)="getImgRemesa(item.remesa)" mat-raised-button class="ok col" style="width: 200px; height:55px; top: 50%;">
+                        <button (click)="getImgRemesa(item.planilla+'-'+item.remesa+'-'+item.factura)" mat-raised-button class="ok col" style="width: 200px; height:55px; top: 50%;">
                             <span class="material-icons"> 
                                 search
                             </span>
