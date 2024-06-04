@@ -56,7 +56,7 @@ export class OperacionotmComponent {
   agencies : Array<any> =  Constant.AUTH.getUser()?.agencies;
   email:string= Constant.AUTH.getUser()?.email;
   datos:Array<any>=[];
-  displayedColumns: string[] =['cod_instalacion','instalacion','planilla','fechat','placa','fecha_cierre','estado_integ','fh_confotm','anticipo','a_pend_fec','estado_anticipo',                   
+  displayedColumns: string[] =['cod_instalacion','instalacion','planilla','fechat','placa','fecha_cierre','estado_integ','fh_confotm','anticipo','a_pend_fec','usuario_anticipo','estado_anticipo',                   
  'v$alor_planilla','dummy','a_pend_cant','a_pend_v$alor','a_ejec_fec', 'a_ejec_cant','a_ejec_v$alor','fintra_fecha', 
  'fintra_cant_ant','fintra_valor_ant','fintra_cant_ejec','fintra_valor_ejec',  
   'cumplido_wms','pla_informacion','pla_imagenes','pla_cumplido_imagen','pla_novedad','pla_devnegativa',

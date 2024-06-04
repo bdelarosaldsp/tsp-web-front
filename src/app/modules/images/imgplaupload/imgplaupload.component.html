@@ -1,0 +1,188 @@
+<mat-card>
+    <mat-card-header>
+      <div mat-card-avatar>
+        <span class="material-icons"> 
+           check
+        </span>
+      </div>
+      <mat-card-title>Cargue de imagenes OTM por planilla</mat-card-title>
+    </mat-card-header>
+
+    <mat-divider></mat-divider>
+    <mat-card-content style="margin-top: 30px;">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col">
+                    <mat-form-field appearance="outline" >
+                        <mat-label >Planila</mat-label>
+                        <input style="text-transform:uppercase;" type="text" placeholder="Planilla" aria-label="Planilla" matInput 
+                        [formControl]="controlDoc">
+                    </mat-form-field>
+                </div>
+                <div class="col">
+                    <mat-form-field appearance="outline" >
+                        <mat-label >Remesa (Opcional)</mat-label>
+                        <input style="text-transform:uppercase;" type="text" placeholder="Remesa" aria-label="Remesa" matInput 
+                        [formControl]="controlRem">
+                    </mat-form-field>
+                </div>
+                <div class="col">
+                    <mat-form-field appearance="outline" >
+                        <mat-label >Factura (Opcional)</mat-label>
+                        <input style="text-transform:uppercase;" type="text" placeholder="Factura" aria-label="Factura" matInput 
+                        [formControl]="controlFac">
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="row text-center">
+                <mat-form-field appearance="outline" >
+                    <mat-label >Cliente (Opcional)</mat-label>
+                    <input style="text-transform:uppercase;" type="text" placeholder="Nombre del cliente" aria-label="Cliente" matInput
+                    [formControl]="control"
+                    [matAutocomplete]="auto">
+                    <mat-autocomplete   #auto="matAutocomplete" [displayWith]="displayFn">
+                        <mat-option [value]="client" *ngFor="let client of filteredOptions | async">{{client.cliente_cod}}</mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
+            <div class="row text-center">
+                <div class="col">
+                    <label>Con imagen:</label>
+                    <br>
+                    <mat-radio-group [formControl]="controlImg">
+                        <mat-radio-button style="padding-right: 5px;" value="SI">Sí</mat-radio-button>
+                        <mat-radio-button style="padding-right: 5px;" value="NO">No</mat-radio-button>
+                        <mat-radio-button style="padding-right: 5px;" value="AMBOS">Ambos</mat-radio-button>
+                    </mat-radio-group>
+                </div>
+                <div class="col">
+                    <mat-form-field style="width:180px;" appearance="outline" >
+                        <mat-label>Ordenar por:</mat-label>
+                        <mat-select  disableRipple [formControl]="controlOrden">
+                            <mat-option selected value="CLIENTE">CLIENTE</mat-option>
+                            <mat-option value="REMESA">REMESA</mat-option>
+                            <mat-option value="FACTURA">FACTURA</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col">
+                    <label>Tipo ordenmiento:</label>
+                    <br>
+                    <mat-radio-group [formControl]="controlTipoOrden">
+                        <mat-radio-button style="padding-right: 5px;" value="ASC">Ascendente</mat-radio-button>
+                        <mat-radio-button style="padding-right: 5px;" value="DESC">Descendente</mat-radio-button>
+                    </mat-radio-group>
+                </div>
+            </div>
+            <br>
+            <div class="row text-center">
+                <div class="col">
+                <button  (click)="GetPlanilla()" mat-raised-button color="primary" style="width: 150px; height:55px ;" [disabled]="controlDoc.value=='' || Remesas.length>0"  [hidden]="">
+                    <span class="material-icons"> 
+                        search
+                    </span>
+                    Consultar
+                </button>
+                </div>
+                <div class="col">
+                        
+                    <button  (click)="onClear()"  mat-raised-button color="warn" style="width: 150px; height:55px ;left: 50px;">
+                        <span class="material-icons"> 
+                            cached
+                        </span>
+                        Limpiar
+                    </button>
+                </div>
+
+                <div class="row">
+                    <mat-card class="adv" *ngIf="Remesas.length>0">
+                        
+                        <div *ngIf="controlDoc.valid && cumImages.length>0"class="col text-center">
+                            <button (click)="uploadImages()" mat-raised-button color="primary" style="height:50px ;" [disabled]="progressbar">
+                                <span class="material-icons"> 
+                                    upload
+                                </span>
+                                Cargar imagenes
+                            </button>
+                        </div>
+                        <br>
+                        <mat-card-footer *ngIf="Remesas.length>0" class="text-center">
+                            <div class="row">
+                                <div class="col">
+                                    Total facturas planilla: {{Remesas.length}}
+                                </div>
+                                <div class="col">
+                                    Total remesas con imagen: {{Remimg}}
+                                </div>
+                                <div class="col">
+                                    Total remesas sin imagen: {{Remesas.length-Remimg}}
+                                </div>
+                            </div>
+                            <br>
+                        </mat-card-footer>
+                        
+                    </mat-card>
+                </div>
+            </div>
+            
+        </div>
+        <div class="text-center">
+            
+            <h2>{{label}}</h2>
+            <mat-progress-bar *ngIf="progressbar" mode="query"></mat-progress-bar>
+        </div>
+        <div  class="container" *ngIf="Remesas.length>0">
+            <mat-expansion-panel  class="text-center" *ngFor="let item of Remesas">
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    <strong> Remesa: {{item.remesa}} </strong>
+                  </mat-panel-title>
+                  <mat-panel-title>
+                    <strong> Factura:{{item.factura}} </strong>
+                  </mat-panel-title>
+                  <mat-panel-description>
+                    Contiene imagenes asociadas: {{item.imagenes ==='SI' || item.imagenes ==='NO' ? item.imagenes : 'SI'}} 
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                <div class="row">
+                    <div class="col" *ngIf="item.imagenes==='SI'">
+                        <button (click)="getImgRemesa(item.planilla+'-'+item.remesa+'-'+item.factura)" mat-raised-button class="ok col" style="width: 200px; height:55px; top: 50%;">
+                            <span class="material-icons"> 
+                                search
+                            </span>
+                            Ver imagenes
+                        </button>
+                    </div>
+                    <div class="col" *ngIf="item.imagenes !=='SI' || item.imagenes !=='NO'">
+                        <app-imglist [images]="item.imagenes ==='SI' || item.imagenes ==='NO' ? []: item.imagenes"></app-imglist>
+                    </div>
+                    <div class="col" >  
+                        <ngx-dropzone [id]="item.remesa +'-'+ item.factura"
+                        class="main-dropzone"
+                        [accept]="'image/*'"
+                        (change)="onSelect($event,item.remesa+'-'+item.factura,item.cod_cli,$event.addedFiles.length)"
+                        
+                        >
+                            <ngx-dropzone-label>
+                            <div>
+                                
+                                <h2 >Seleccione o arrastre imagenes</h2>
+                            </div>
+                            </ngx-dropzone-label>
+                    
+                        </ngx-dropzone>
+                        <br>
+                        <button *ngIf="imgRem(item.remesa+'-'+item.factura)>0" mat-raised-button color="primary"
+                            [matBadge]="imgRem(item.remesa+'-'+item.factura)" matBadgePosition="before" matBadgeColor="accent" (click)="openImages(item.remesa+'-'+item.factura)">
+                            Ver precargadas
+                        </button>
+                        
+                    </div>
+                </div>
+                    
+            </mat-expansion-panel>
+            
+        </div>
+       
+    </mat-card-content>
+</mat-card>

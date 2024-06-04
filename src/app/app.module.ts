@@ -19,7 +19,6 @@ import { DecimalPipe,   registerLocaleData } from '@angular/common';
 import localesCo from "@angular/common/locales/es-CO";
 import { MatDialogModule, MAT_DIALOG_DEFAULT_OPTIONS } from '@angular/material/dialog';
 import { MatToolbarModule} from '@angular/material/toolbar';
-import { JwtModule } from "@auth0/angular-jwt";
 import { Constant } from './shared/constant';
 import { BnNgIdleService } from 'bn-ng-idle'; 
 import { ConfigService } from './services/config.service';
@@ -52,11 +51,7 @@ registerLocaleData(localesCo);
     AppRoutingModule,
     InlineSVGModule.forRoot(),
     NgbModule,
-    JwtModule.forRoot({
-      config: {
-        tokenGetter:  () => Constant.AUTH.getToken()
-      }
-    })
+    
   ],
   providers: [
     RoleGuard,

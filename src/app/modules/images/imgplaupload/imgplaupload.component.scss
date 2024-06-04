@@ -1,0 +1,61 @@
+.mat-expansion-panel {
+    background-color: rgba(127, 186, 253, 0.342);
+  }
+
+  .mat-expansion-panel{
+    //max-height: 50vh;
+    //overflow: auto;
+    overflow-x: auto;
+  }
+
+  .ok.mat-raised-button {
+    background-color: rgba(123, 255, 0, 0.712);
+    
+    min-width: auto;
+  }
+  .adv.mat-card {
+    background-color: rgba(244, 247, 117, 0.712);
+  }
+
+  .close.mat-button {
+    position: absolute;
+    background-color: rgba(255, 0, 0, 0.712);
+    top: 0;
+    right: 0;
+    padding: 5px;
+    line-height: 14px;
+    min-width: auto;
+}
+
+.ok.mat-button {
+    position: absolute;
+    background-color: rgba(123, 255, 0, 0.712);
+    top: 0;
+    right: 0;
+    padding: 5px;
+    line-height: 14px;
+    min-width: auto;
+  }
+
+figure{
+    position: relative;
+    padding: 5px;
+}
+
+figure:hover figcaption{
+    display: block;
+}
+
+figcaption{
+    position: absolute;
+    display: none;
+    top:5px;
+    bottom: 5px;
+    right: 5px;
+    left: 5px;
+    padding: 15px;
+    text-align: center;
+    font: 15px/20px verdana;
+    color: white;
+    background: rgba(0,0,0,.7);
+}

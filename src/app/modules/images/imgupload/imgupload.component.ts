@@ -370,7 +370,7 @@ export class ImguploadComponent implements OnInit {
       (document.getElementById('sp_'+image.name) as HTMLSpanElement).hidden=true;
       (document.getElementById('sp2_'+image.name) as HTMLSpanElement).hidden=false;
 
-      let count: Number=0;
+      let count: number=0;
       let message:string='';
       this.setClient();
       let data: any={

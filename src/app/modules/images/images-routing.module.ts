@@ -5,6 +5,7 @@ import { ImgtopdfComponent } from './imgtopdf/imgtopdf.component';
 import { ImguploadComponent } from './imgupload/imgupload.component';
 import { ImguploadotmComponent } from './imguploadotm/imguploadotm.component';
 import { OtmvalimgComponent } from './otmvalimg/otmvalimg.component';
+import { ImgplauploadComponent } from './imgplaupload/imgplaupload.component';
 
 const routes: Routes = [
   {path:'', component : ImguploadComponent},
@@ -12,7 +13,8 @@ const routes: Routes = [
   {path:'uploadotm', component : ImguploadotmComponent},
   {path:'search', component : ImgsearchComponent},
   {path:'valimg', component: OtmvalimgComponent},
-  {path:'imgtopdf',component:ImgtopdfComponent}
+  {path:'imgtopdf',component:ImgtopdfComponent},
+  {path:'uploadpla',component:ImgplauploadComponent}
 ];
 
 @NgModule({
