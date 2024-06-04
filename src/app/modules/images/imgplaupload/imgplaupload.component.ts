@@ -114,11 +114,12 @@ export class ImgplauploadComponent implements OnInit {
     }
     
   }
+  
 
   displayFn(client: Client): string {
     return client && client.cliente_cod ? client.cliente_cod : '';
   }
-  
+
 
   GetPlanilla(){
     this.progressbar=true;
