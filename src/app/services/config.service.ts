@@ -15,7 +15,7 @@ export class ConfigService {
     return this.http.get(this.router.url).pipe(
       map(res=>{
         return ()=>{
-          if(!res.toString().includes("web.ldsp.com.co") ){
+          if(!res.toString().includes("app.sanchezpolo.com") ){
             console.log(res);
             return this.http
             .get('./assets/app-config-int.json').pipe(
@@ -38,7 +38,7 @@ export class ConfigService {
         }
       }),catchError((err:any)=>{
         
-        if(!err.url.includes("web.ldsp.com.co")){
+        if(!err.url.includes("app.sanchezpolo.com")){
          
           return this.http
           .get('./assets/app-config-int.json').pipe(
