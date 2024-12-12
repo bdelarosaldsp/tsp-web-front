@@ -18,17 +18,26 @@ export class InterceptRequestsService {
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     
     request = request.clone();
-   
     
     if (!request.headers.get('Authorization') || !request.headers.get('Agency')) {
       let rute = this.router.routerState.snapshot.url.split("/", 2)[1];
       //let ruta = this.router.routerState.snapshot.root['_routerState'].url.split("/", 2)[1];
-      request = request.clone({
+      if (rute!=='tsp') {
+        request = request.clone({
           setHeaders: { 
             'Authorization': `Bearer ${Constant.AUTH.getToken()}` ,
             'Agency' : Constant.AUTH.getAgency()?.vus_codins ?Constant.AUTH.getAgency()?.vus_codins : '' ,
           }
         });
+      }
+      
+    }else{
+      let rute = this.router.routerState.snapshot.url.split("/", 2)[1];
+      if (rute==='tsp') {
+        request.headers.delete('Authorization');
+        console.log(request)
+        request =request.clone()
+      }
     }
     return next.handle(request)
       .pipe(
@@ -70,7 +79,6 @@ export class InterceptRequestsService {
             localStorage.removeItem(Constant.AUTH.KEYS.token);
             localStorage.removeItem(Constant.AUTH.KEYS.userData);
             
-          
             if( actualruta != 'auth') {
               this.router.navigateByUrl('/auth/login');
             }

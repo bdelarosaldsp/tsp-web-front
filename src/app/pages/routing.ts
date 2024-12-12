@@ -48,6 +48,11 @@ const Routing: Routes = [
       import('../modules/pedidos/pedidos.module').then((m) => m.PedidosModule),
   },
   {
+    path: 'tsp',
+    loadChildren: () =>
+      import('../modules/massloaderotm/massloaderotm.module').then((m) => m.MassloaderotmModule),
+  },
+  {
     path: 'widgets',
     loadChildren: () =>
       import('../modules/widgets-examples/widgets-examples.module').then((m) => m.WidgetsExamplesModule),

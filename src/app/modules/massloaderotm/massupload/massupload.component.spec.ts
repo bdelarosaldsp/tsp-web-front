@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ImgDialogComponent } from './img-dialog.component';
+import { MassuploadComponent } from './massupload.component';
 
-describe('ImgDialogComponent', () => {
-  let component: ImgDialogComponent;
-  let fixture: ComponentFixture<ImgDialogComponent>;
+describe('MassuploadComponent', () => {
+  let component: MassuploadComponent;
+  let fixture: ComponentFixture<MassuploadComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ ImgDialogComponent ]
+      declarations: [ MassuploadComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(ImgDialogComponent);
+    fixture = TestBed.createComponent(MassuploadComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

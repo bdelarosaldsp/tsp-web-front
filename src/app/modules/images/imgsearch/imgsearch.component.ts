@@ -80,7 +80,6 @@ export class ImgsearchComponent implements OnInit  {
     .subscribe(
       {
         next:(response)=>{
-          console.log(response)
           if(response.data?.message =='Busqueda completa'){
             this.files=response.data?.images;
             

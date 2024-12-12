@@ -33,7 +33,6 @@ export class TransmisionotmComponent  {
   controlEst : FormControl  = new FormControl('');
   controlFecIni : FormControl  = new FormControl(this.datepipe.transform(this.fecha.setDate(this.fecha.getDate()-6),'yyyy-MM-dd'));
   controlFecFin : FormControl  = new FormControl(this.datepipe.transform(this.fecha.setDate(this.fecha.getDate()+7),'yyyy-MM-dd'));
-  controlType : FormControl  = new FormControl('', [Validators.required]);
 
   agencies : Array<any> =  Constant.AUTH.getUser()?.agencies;
   email:string= Constant.AUTH.getUser()?.email;

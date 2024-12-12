@@ -397,7 +397,7 @@ export class ImguploadComponent implements OnInit {
             planilla:'',
             remesa:'',
             filename:image.name,
-            client_id:+this.selectedcli,
+            client_id:this.selectedcli,
             url:'',
             agency_id:this.agency_id,
             company:'LDSP',

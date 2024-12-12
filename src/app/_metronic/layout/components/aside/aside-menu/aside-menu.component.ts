@@ -80,6 +80,10 @@ export class AsideMenuComponent implements OnInit {
             this.cdr.detectChanges();
           }  
         }
+        this.menus.push({module:'ANG',title:'TSP-OTM', svg: './assets/media/icons/duotune/communication/com012.svg',hasChild:true, link:'/', subMenus:[
+          {module:'ANG',title:'Cargue Masivo OTM', svg: './assets/media/icons/duotune/communication/com012.svg',hasChild:false, link:'/tsp/massload', subMenus:[]},
+        ]});
+        this.cdr.detectChanges();
     });
 
     this.menuService.getByVal('INT', email.toUpperCase()).subscribe(

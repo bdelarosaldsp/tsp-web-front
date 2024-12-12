@@ -73,9 +73,9 @@
                                     <mat-label>Anticipo:</mat-label>
                                     <mat-select  disableRipple [formControl]="controlAnt" multiple>
                                         <mat-option selected value="TODOS">TODOS</mat-option>
-                                        <mat-option value="LDSP">LDSP</mat-option>
-                                        <mat-option value="LDSP/TSP">LDSP/TSP</mat-option>
-                                        <mat-option value="TSP">TSP</mat-option>
+                                        <mat-option value="INTRANET">INTRANET</mat-option>
+                                        <mat-option value="INTRANET/ANGULAR">INTRANET/ANGULAR</mat-option>
+                                        <mat-option value="ANGULAR">ANGULAR</mat-option>
                                     </mat-select>
                                 </mat-form-field>
                             </div>
@@ -257,10 +257,6 @@
                 <ng-container matColumnDef="a_pend_fec">
                     <th mat-header-cell *matHeaderCellDef> FEC. ANTICIPO(S) INTEGRACION</th>
                     <td mat-cell *matCellDef="let element"> {{element.a_pend_fec}} </td>
-                </ng-container>
-                <ng-container matColumnDef="usuario_anticipo">
-                    <th mat-header-cell *matHeaderCellDef> USUARIO ANTICIPO</th>
-                    <td mat-cell *matCellDef="let element"> {{element.usuario_anticipo}} </td>
                 </ng-container>
                 <ng-container matColumnDef="estado_anticipo">
                     <th mat-header-cell *matHeaderCellDef> ESTADO ANTICIPO</th>

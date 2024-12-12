@@ -89,7 +89,7 @@ export class ImguploadotmComponent implements OnInit {
     if(!this.control.invalid){
       this.selectedcli = this.control.value?.nit;
     }
-    
+    console.log('Cliente: ' + this.selectedcli);
   }
 
   onSelect(event:any) {
@@ -121,6 +121,7 @@ export class ImguploadotmComponent implements OnInit {
               let date=new Date();
               const ficaso='IMG' + date.getDay()+date.getMonth()+date.getFullYear()+date.getHours()+date.getMinutes()+date.getSeconds();
               console.log(ficaso);
+
               this.cumImages.forEach(x=>{
       
                 const file = x.file;
@@ -374,6 +375,7 @@ export class ImguploadotmComponent implements OnInit {
       let count: number=0;
       let message:string='';
       this.setClient();
+
       let data: any={
         'documento':factura,
         'planilla':planilla,
@@ -403,14 +405,14 @@ export class ImguploadotmComponent implements OnInit {
             planilla:planilla,
             remesa:remesa,
             filename:image.name,
-            client_id:+this.selectedcli,
+            client_id:this.selectedcli,
             url:'',
             agency_id:this.agency_id,
             company:'LDSP',
             file:image,
             document:factura
           }
-
+          console.log(imgcum);
           this.cumImages.push(imgcum);
         }else if(typeof(count)){
           this.toastr.error(message,'Sin resultado');

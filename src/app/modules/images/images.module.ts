@@ -34,9 +34,6 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ImguploadotmComponent } from './imguploadotm/imguploadotm.component';
 import { ImgtopdfComponent } from './imgtopdf/imgtopdf.component';
-import { ImgplauploadComponent } from './imgplaupload/imgplaupload.component';
-import {MatBadgeModule} from '@angular/material/badge';
-import { ImgDialogComponent } from './img-dialog/img-dialog.component';
 
 
 @NgModule({
@@ -50,9 +47,7 @@ import { ImgDialogComponent } from './img-dialog/img-dialog.component';
     PdfviewerComponent,
     OtmvalimgComponent,
     ImguploadotmComponent,
-    ImgtopdfComponent,
-    ImgplauploadComponent,
-    ImgDialogComponent
+    ImgtopdfComponent
   ],
   imports: [
     CommonModule,
@@ -78,7 +73,6 @@ import { ImgDialogComponent } from './img-dialog/img-dialog.component';
     SharedModule,
     MatTooltipModule,
     MatExpansionModule,
-    MatBadgeModule,
   ]
 })
 export class ImagesModule { }

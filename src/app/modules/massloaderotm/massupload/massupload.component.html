@@ -1,0 +1,120 @@
+<div class="container text-center">
+    <mat-card>
+        <mat-card-header>
+            <div mat-card-avatar>
+            <span class="material-icons"> 
+                house
+            </span>
+            </div>
+            <mat-card-title>OTM MassLoad</mat-card-title>
+        </mat-card-header>
+
+        <mat-divider></mat-divider>
+        <mat-card-content style="margin-top: 30px;">
+            <div class="row text-center">
+                
+                <div class="row" >
+                        <div class="col-6">
+                            <ngx-dropzone (change)="onSelect($event)" class="main-dropzone" [multiple]="false"  accept="text/csv" [disabled]="file.length>0">
+                                <div  *ngIf="file.length==0">
+                                    <ngx-dropzone-label>Seleccione o arrastre su archivo CSV</ngx-dropzone-label>
+                                </div>
+                                <div *ngIf="file.length>0">
+                                    <ngx-dropzone-label >{{file[0].name}}</ngx-dropzone-label>
+                                </div>
+                                
+                            </ngx-dropzone>
+                        </div>      
+                        <div class="col">
+                            <div *ngIf="file.length>0">
+                                <button (click)="onUpload()" mat-raised-button color="primary" [disabled]="precarga" style="height:50px ;">
+                                    <span class="material-icons"> 
+                                        upload
+                                    </span>
+                                    Cargar
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div *ngIf="file.length>0" >
+                                <button  (click)="onClear()" mat-raised-button color="warn" style="height:50px ;">
+                                    <span class="material-icons"> 
+                                        cached
+                                    </span>
+                                    Limpiar panel
+                                </button>
+                            </div>
+                            
+                        </div>                  
+                </div>
+                <br>
+                <br>
+                
+            </div>    
+           
+        </mat-card-content>
+    </mat-card>
+</div>
+<br>
+<div class="container text-center" *ngIf="ELEMENT_DATA.length>0"> 
+    <h2>{{label}}</h2>
+    <mat-progress-bar *ngIf="progressbar" mode="query"></mat-progress-bar>  
+    <mat-card>
+        <mat-card-header>
+            <mat-card-title>Verifique los datos</mat-card-title>
+        </mat-card-header>
+        <mat-card-content style="overflow-x: auto;">
+            
+            <table #table mat-table [dataSource]="dataSource"  matSort (matSortChange)="sortData($event)" >
+                <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column" [sticky]="column==='ORDER_RELEASE_GID'" class="columns">
+                    <th mat-header-cell *matHeaderCellDef >{{column}}</th>
+                    <td mat-cell *matCellDef="let element">{{element[column]}}</td>
+                </ng-container>
+                
+        
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        
+                
+                <tr class="mat-row" *matNoDataRow>
+                <td class="mat-cell" colspan="4">No data matching the filter</td>
+                </tr>
+            </table> 
+            
+        </mat-card-content>
+        <mat-paginator [length]="ELEMENT_DATA.length" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of imported results"></mat-paginator>
+    </mat-card>
+    
+</div>
+<br>
+<div *ngIf="ELEMENT_DATA.length>0 " class="row">
+    <mat-card class="adv">
+        
+            <div class="col text-center">
+                <strong>Al confirmar el cargue, los registros serán procesados</strong>  
+            </div>
+            <br>
+            <div class="col text-center">
+                <button  (click)="SendData()" mat-raised-button class="ok" style="width: 170px; height:55px ;"  [disabled]="progressbar===true">
+                    <span class="material-icons"> 
+                        check
+                    </span>
+                    Confirmar cargue
+                </button>
+            </div>
+            <mat-card-footer  class="text-center">
+                <div class="row">
+                    <div class="col">
+                        
+                    </div>
+                    <div class="col">
+                        Total pedidos en plano: {{ELEMENT_DATA.length}}
+                    </div>
+                    <div class="col">
+                    </div>
+                </div>
+                
+                
+            </mat-card-footer>
+    </mat-card>
+</div>
