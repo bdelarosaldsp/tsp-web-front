@@ -65,16 +65,16 @@ export class AppComponent implements OnInit {
   ngOnInit()  {
 
     if(Constant.AUTH.getToken()!==null){
-      this.getMesages();
-      const time= interval(1000*60*5);
-      time.subscribe({
-        next:(res)=>{
-          console.log('Se ejecuta');
-          this.authService.verifyToken(Constant.AUTH.getUser()?.id).subscribe((resp)=>{
-            console.log(resp);
-          });
-        }
-      });
+      //this.getMesages();
+      // const time= interval(1000*60*5);
+      // time.subscribe({
+      //   next:(res)=>{
+      //     console.log('Se ejecuta');
+      //     this.authService.verifyToken(Constant.AUTH.getUser()?.id).subscribe((resp)=>{
+      //       console.log(resp);
+      //     });
+      //   }
+      // });
     }
   }
 

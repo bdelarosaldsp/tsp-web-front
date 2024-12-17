@@ -11,10 +11,12 @@ import { Constant } from 'src/app/shared/constant';
   styleUrls: ['./agency-modal.component.scss']
 })
 export class AgencyModalComponent implements OnInit {
-  agencies : Array<any> =  Constant.AUTH.getUser()?.agencies;
+  agencies : Array<any> =  [];
 
   control : FormControl  = new FormControl('', [Validators.required])
-  constructor(private authService: AuthService, private toastr : ToastrService, public dialogRef: MatDialogRef<AgencyModalComponent>,  @Inject(MAT_DIALOG_DATA) public data: { }) { }
+  constructor(private authService: AuthService, private toastr : ToastrService, public dialogRef: MatDialogRef<AgencyModalComponent>,  @Inject(MAT_DIALOG_DATA) public data: { }) { 
+    this.agencies= authService.getAgenciesFromUser();
+  }
 
   ngOnInit(): void {
   }

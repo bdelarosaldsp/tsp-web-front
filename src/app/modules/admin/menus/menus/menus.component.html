@@ -1,0 +1,32 @@
+
+<div class="container text-center">
+    <mat-card>
+        <mat-card-header>
+            <div mat-card-avatar>
+            <span class="material-icons"> 
+                menu
+            </span>
+            </div>
+            <mat-card-title>Menu por usuario</mat-card-title>
+        </mat-card-header>
+
+        <mat-divider></mat-divider>
+        <mat-card-content style="margin-top: 30px;">
+            <div class="row text-center">
+            <mat-form-field appearance="legacy" >
+                <mat-label >Usuario</mat-label>
+                <input style="text-transform:uppercase;" type="text" placeholder="Nombre del cliente" aria-label="Cliente" matInput
+                [formControl]="control"
+                [matAutocomplete]="auto">
+                <!--<mat-select (selectionChange)="setClient()" [formControl]="control" >-->
+                <mat-autocomplete   #auto="matAutocomplete" [displayWith]="displayFn">
+                    <mat-option [value]="user" *ngFor="let user of filteredOptions | async">{{user.firstname +' '+ user.lastname}}</mat-option>
+                </mat-autocomplete>
+                <!--</mat-select>-->
+            </mat-form-field>
+            </div>
+            
+            
+        </mat-card-content>
+    </mat-card>
+</div>

@@ -33,6 +33,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatDatepickerModule, MatRangeDateSelectionModel } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { EditmsgComponent } from './editmsg/editmsg.component';
+import { MenusComponent } from './menus/menus/menus.component';
 
 
 @NgModule({
@@ -45,6 +46,7 @@ import { EditmsgComponent } from './editmsg/editmsg.component';
     ViewmsgComponent,
     ActdesComponent,
     EditmsgComponent,
+    MenusComponent,
   ],
   imports: [
     CommonModule,

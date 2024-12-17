@@ -10,7 +10,7 @@
     "appThemeName":"Metronic",
     
     "massLoadApi":"http://129.158.51.221:9070/MassLoader/api",
-   "apiUrl":"http://129.158.51.221:8091/api/",
+   "apiUrl":"http://129.158.51.221:3000/api/",
     "netSiteUrl":"http://129.158.51.221:8000/",
     "phpSiteUrl":"http://129.158.51.221:5000/",
     "intSiteUrl":"http://129.158.51.221:5000/IntOptions/"

@@ -1,0 +1,18 @@
+{
+    "production": "true",
+    "version":"0.0.3",
+    "USERDATA_KEY":"authf333fc9a5f84",
+    "USERTOKEN_KEY": "authtokenf258fc8c4f96",
+    "AGENCY_KEY":"agencyf258fc8c4j78",
+    "EXPIRES_KEY":"datef649fc9a5f55",
+  
+    "isMockEnabled":"true",
+    "appThemeName":"Metronic",
+  
+    "massLoadApi":"http://129.158.51.221:9070/MassLoader/api",
+    "apiUrl":"https://app.sanchezpolo.com:8090/api/",
+    "netSiteUrl":"https://app.sanchezpolo.com:8000/",
+    "phpSiteUrl":"https://app.sanchezpolo.com:5000/",
+    "intSiteUrl":"https://app.sanchezpolo.com:5000/IntOptions/"
+    
+}

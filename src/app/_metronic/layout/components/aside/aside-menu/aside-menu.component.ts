@@ -4,6 +4,7 @@ import { MenuService } from 'src/app/services/menu.service';
 import { PassingdataService } from 'src/app/services/passingdata.service';
 import { Constant } from 'src/app/shared/constant';
 import { environment } from '../../../../../../environments/environment';
+import { log } from 'console';
 
 
 @Component({
@@ -42,73 +43,59 @@ export class AsideMenuComponent implements OnInit {
       //{title:'Novasoft',svg: './assets/media/icons/duotune/communication/com012.svg',hasChild:true, link:'/', subMenus:[]},
       //subMenus:[{title:'Cargue de imagenes', svg: './assets/media/icons/duotune/communication/com012.svg',hasChild:false, link:'/images', subMenus:[]}]}
     ];
-    var email=Constant.AUTH.getUser()?.email;
-    this.menuService.getByVal('PHP', email.toUpperCase()).subscribe(
-      res => {
-        for (var x of res.data) {
-          if (x.categoria != this.categorie){
-            let Smenu:Menu={module:'PHP',title:x.categoria,svg:'',hasChild:true,link:'/',subMenus:[{
-              module:'PHP',title:x.menu,svg:'',hasChild:false,link:x.url,subMenus:[]
-            }]};
-            this.categorie=x.categoria;
-            this.menus[2].hasChild=true;
-            this.menus[2].subMenus.push(Smenu);
-            this.cdr.detectChanges();
-          }         
-        }
-    });
     
-    this.menuService.getByVal('ANG', email.toUpperCase()).subscribe(
-      res => {
-        for (var x of res.data) {
-          
-          if (x.categoria != this.categorie){
+    var res= this.menuService.getMenuFromUser();
+    res.forEach(x=>{
+      console.log(x)
+      if (x.categoria != this.categorie){
             
-            let Smenu:Menu={module:'ANG',title:x.categoria,svg:'./assets/media/icons/duotune/communication/com012.svg',hasChild:true,link:'/',subMenus:[{
-              module:'ANG',title:x.menu,svg:'',hasChild:false,link:x.url,subMenus:[]
-            }]};
-            this.categorie=x.categoria;
-            //this.menus[2].hasChild=true;
-            this.menus.push(Smenu);
-            //console.log(this.menus);
-            this.cdr.detectChanges();
-          }else{
-            
-            this.menus[this.menus.length-1].hasChild=true;
-            this.menus[this.menus.length-1].subMenus.push({
-              module:'ANG',title:x.menu,svg:'',hasChild:false,link:x.url,subMenus:[]});
-            this.cdr.detectChanges();
-          }  
-        }
-        this.menus.push({module:'ANG',title:'TSP-OTM', svg: './assets/media/icons/duotune/communication/com012.svg',hasChild:true, link:'/', subMenus:[
-          {module:'ANG',title:'Cargue Masivo OTM', svg: './assets/media/icons/duotune/communication/com012.svg',hasChild:false, link:'/tsp/massload', subMenus:[]},
-        ]});
+        let Smenu:Menu={module:'ANG',title:x.categoria,svg:'./assets/media/icons/duotune/communication/com012.svg',hasChild:true,link:'/',subMenus:[{
+          module:'ANG',title:x.menu,svg:'',hasChild:false,link:x.url,subMenus:[]
+        }]};
+        this.categorie=x.categoria;
+        //this.menus[2].hasChild=true;
+        MenuTot.push(Smenu);
+        //console.log(this.menus);
         this.cdr.detectChanges();
-    });
+      }else{
+        
+        MenuTot[MenuTot.length-1].hasChild=true;
+        MenuTot[MenuTot.length-1].subMenus.push({
+          module:'ANG',title:x.menu,svg:'',hasChild:false,link:x.url,subMenus:[]});
+        this.cdr.detectChanges();
+      }  
+    })
+      
+    MenuTot.push({module:'ANG',title:'TSP-OTM', svg: './assets/media/icons/duotune/communication/com012.svg',hasChild:true, link:'/', subMenus:[
+      {module:'ANG',title:'Cargue Masivo OTM', svg: './assets/media/icons/duotune/communication/com012.svg',hasChild:false, link:'/tsp/massload', subMenus:[]},
+    ]});
+    
+    this.cdr.detectChanges();
+    
 
-    this.menuService.getByVal('INT', email.toUpperCase()).subscribe(
-      res => {
-        for (var x of res.data) {
+    // this.menuService.getByVal('INT', email.toUpperCase()).subscribe(
+    //   res => {
+    //     for (var x of res.data) {
           
-          if (x.categoria != this.categorie){
+    //       if (x.categoria != this.categorie){
             
-            let Smenu:Menu={module:'INT',title:x.categoria,svg:'./assets/media/icons/duotune/communication/com012.svg',hasChild:true,link:'/',subMenus:[{
-              module:'INT',title:x.menu,svg:'',hasChild:false,link:x.url,subMenus:[]
-            }]};
-            this.categorie=x.categoria;
-            //this.menus[2].hasChild=true;
-            this.menus.push(Smenu);
-            //console.log(this.menus);
-            this.cdr.detectChanges();
-          }else{
+    //         let Smenu:Menu={module:'INT',title:x.categoria,svg:'./assets/media/icons/duotune/communication/com012.svg',hasChild:true,link:'/',subMenus:[{
+    //           module:'INT',title:x.menu,svg:'',hasChild:false,link:x.url,subMenus:[]
+    //         }]};
+    //         this.categorie=x.categoria;
+    //         //this.menus[2].hasChild=true;
+    //         this.menus.push(Smenu);
+    //         //console.log(this.menus);
+    //         this.cdr.detectChanges();
+    //       }else{
             
-            this.menus[this.menus.length-1].hasChild=true;
-            this.menus[this.menus.length-1].subMenus.push({
-              module:'INT',title:x.menu,svg:'',hasChild:false,link:x.url,subMenus:[]});
-            this.cdr.detectChanges();
-          }  
-        }
-    });
+    //         this.menus[this.menus.length-1].hasChild=true;
+    //         this.menus[this.menus.length-1].subMenus.push({
+    //           module:'INT',title:x.menu,svg:'',hasChild:false,link:x.url,subMenus:[]});
+    //         this.cdr.detectChanges();
+    //       }  
+    //     }
+    // });
     
     
     return MenuTot;

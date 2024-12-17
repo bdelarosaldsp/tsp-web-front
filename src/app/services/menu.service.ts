@@ -13,8 +13,15 @@ export class MenuService extends BaseService{
     let apiBase:string;
     apiBase=config.getConfig().apiUrl;
     super(apiBase+Constant.Endpoints.GET_MENUS.GET_ACTIVES, injector);
-   }
+  }
 
-  
+  public getMenuFromUser():any[]{
+    let menus:Array<any>=[];
+    var user_menus= Constant.AUTH.getUser()?.menus;
+    user_menus.forEach((item:any)  => {
+      menus.push(item?.menus[0]);
+    });
+    return menus;
+  }
 }
 

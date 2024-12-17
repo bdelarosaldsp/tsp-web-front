@@ -19,17 +19,21 @@ const ELEMENT_DATA: User[] = [];
   styleUrls: ['./users.component.scss']
 })
 
-export class UsersComponent {
+export class UsersComponent implements OnInit{
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   sortedData: User[];
   constructor(private userService:UsersService,private authService:AuthService, private cdr:ChangeDetectorRef,private dialog : MatDialog){
+    //this.getUsuarios();
+  }
+  ngOnInit(): void {
     this.getUsuarios();
   }
 
   displayedColumns: string[] = ['name','identification', 'email', '2fa','estado','actions'];
   dataSource = new MatTableDataSource<User>(ELEMENT_DATA);
 
+  
 
   sortData(sort: Sort) {
     const data = this.dataSource.data.slice();

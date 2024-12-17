@@ -192,6 +192,18 @@ export class AuthService {
         })
       );
   }
+
+  getAgenciesFromUser(){
+   
+    let agencies:Array<any>=[];
+    var user_agencies= Constant.AUTH.getUser()?.agencies;
+    user_agencies.forEach((item:any)  => {
+      agencies.push(item?.agencies[0]);
+    });
+    
+    return agencies;
+    
+  }
   setAgency(agency:any){
     localStorage.setItem(Constant.AUTH.KEYS.agency, JSON.stringify(agency));
     this.agency$ = of(Constant.AUTH.getAgency());
