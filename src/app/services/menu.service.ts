@@ -12,7 +12,7 @@ export class MenuService extends BaseService{
   constructor(injector: Injector,config:ConfigService) {
     let apiBase:string;
     apiBase=config.getConfig().apiUrl;
-    super(apiBase+Constant.Endpoints.GET_MENUS.GET_ACTIVES, injector);
+    super(apiBase+Constant.Endpoints.GET_MENUS.BASE, injector);
   }
 
   public getMenuFromUser():any[]{

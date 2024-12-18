@@ -3,6 +3,7 @@ import { FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { map, Observable } from 'rxjs';
 import { User } from 'src/app/models/users';
+import { MenuService } from 'src/app/services/menu.service';
 import { UsersService } from 'src/app/services/users.service';
 
 @Component({
@@ -15,11 +16,12 @@ export class MenusComponent implements OnInit {
 
   control : FormControl  = new FormControl('', [Validators.required])
   options: User[];
+  menus:any[];
+  menusAply:any [];
   filteredOptions: Observable<any[]>;
 
-  constructor(private cdr: ChangeDetectorRef,private router: Router, private userService:UsersService) {
+  constructor(private cdr: ChangeDetectorRef,private router: Router, private userService:UsersService,private menuService:MenuService) {
     this.getUsers();
-      
   }
 
   ngOnInit(): void {
@@ -41,6 +43,19 @@ export class MenusComponent implements OnInit {
       }
       
     )
+  }
+
+  async getMenus(){
+    
+    await this.menuService.getActives().subscribe(
+      res => {
+        this.menus = res.data;
+        this.cdr.detectChanges();
+      }
+    );
+    
+    this.menusAply= await this.menuService.getMenuFromUser();
+    this.cdr.detectChanges();
   }
 
   displayFn(user: User): string {

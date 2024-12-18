@@ -18,15 +18,51 @@
                 <input style="text-transform:uppercase;" type="text" placeholder="Nombre del cliente" aria-label="Cliente" matInput
                 [formControl]="control"
                 [matAutocomplete]="auto">
-                <!--<mat-select (selectionChange)="setClient()" [formControl]="control" >-->
                 <mat-autocomplete   #auto="matAutocomplete" [displayWith]="displayFn">
                     <mat-option [value]="user" *ngFor="let user of filteredOptions | async">{{user.firstname +' '+ user.lastname}}</mat-option>
                 </mat-autocomplete>
-                <!--</mat-select>-->
             </mat-form-field>
+            <div class="row">
+                <button (click)="getMenus()" mat-raised-button color="warn">Obtener</button>
+            </div>
             </div>
             
             
         </mat-card-content>
     </mat-card>
+</div>
+<br>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <mat-card class="scrollable-card">
+                <mat-card-header>Disponibles</mat-card-header>
+                <mat-divider></mat-divider>
+                <mat-card-content>
+                    <mat-selection-list>
+                        <mat-list-option *ngFor="let menu of menus">
+                            <div mat-line>{{menu.menu}}</div>
+                            <div mat-line> {{menu.categoria}} </div>
+                        </mat-list-option>
+                    </mat-selection-list>
+                </mat-card-content>
+            </mat-card>
+        </div>
+        <div class="col">
+            <mat-card class="scrollable-card">
+                <mat-card-header>Aplicados</mat-card-header>
+                <mat-divider></mat-divider>
+                <mat-card-content >
+                    <mat-selection-list>
+                        <mat-list-item *ngFor="let menu of menusAply">
+                            <div mat-line>{{menu.menu}}</div>
+                            <div mat-line> {{menu.categoria}} </div>
+                            <mat-icon mat-list-icon slot="end">delete</mat-icon>
+                        </mat-list-item>
+                    </mat-selection-list>
+                   
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
 </div>

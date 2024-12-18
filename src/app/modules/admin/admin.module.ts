@@ -34,7 +34,7 @@ import { MatDatepickerModule, MatRangeDateSelectionModel } from '@angular/materi
 import { MatNativeDateModule } from '@angular/material/core';
 import { EditmsgComponent } from './editmsg/editmsg.component';
 import { MenusComponent } from './menus/menus/menus.component';
-
+import {MatListItem, MatListModule} from '@angular/material/list';
 
 @NgModule({
   declarations: [
@@ -75,7 +75,8 @@ import { MenusComponent } from './menus/menus/menus.component';
     MatAutocompleteModule,
     MatTabsModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatListModule
   ]
 })
 export class AdminModule { }

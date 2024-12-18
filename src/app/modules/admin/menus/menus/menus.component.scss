@@ -1,0 +1,8 @@
+.scrollable-card {
+    height: 320px; /* Altura máxima del card */
+    overflow-y: auto; /* Habilita el scroll vertical */
+    overflow-x: hidden; /* Oculta el scroll horizontal */
+    padding: 16px; /* Ajusta el padding interno */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Opcional para mejorar el diseño */
+  }
+  
