@@ -35,6 +35,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { EditmsgComponent } from './editmsg/editmsg.component';
 import { MenusComponent } from './menus/menus/menus.component';
 import {MatListItem, MatListModule} from '@angular/material/list';
+import { CreatemenuComponent } from './menus/createmenu/createmenu.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import {MatListItem, MatListModule} from '@angular/material/list';
     ActdesComponent,
     EditmsgComponent,
     MenusComponent,
+    CreatemenuComponent,
   ],
   imports: [
     CommonModule,

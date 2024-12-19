@@ -1,0 +1,33 @@
+
+<mat-card>
+    <mat-card-header>
+        <div mat-dialog-actions class="mat-header" >
+            <button mat-button class="close" [mat-dialog-close]="true" cdkFocusInitial>X</button>
+        </div>
+        <div mat-card-avatar>
+            <span class="material-icons"> 
+                menu
+            </span>
+        </div>
+        <mat-card-title>Creación de menus</mat-card-title>
+        
+    </mat-card-header>
+    <mat-divider></mat-divider>
+    <mat-card-content style="margin-top: 30px;">            
+        <mat-form-field matTooltip="Debe diligenciar la categoría"  class="w-100" appearance="outline" >
+            <mat-label>Categoría:</mat-label>
+            <input matInput placeholder="Categoría"  #categoria required >
+        </mat-form-field>
+       
+        <mat-form-field matTooltip="Debe diligenciaren menu"  class="w-100" appearance="outline" >
+            <mat-label>Menu:</mat-label>
+            <input matInput placeholder="Menu"  #menu required >
+        </mat-form-field>
+
+        <mat-form-field matTooltip="Debe diligenciar la url"  class="w-100" appearance="outline" >
+            <mat-label>Url:</mat-label>
+            <input matInput placeholder="url"  #url required >
+        </mat-form-field>
+        <button (click)="onCreate(categoria.value,menu.value,url.value)" mat-raised-button color="primary">Crear</button>
+    </mat-card-content>
+</mat-card>

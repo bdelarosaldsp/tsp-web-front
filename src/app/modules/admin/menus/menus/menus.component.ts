@@ -1,5 +1,6 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { map, Observable } from 'rxjs';
@@ -8,6 +9,7 @@ import { MenuService } from 'src/app/services/menu.service';
 import { UsersService } from 'src/app/services/users.service';
 import { Constant } from 'src/app/shared/constant';
 import Swal from 'sweetalert2'
+import { CreatemenuComponent } from '../createmenu/createmenu.component';
 
 @Component({
   selector: 'app-menus',
@@ -25,6 +27,7 @@ export class MenusComponent implements OnInit {
   filteredOptions: Observable<any[]>;
 
   constructor(private cdr: ChangeDetectorRef,private router: Router,
+    public dialog:MatDialog,
     private userService:UsersService,
     private menuService:MenuService,
     private toastr:ToastrService) {
@@ -60,14 +63,9 @@ export class MenusComponent implements OnInit {
 
         this.menusAply= this.menuService.getMenuFromUser(this.control.value?.menus);
         
-        console.log(this.menus)
-        this.menusAply.forEach(element => {
-          console.log(element)
-          
-          console.log('entra')
-          var indice = this.menus.indexOf(element);
-          this.menus.splice(indice, 1);
         
+        this.menusAply.forEach(element => {
+          this.menus=this.menus.filter(x=>x.menu!=element.menu);
         });
         this.cdr.detectChanges()
 
@@ -148,6 +146,7 @@ export class MenusComponent implements OnInit {
                         if (this.control.value?.id===Constant.AUTH.getUser()?.id) {
                           localStorage.clear();
                         }
+                        this.menusAdd.length=0;
                       },
                     });
                   });
@@ -169,6 +168,21 @@ export class MenusComponent implements OnInit {
   displayFn(user: User): string {
     
     return user ? user.firstname +' '+ user.lastname : '';
+  }
+
+  onCreate(){
+    const dialogRef = this.dialog.open(CreatemenuComponent, {
+                        width: '500px',
+                        height: '500px',
+                      });
+    dialogRef.afterClosed().subscribe(
+    {
+      complete: () => {
+        if(this.control.valid){
+          this.getMenus();
+        }
+      }
+    });
   }
 
   onClear(){
