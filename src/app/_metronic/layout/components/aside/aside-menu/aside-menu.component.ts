@@ -44,7 +44,7 @@ export class AsideMenuComponent implements OnInit {
       //subMenus:[{title:'Cargue de imagenes', svg: './assets/media/icons/duotune/communication/com012.svg',hasChild:false, link:'/images', subMenus:[]}]}
     ];
     
-    var res= this.menuService.getMenuFromUser();
+    var res= this.menuService.getMenuFromUser(Constant.AUTH.getUser()?.menus);
     res.forEach(x=>{
       if (x.categoria != this.categorie){
             

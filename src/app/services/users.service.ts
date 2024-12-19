@@ -68,4 +68,22 @@ export class UsersService extends BaseService{
         })
       );
   }
+  public AsignarMenu(data: any): Observable<any> {
+    return this.globalService
+      .post(`${this.urlBase}/actions/AsignarMenu`, data)
+      .pipe(
+        map(res => {
+          return res;
+        })
+      );
+  }
+  public DesasignarMenu(data: any): Observable<any> {
+    return this.globalService
+      .post(`${this.urlBase}/actions/DesasignarMenu`, data)
+      .pipe(
+        map(res => {
+          return res;
+        })
+      );
+  }
 }

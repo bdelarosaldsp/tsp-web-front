@@ -2,6 +2,7 @@ import { Injectable, Injector } from '@angular/core';
 import { Constant } from '../shared/constant';
 import { BaseService } from './core/base.service';
 import { ConfigService } from './config.service';
+import { map, Observable } from 'rxjs';
 
 
 @Injectable({
@@ -15,13 +16,23 @@ export class MenuService extends BaseService{
     super(apiBase+Constant.Endpoints.GET_MENUS.BASE, injector);
   }
 
-  public getMenuFromUser():any[]{
+  public getMenuFromUser(user_menus:any):any[]{
     let menus:Array<any>=[];
-    var user_menus= Constant.AUTH.getUser()?.menus;
+    // var user_menus= Constant.AUTH.getUser()?.menus;
     user_menus.forEach((item:any)  => {
       menus.push(item?.menus[0]);
     });
     return menus;
   }
+
+  public CreateMenu(data: any): Observable<any> {
+      return this.globalService
+        .post(`${this.urlBase}/actions/CreateMenu`, data)
+        .pipe(
+          map(res => {
+            return res;
+          })
+        );
+    }
 }
 

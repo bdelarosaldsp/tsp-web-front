@@ -3,36 +3,49 @@
     <mat-card>
         <mat-card-header>
             <div mat-card-avatar>
-            <span class="material-icons"> 
-                menu
-            </span>
+                <span class="material-icons"> 
+                    menu
+                </span>
             </div>
-            <mat-card-title>Menu por usuario</mat-card-title>
+            <mat-card-title>Asignación de menus</mat-card-title>
+            
         </mat-card-header>
-
         <mat-divider></mat-divider>
         <mat-card-content style="margin-top: 30px;">
             <div class="row text-center">
-            <mat-form-field appearance="legacy" >
-                <mat-label >Usuario</mat-label>
-                <input style="text-transform:uppercase;" type="text" placeholder="Nombre del cliente" aria-label="Cliente" matInput
-                [formControl]="control"
-                [matAutocomplete]="auto">
-                <mat-autocomplete   #auto="matAutocomplete" [displayWith]="displayFn">
-                    <mat-option [value]="user" *ngFor="let user of filteredOptions | async">{{user.firstname +' '+ user.lastname}}</mat-option>
-                </mat-autocomplete>
-            </mat-form-field>
+                <mat-form-field appearance="legacy" >
+                    <mat-label >Usuario</mat-label>
+                    <input style="text-transform:uppercase;" type="text" placeholder="Nombre del cliente" aria-label="Cliente" matInput
+                    [formControl]="control"
+                    [matAutocomplete]="auto">
+                    <mat-autocomplete   #auto="matAutocomplete" [displayWith]="displayFn">
+                        <mat-option [value]="user" *ngFor="let user of filteredOptions | async">{{user.firstname +' '+ user.lastname}}</mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </div>
             <div class="row">
-                <button (click)="getMenus()" mat-raised-button color="warn">Obtener</button>
+                <button (click)="getMenus()" mat-raised-button color="primary" *ngIf="menus.length==0">Obtener</button>
             </div>
+            <div class="row" *ngIf="menus.length!==0">
+                <button (click)="onClear()" mat-raised-button color="warn">Limpiar</button>
             </div>
-            
-            
         </mat-card-content>
     </mat-card>
 </div>
+<section>
+    
+    <div class="float-button-row">
+      <div class="float-flex-container">
+        <div class="float-button-container">
+          <button matTooltip="Agregar nuevo Menu" mat-fab color="accent" aria-label="Example icon button with a delete icon">
+            <mat-icon>add</mat-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
 <br>
-<div class="container">
+<div *ngIf="menus.length!==0" class="container">
     <div class="row">
         <div class="col">
             <mat-card class="scrollable-card">
@@ -40,13 +53,17 @@
                 <mat-divider></mat-divider>
                 <mat-card-content>
                     <mat-selection-list>
-                        <mat-list-option *ngFor="let menu of menus">
+                        <mat-list-option (click)="selected(menu)" *ngFor="let menu of menus">
                             <div mat-line>{{menu.menu}}</div>
                             <div mat-line> {{menu.categoria}} </div>
                         </mat-list-option>
                     </mat-selection-list>
                 </mat-card-content>
             </mat-card>
+            <br>
+            <div *ngIf="control.valid && menusAdd.length!==0"class="col">
+                <button  mat-raised-button color="primary">Asignar</button>
+            </div> 
         </div>
         <div class="col">
             <mat-card class="scrollable-card">
@@ -57,10 +74,11 @@
                         <mat-list-item *ngFor="let menu of menusAply">
                             <div mat-line>{{menu.menu}}</div>
                             <div mat-line> {{menu.categoria}} </div>
-                            <mat-icon mat-list-icon slot="end">delete</mat-icon>
+                            <button mat-button (click)="desasignarMenu(menu)">
+                                <mat-icon mat-list-icon >delete</mat-icon>
+                            </button>
                         </mat-list-item>
                     </mat-selection-list>
-                   
                 </mat-card-content>
             </mat-card>
         </div>

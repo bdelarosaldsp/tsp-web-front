@@ -20,7 +20,8 @@ export const Endpoint = {
   },
   GET_MENUS:{
     BASE: `menus`,
-    GET_ACTIVES: `menus/actions/GetActives`
+    GET_ACTIVES: `menus/actions/GetActives`,
+    CREATE_MENU: `menus/actions/CreateMenu`
   },
   CLIENTS:{
     BASE: `clients`,

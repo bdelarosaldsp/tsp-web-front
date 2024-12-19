@@ -6,3 +6,23 @@
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Opcional para mejorar el diseño */
   }
   
+  .float-button-row {
+    display: table-cell;
+    width: 100vw;
+  }
+  
+  .float-button-row .mat-button-base {
+    margin: 8px 8px 8px 0;
+  }
+  
+  .float-flex-container {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+  
+  .float-button-container {
+    display: flex;
+    justify-content: right;
+    width: 100%;
+  }
