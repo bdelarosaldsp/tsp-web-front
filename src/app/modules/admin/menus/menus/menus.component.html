@@ -62,7 +62,7 @@
             </mat-card>
             <br>
             <div *ngIf="control.valid && menusAdd.length!==0"class="col">
-                <button  mat-raised-button color="primary">Asignar</button>
+                <button (click)="asignarMenu()" mat-raised-button color="primary">Asignar</button>
             </div> 
         </div>
         <div class="col">

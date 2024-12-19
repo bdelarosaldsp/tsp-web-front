@@ -13,7 +13,7 @@ import * as pdfFonts from 'pdfmake/build/vfs_fonts';
 import { DomSanitizer } from '@angular/platform-browser';
 
 const pdfm= pdfMake;
-pdfm.vfs = pdfFonts.vfs;
+pdfm.vfs = pdfFonts.pdfMake.vfs;
 
 @Component({
   selector: 'app-imgtopdf',

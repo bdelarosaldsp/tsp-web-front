@@ -6,6 +6,7 @@ import { map, Observable } from 'rxjs';
 import { User } from 'src/app/models/users';
 import { MenuService } from 'src/app/services/menu.service';
 import { UsersService } from 'src/app/services/users.service';
+import { Constant } from 'src/app/shared/constant';
 import Swal from 'sweetalert2'
 
 @Component({
@@ -35,7 +36,7 @@ export class MenusComponent implements OnInit {
           map((value) => {
             const user = typeof value === 'string' ? value.toLowerCase() : value?.firstname.toLowerCase();
             return this.options.filter((option)=>
-              option.lastname.toLowerCase().includes(user)||option.firstname.toLowerCase().includes(user)
+              option.lastname.toLowerCase().includes(user)||option.firstname.toLowerCase().includes(user) || option.email.toLowerCase().includes(user)
             );
           })
         );
@@ -56,12 +57,25 @@ export class MenusComponent implements OnInit {
     await this.menuService.getActives().subscribe(
       res => {
         this.menus = res.data;
-        this.cdr.detectChanges();
+
+        this.menusAply= this.menuService.getMenuFromUser(this.control.value?.menus);
+        
+        console.log(this.menus)
+        this.menusAply.forEach(element => {
+          console.log(element)
+          
+          console.log('entra')
+          var indice = this.menus.indexOf(element);
+          this.menus.splice(indice, 1);
+        
+        });
+        this.cdr.detectChanges()
+
+        
       }
     );
     
-    this.menusAply= await this.menuService.getMenuFromUser(this.control.value?.menus);
-    this.cdr.detectChanges();
+    
   }
 
   async desasignarMenu(menu:any){
@@ -99,6 +113,48 @@ export class MenusComponent implements OnInit {
     
   }
 
+  async asignarMenu(){
+    Swal.fire({
+                title: 'Advertencia',
+                html: '¿Realmente desea asignar estos permisos?',
+                width:'70%',
+                showConfirmButton: true,
+                confirmButtonText:'Confirmar',
+                confirmButtonColor:'GREEN',
+                showCancelButton:true,
+                cancelButtonText:'Cancelar',
+                cancelButtonColor:'RED',
+                allowEscapeKey : false,
+                allowOutsideClick: false
+              }).then(async (result) => {
+                
+                if(result.isConfirmed){
+                  this.menusAdd.forEach((element: any) => {
+                    let data={
+                      id_menu:element.id,
+                      id_usuario:this.control.value?.id
+                    };
+                  
+                    this.userService.AsignarMenu(data).subscribe( {
+                      next: (response) => {
+                        this.toastr.success(response?.data);
+                        this.menusAply.push(element);
+                        this.selected(element);
+                      },
+                      error: (error) => {
+                        console.log(error);
+                        this.toastr.warning(error?.error?.message);
+                      },complete: ()=> {
+                        if (this.control.value?.id===Constant.AUTH.getUser()?.id) {
+                          localStorage.clear();
+                        }
+                      },
+                    });
+                  });
+                }
+              });
+    
+  }
   selected(menu:any){
     if (this.menusAdd.includes(menu)){
       var indice = this.menusAdd.indexOf(menu);
