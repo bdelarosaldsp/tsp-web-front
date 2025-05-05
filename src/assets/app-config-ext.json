@@ -9,7 +9,7 @@
     "isMockEnabled":"true",
     "appThemeName":"Metronic",
   
-    "massLoadApi":"http://129.158.51.221:9070/MassLoader/api",
+    "massLoadApi":"https://app.sanchezpolo.com:8443/TspApi/api",
     "apiUrl":"https://app.sanchezpolo.com:8090/api/",
     "netSiteUrl":"https://app.sanchezpolo.com:8000/",
     "phpSiteUrl":"https://app.sanchezpolo.com:5000/",

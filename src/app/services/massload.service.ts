@@ -13,10 +13,11 @@ import { HttpHeaders } from '@angular/common/http';
 export class MassloadService  {
   isLoading$: Observable<boolean>;
   isLoadingSubject: BehaviorSubject<boolean>;
-  apiBase:string="https://web.ldsp.com.co:8443/TspApi/api";
+  apiBase:string="https://app.sanchezpolo.com:8443/TspApi/api";
   constructor(injector: Injector, private globalService: GlobalService, private config:ConfigService) { 
-   
+    this.apiBase=config.getConfig().massLoadApi;
   }
+    
 
   sendOrders(data:any) {
     return this.globalService.post(this.apiBase+Constant.Endpoints.MASSLOAD.POST_ORDERS,data,{

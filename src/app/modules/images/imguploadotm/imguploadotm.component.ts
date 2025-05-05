@@ -58,10 +58,10 @@ export class ImguploadotmComponent implements OnInit {
 
   ngOnInit(): void {
     console.log(Constant.AUTH.getAgency())
-    if (typeof(Constant.AUTH.getAgency()?.vus_codage)=='undefined'){
-      this.toastr.warning('Debe seleccionar una agencia');
-      this.router.navigate(['/']);
-    }
+    // if (typeof(Constant.AUTH.getAgency()?.vus_codage)=='undefined'){
+    //   this.toastr.warning('Debe seleccionar una agencia');
+    //   this.router.navigate(['/']);
+    // }
     
     this.filteredOptions = this.control.valueChanges.pipe(
       map((value) => {
@@ -87,7 +87,7 @@ export class ImguploadotmComponent implements OnInit {
   setClient(){
 
     if(!this.control.invalid){
-      this.selectedcli = this.control.value?.nit;
+      this.selectedcli = this.control.value?.cliente_codigo;
     }
     console.log('Cliente: ' + this.selectedcli);
   }

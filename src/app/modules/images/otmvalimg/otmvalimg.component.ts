@@ -34,10 +34,10 @@ export class OtmvalimgComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    if (typeof(Constant.AUTH.getAgency()?.vus_codage)=='undefined'){
-      this.toastr.warning('Debe seleccionar una agencia');
-      this.router.navigate(['/']);
-    }
+    // if (typeof(Constant.AUTH.getAgency()?.vus_codage)=='undefined'){
+    //   this.toastr.warning('Debe seleccionar una agencia');
+    //   this.router.navigate(['/']);
+    // }
     
   }
 

@@ -44,10 +44,10 @@ export class ImgsearchComponent implements OnInit  {
 
   ngOnInit() {
 
-    if (typeof(Constant.AUTH.getAgency()?.vus_codage)=='undefined'){
-      this.toastr.warning('Debe seleccionar una agencia');
-      this.router.navigate(['/']);
-    }
+    // if (typeof(Constant.AUTH.getAgency()?.vus_codage)=='undefined'){
+    //   this.toastr.warning('Debe seleccionar una agencia');
+    //   this.router.navigate(['/']);
+    // }
 
     this.filteredOptions = this.control.valueChanges.pipe(
       map((value) => {
