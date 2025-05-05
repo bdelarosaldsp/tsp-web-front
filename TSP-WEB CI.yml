@@ -1,0 +1,25 @@
+trigger:
+- main  # o la rama que prefieras
+
+variables:
+  imageName: tsp-web-front
+
+stages:
+- stage: BuildAndPush
+  displayName: Build and Push Docker image
+  jobs:
+  - job: DockerBuildPush
+    displayName: Build and Push
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - task: Docker@2
+      displayName: Build and push image
+      inputs:
+        containerRegistry: 'TspContainers'
+        repository: '$(IMAGENAME)'
+        command: 'buildAndPush'
+        Dockerfile: '**/Dockerfile'
+        tags: |
+          $(Build.BuildId)
+          latest
