@@ -38,23 +38,18 @@ export class AsideMenuComponent implements OnInit {
   GetMenus() : Array<Menu>{
     let MenuTot:Array<Menu>=[
       {module:'',title:'Inicio', svg: './assets/media/icons/duotune/communication/com012.svg', hasChild:false, link:'/', subMenus:[] },
-      {module:'',title:'Apps Net', svg: './assets/media/icons/duotune/communication/com012.svg', hasChild:false, link:'/appsnet', subMenus:[] },
-      {module:'',title:'Reportes', svg: './assets/media/icons/duotune/communication/com012.svg',hasChild:false, link:'/', subMenus:[]},
-      //{title:'Novasoft',svg: './assets/media/icons/duotune/communication/com012.svg',hasChild:true, link:'/', subMenus:[]},
-      //subMenus:[{title:'Cargue de imagenes', svg: './assets/media/icons/duotune/communication/com012.svg',hasChild:false, link:'/images', subMenus:[]}]}
     ];
     
     var res= this.menuService.getMenuFromUser(Constant.AUTH.getUser()?.menus);
+    
     res.forEach(x=>{
       if (x.categoria != this.categorie){
-            
+
         let Smenu:Menu={module:'ANG',title:x.categoria,svg:'./assets/media/icons/duotune/communication/com012.svg',hasChild:true,link:'/',subMenus:[{
           module:'ANG',title:x.menu,svg:'',hasChild:false,link:x.url,subMenus:[]
         }]};
         this.categorie=x.categoria;
-        //this.menus[2].hasChild=true;
         MenuTot.push(Smenu);
-        //console.log(this.menus);
         this.cdr.detectChanges();
       }else{
         

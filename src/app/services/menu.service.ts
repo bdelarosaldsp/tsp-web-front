@@ -18,10 +18,12 @@ export class MenuService extends BaseService{
 
   public getMenuFromUser(user_menus:any):any[]{
     let menus:Array<any>=[];
-    // var user_menus= Constant.AUTH.getUser()?.menus;
+
     user_menus.forEach((item:any)  => {
       menus.push(item?.menus[0]);
     });
+
+    menus.sort((a, b) => a.categoria.localeCompare(b.categoria));
     return menus;
   }
 
