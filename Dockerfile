@@ -15,7 +15,7 @@ RUN npm run build
 FROM nginx:1.23 AS server
 
 # Copiar la aplicación compilada al servidor Nginx
-COPY --from=build /app/dist /usr/share/nginx/html
+COPY --from=build /app/dist/  /usr/share/nginx/html
 
 # Copiar configuración personalizada de Nginx (opcional)
 COPY nginx.conf /etc/nginx/conf.d/default.conf
