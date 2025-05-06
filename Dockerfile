@@ -1,5 +1,5 @@
 # Etapa 1: Construcción de la aplicación Angular
-FROM --platform=linux/arm64 node:18
+FROM --platform=linux/arm64 node:18 AS build
 
 WORKDIR /app
 
