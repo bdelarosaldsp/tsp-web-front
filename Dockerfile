@@ -1,5 +1,5 @@
 # Etapa 1: Construcción de la aplicación Angular
-FROM node:18-bullseye-slim AS build
+FROM --platform=linux/arm64 node:18
 
 WORKDIR /app
 
